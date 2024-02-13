@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14.9-alpine
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: school_admin
+      POSTGRES_PASSWORD: password:)
+      POSTGRES_DB: school-db
+volumes:
+  postgres-data:
