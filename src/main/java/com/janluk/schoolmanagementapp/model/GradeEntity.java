@@ -1,13 +1,13 @@
-package com.janluk.schoolmanagementapp.models;
+package com.janluk.schoolmanagementapp.model;
 
-import com.janluk.schoolmanagementapp.common.BaseModel;
-import com.janluk.schoolmanagementapp.models.vo.GradeType;
+import com.janluk.schoolmanagementapp.model.vo.GradeType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -17,7 +17,10 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Grade extends BaseModel {
+public class GradeEntity implements Serializable {
+
+    @Id
+    private UUID id;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

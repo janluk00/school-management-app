@@ -1,13 +1,14 @@
-package com.janluk.schoolmanagementapp.models;
+package com.janluk.schoolmanagementapp.model;
 
-import com.janluk.schoolmanagementapp.common.BaseModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "teacher_taught_subjects")
@@ -15,13 +16,16 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeacherTaughtSubject extends BaseModel {
+public class TeacherTaughtSubjectEntity implements Serializable {
+
+    @Id
+    private UUID id;
 
     @ManyToOne
-    private Teacher teacher;
+    private TeacherEntity teacher;
 
     @ManyToOne
-    private Subject subject;
+    private SubjectEntity subject;
 
     @ManyToMany
     @JoinTable(name="teacher_taught_subjects_school_classes",
@@ -30,5 +34,5 @@ public class TeacherTaughtSubject extends BaseModel {
             inverseJoinColumns=
             @JoinColumn(name="school_class_id", referencedColumnName="id")
     )
-    private Set<SchoolClass> schoolClasses;
+    private Set<SchoolClassEntity> schoolClasses;
 }

@@ -1,11 +1,13 @@
-package com.janluk.schoolmanagementapp.models;
+package com.janluk.schoolmanagementapp.model;
 
-import com.janluk.schoolmanagementapp.models.vo.RoleType;
+import com.janluk.schoolmanagementapp.model.vo.RoleType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 @Entity
 @Table(name = "roles")
@@ -13,7 +15,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role {
+public class RoleEntity implements Serializable {
 
     @Id
     @Enumerated(EnumType.STRING)

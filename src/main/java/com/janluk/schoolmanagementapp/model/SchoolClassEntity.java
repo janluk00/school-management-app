@@ -1,14 +1,15 @@
-package com.janluk.schoolmanagementapp.models;
+package com.janluk.schoolmanagementapp.model;
 
-import com.janluk.schoolmanagementapp.common.BaseModel;
-import com.janluk.schoolmanagementapp.models.vo.ClassType;
+import com.janluk.schoolmanagementapp.model.vo.ClassType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "school_classes")
@@ -16,12 +17,15 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SchoolClass extends BaseModel {
+public class SchoolClassEntity implements Serializable {
+
+    @Id
+    private UUID id;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ClassType name;
 
     @ManyToMany(mappedBy = "schoolClasses")
-    private Set<TeacherTaughtSubject> teachers;
+    private Set<TeacherTaughtSubjectEntity> teachers;
 }

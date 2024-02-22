@@ -1,4 +1,4 @@
-package com.janluk.schoolmanagementapp.models.vo;
+package com.janluk.schoolmanagementapp.model.vo;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,23 +1,25 @@
-package com.janluk.schoolmanagementapp.models;
+package com.janluk.schoolmanagementapp.model;
 
-import com.janluk.schoolmanagementapp.common.BaseModel;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "school_users")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User extends BaseModel {
+public class UserEntity implements Serializable {
+
+    @Id
+    private UUID id;
 
     @Column(nullable = false)
     private String name;
@@ -45,5 +47,5 @@ public class User extends BaseModel {
             inverseJoinColumns=
             @JoinColumn(name="role", referencedColumnName="role")
     )
-    private Set<Role> roles;
+    private Set<RoleEntity> roles;
 }

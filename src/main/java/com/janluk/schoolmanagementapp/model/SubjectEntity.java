@@ -1,14 +1,15 @@
-package com.janluk.schoolmanagementapp.models;
+package com.janluk.schoolmanagementapp.model;
 
-import com.janluk.schoolmanagementapp.common.BaseModel;
-import com.janluk.schoolmanagementapp.models.vo.SubjectType;
+import com.janluk.schoolmanagementapp.model.vo.SubjectType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "subjects")
@@ -16,15 +17,18 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Subject extends BaseModel {
+public class SubjectEntity implements Serializable {
+
+    @Id
+    private UUID id;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private SubjectType name;
 
     @OneToMany(mappedBy = "subjectId")
-    private Set<Grade> grades;
+    private Set<GradeEntity> grades;
 
     @OneToMany(mappedBy = "subject")
-    private Set<TeacherTaughtSubject> subjectTeachers;
+    private Set<TeacherTaughtSubjectEntity> subjectTeachers;
 }
