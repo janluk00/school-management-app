@@ -1,6 +1,5 @@
 package com.janluk.schoolmanagementapp.model;
 
-import com.janluk.schoolmanagementapp.model.vo.RoleType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +17,5 @@ import java.io.Serializable;
 public class RoleEntity implements Serializable {
 
     @Id
-    @Enumerated(EnumType.STRING)
-    private RoleType role;
+    private String role;
 }
