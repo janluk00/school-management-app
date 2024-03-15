@@ -14,4 +14,9 @@
         <sqlFile path="/sql/002-available-roles.sql"
                  relativeToChangelogFile="true"/>
     </changeSet>
+
+    <changeSet id="003-modify_role_column_to_varchar_in_roles_table" author="janluk">
+        <sqlFile path="/sql/003-modify_role_column_to_varchar_in_roles_table.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
