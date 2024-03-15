@@ -2,6 +2,7 @@ create extension if not exists "uuid-ossp";
 
 drop type if exists class_type cascade;
 drop type if exists grade_type cascade;
+drop type if exists role_type cascade;
 drop type if exists subject_type cascade;
 
 create type class_type as enum ('A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3');
@@ -14,6 +15,7 @@ create type grade_type as enum
     'E_PLUS', 'E', 'E_MINUS',
     'F_PLUS', 'F'
 );
+create type role_type as enum ('ROLE_STUDENT', 'ROLE_TEACHER', 'ROLE_ADMIN');
 create type subject_type as enum ('MATHEMATICS', 'BIOLOGY', 'CHEMISTRY', 'PHYSICS', 'GEOGRAPHY', 'ENGLISH');
 
 drop table if exists school_users cascade;
@@ -34,7 +36,7 @@ drop table if exists roles cascade;
 
 create table roles
 (
-    role    varchar(13)   not null,
+    role    role_type   not null,
     constraint roles_pkey primary key (role)
 );
 
@@ -42,8 +44,8 @@ drop table if exists school_users_roles cascade;
 
 create table school_users_roles
 (
-    school_user_id  uuid            not null,
-    role            varchar(13)     not null,
+    school_user_id  uuid        not null,
+    role            role_type   not null,
     constraint school_user_roles_pkey primary key (school_user_id, role)
 );
 
