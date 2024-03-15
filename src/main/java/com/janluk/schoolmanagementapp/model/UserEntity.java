@@ -1,11 +1,13 @@
 package com.janluk.schoolmanagementapp.model;
 
+import com.janluk.schoolmanagementapp.model.vo.BirthDate;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -35,7 +37,7 @@ public class UserEntity implements Serializable {
 
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate birthDate;
+    private BirthDate birthDate;
 
     @Column(nullable = false)
     private String token;
@@ -47,5 +49,6 @@ public class UserEntity implements Serializable {
             inverseJoinColumns=
             @JoinColumn(name="role", referencedColumnName="role")
     )
-    private Set<RoleEntity> roles;
+    @Builder.Default
+    private Set<RoleEntity> roles = new HashSet<>();
 }
