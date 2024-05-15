@@ -1,13 +1,14 @@
 spring:
   jpa:
-    hibernate:
-      ddl-auto: validate
-      format.sql: true
-      dialect: org.hibernate.dialect.PostgreSQLDialect
-  datasource:
-    url: jdbc:postgresql://localhost:5433/school-db
-    username: school_admin
-    password: password:)
-    driver-class-name: org.postgresql.Driver
+    show-sql: true
+    properties:
+      hibernate:
+        format.sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   liquibase:
     change-log: classpath:/db/changelog/changelog.xml
+  profiles:
+    active: dev
+
+api:
+  prefix: /api/v1
