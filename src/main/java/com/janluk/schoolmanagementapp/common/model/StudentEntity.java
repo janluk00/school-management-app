@@ -1,4 +1,4 @@
-package com.janluk.schoolmanagementapp.model;
+package com.janluk.schoolmanagementapp.common.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,12 +11,12 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "teachers")
+@Table(name = "students")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeacherEntity implements Serializable {
+public class StudentEntity implements Serializable {
 
     @Id
     private UUID id;
@@ -27,11 +27,8 @@ public class TeacherEntity implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "school_class_id", referencedColumnName = "id")
-    private SchoolClassEntity tutorClass;
+    private SchoolClassEntity schoolClass;
 
-    @OneToMany(mappedBy = "teacherId")
-    private Set<GradeEntity> gradesIssued;
-
-    @OneToMany(mappedBy = "teacher")
-    private Set<TeacherTaughtSubjectEntity> taughtSubjects;
+    @OneToMany(mappedBy = "studentId")
+    private Set<GradeEntity> grades;
 }
