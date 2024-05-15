@@ -1,10 +1,12 @@
 package com.janluk.schoolmanagementapp;
 
+import com.janluk.schoolmanagementapp.security.jwk.RsaKeyProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+@EnableConfigurationProperties(RsaKeyProperties.class)
+@SpringBootApplication
 public class SchoolmanagementappApplication {
 
 	public static void main(String[] args) {

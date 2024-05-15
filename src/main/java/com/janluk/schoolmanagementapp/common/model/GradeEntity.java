@@ -1,6 +1,6 @@
-package com.janluk.schoolmanagementapp.model;
+package com.janluk.schoolmanagementapp.common.model;
 
-import com.janluk.schoolmanagementapp.model.vo.GradeType;
+import com.janluk.schoolmanagementapp.common.model.vo.GradeType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

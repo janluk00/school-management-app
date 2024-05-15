@@ -1,6 +1,6 @@
-package com.janluk.schoolmanagementapp.model;
+package com.janluk.schoolmanagementapp.common.model;
 
-import com.janluk.schoolmanagementapp.model.vo.BirthDate;
+import com.janluk.schoolmanagementapp.common.model.vo.BirthDate;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;

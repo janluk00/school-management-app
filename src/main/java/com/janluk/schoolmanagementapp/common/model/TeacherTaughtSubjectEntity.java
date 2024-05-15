@@ -1,4 +1,4 @@
-package com.janluk.schoolmanagementapp.model;
+package com.janluk.schoolmanagementapp.common.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

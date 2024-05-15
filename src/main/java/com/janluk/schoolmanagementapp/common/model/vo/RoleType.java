@@ -1,4 +1,4 @@
-package com.janluk.schoolmanagementapp.model.vo;
+package com.janluk.schoolmanagementapp.common.model.vo;
 
 public enum RoleType {
 
