@@ -19,6 +19,7 @@ public class TokenService {
     // TODO: Inject ROLES_CLAIM and ISSUER
     public static final String ROLES_CLAIM = "roles";
     public static final String ISSUER = "self";
+    public static final Integer EXPIRATION_TIME = 900; // 15 minutes
 
     public String generateToken(Authentication authentication) {
         SecurityUser principal = (SecurityUser) authentication.getPrincipal();
@@ -26,7 +27,7 @@ public class TokenService {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer(ISSUER)
                 .subject(authentication.getName())
-                .expiresAt(Instant.now())
+                .expiresAt(Instant.now().plusSeconds(EXPIRATION_TIME))
                 .claim(ROLES_CLAIM, principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
                 .build();
 

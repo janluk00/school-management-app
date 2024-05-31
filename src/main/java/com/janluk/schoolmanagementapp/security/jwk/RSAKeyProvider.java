@@ -1,6 +1,6 @@
 package com.janluk.schoolmanagementapp.security.jwk;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.security.KeyFactory;
@@ -13,11 +13,11 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RSAKeyProvider {
 
     private final RsaKeyProperties rsaKeyProperties;
-    private static final String RSA = "RSA";
+    public static final String RSA = "RSA";
 
     public RSAPublicKey getRSAPublicKey() throws Exception {
         byte[] keyBytes = prepareKey(rsaKeyProperties.publicKey(), KeyType.PUBLIC);
