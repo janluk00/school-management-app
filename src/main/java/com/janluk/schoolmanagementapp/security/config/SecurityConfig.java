@@ -1,7 +1,8 @@
 package com.janluk.schoolmanagementapp.security.config;
 
 import com.janluk.schoolmanagementapp.security.service.CustomizedUserDetailsService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,25 +23,30 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final CustomizedUserDetailsService userDetailsService;
 
+    @Value("${api.prefix}")
+    String API_PREFIX;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/api/v1/users/**")
-                        .authenticated()
-                        .anyRequest().permitAll())
+                        .requestMatchers(API_PREFIX + "/auth/**").permitAll()
+                        .requestMatchers(API_PREFIX + "/account/**").permitAll()
+                        .requestMatchers(API_PREFIX + "/admin/**").hasRole("ADMIN")
+                        .requestMatchers(API_PREFIX + "/teacher/**").hasRole("TEACHER")
+                        .requestMatchers(API_PREFIX + "/student/**").hasRole("STUDENT")
+                        .anyRequest().authenticated()
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
-                                .jwtAuthenticationConverter(new JwtAuthenticationConverter())))
+                                .jwtAuthenticationConverter(jwtAuthenticationConverter())))
                 .userDetailsService(userDetailsService)
                 .exceptionHandling((ex) -> ex
                         .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
@@ -55,5 +62,15 @@ public class SecurityConfig {
         authProvider.setUserDetailsService(customizedUserDetailsService);
 
         return new ProviderManager(authProvider);
+    }
+
+    private JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName("roles");
+        jwtGrantedAuthoritiesConverter.setAuthorityPrefix(""); // Roles in database are saved as: `ROLE_x` so there is no need to add `ROLE` prefix.
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
+
+        return jwtAuthenticationConverter;
     }
 }
