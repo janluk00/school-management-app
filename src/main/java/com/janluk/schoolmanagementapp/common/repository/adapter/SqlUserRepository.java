@@ -1,5 +1,6 @@
 package com.janluk.schoolmanagementapp.common.repository.adapter;
 
+import com.janluk.schoolmanagementapp.common.exception.NoResultFoundException;
 import com.janluk.schoolmanagementapp.common.model.UserEntity;
 
 import com.janluk.schoolmanagementapp.common.repository.port.UserRepository;
@@ -19,8 +20,17 @@ public class SqlUserRepository implements UserRepository {
     }
 
     @Override
-    public Optional<UserEntity> getByEmail(String email) {
-        return jpaUserRepository.findByEmail(email);
+    public UserEntity getByEmail(String email) {
+        return jpaUserRepository.findByEmail(email)
+                .orElseThrow(() -> new NoResultFoundException("Could not find user with e-mail: %s".formatted(email)));
+    }
+
+    @Override
+    public UserEntity getByPasswordConfirmationToken(String passwordConfirmationToken) {
+        return jpaUserRepository.findByPasswordConfirmationToken(passwordConfirmationToken)
+                .orElseThrow(() -> new NoResultFoundException(
+                        "Could not find user with token: %s".formatted(passwordConfirmationToken))
+                );
     }
 
     @Override
@@ -29,10 +39,19 @@ public class SqlUserRepository implements UserRepository {
 
         return userEntity.getId();
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return jpaUserRepository.existsByEmail(email);
+    }
 }
 
 @Repository
 interface JpaUserRepository extends JpaRepository<UserEntity, UUID> {
 
     Optional<UserEntity> findByEmail(String email);
+
+    Optional<UserEntity> findByPasswordConfirmationToken(String passwordConfirmationToken);
+
+    boolean existsByEmail(String email);
 }

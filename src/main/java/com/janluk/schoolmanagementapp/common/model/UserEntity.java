@@ -1,5 +1,6 @@
 package com.janluk.schoolmanagementapp.common.model;
 
+import com.janluk.schoolmanagementapp.common.model.protocol.RoleAssignable;
 import com.janluk.schoolmanagementapp.common.model.vo.BirthDate;
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity implements Serializable {
+public class UserEntity implements Serializable, RoleAssignable {
 
     @Id
     private UUID id;
@@ -31,15 +32,15 @@ public class UserEntity implements Serializable {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String password;
 
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private BirthDate birthDate;
 
-    @Column(nullable = false)
-    private String token;
+    @Column
+    private String passwordConfirmationToken;
 
     @ManyToMany
     @JoinTable(name="school_users_roles",
@@ -50,4 +51,9 @@ public class UserEntity implements Serializable {
     )
     @Builder.Default
     private Set<RoleEntity> roles = new HashSet<>();
+
+    @Override
+    public UserEntity getUser() {
+        return this;
+    }
 }

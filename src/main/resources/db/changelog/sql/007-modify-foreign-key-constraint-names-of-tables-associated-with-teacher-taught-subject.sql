@@ -1,0 +1,13 @@
+-- teacher_taught_subjects table --
+alter table teacher_taught_subjects
+    rename constraint teacher_taught_subjects_teacher to fk_teacher_taught_subjects_teacher;
+
+alter table teacher_taught_subjects
+    rename constraint teacher_taught_subjects_subject to fk_teacher_taught_subjects_subject;
+
+-- teacher_taught_subjects_school_classes table --
+alter table teacher_taught_subjects_school_classes
+    rename constraint teacher_taught_subjects_school_classes_teacher_taught_subject to fk_teacher_taught_subjects_school_classes_teacher_taught_subject;
+
+alter table teacher_taught_subjects_school_classes
+    rename constraint teacher_taught_subjects_school_classes_school_class to fk_teacher_taught_subjects_school_classes_school_class;

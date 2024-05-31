@@ -1,6 +1,5 @@
 package com.janluk.schoolmanagementapp.security.service;
 
-import com.janluk.schoolmanagementapp.common.exception.NoSuchUserException;
 import com.janluk.schoolmanagementapp.common.repository.port.UserRepository;
 import com.janluk.schoolmanagementapp.security.SecurityUser;
 import lombok.AllArgsConstructor;
@@ -16,9 +15,7 @@ public class CustomizedUserDetailsService implements UserDetailsService {
 
     @Override
     public SecurityUser loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository
-                .getByEmail(username)
-                .map(SecurityUser::new)
-                .orElseThrow(() -> new NoSuchUserException("User with email %s not found!".formatted(username)));
+        return new SecurityUser(userRepository.getByEmail(username));
+
     }
 }

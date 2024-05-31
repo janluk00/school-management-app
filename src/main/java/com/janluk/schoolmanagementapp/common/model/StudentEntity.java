@@ -1,5 +1,6 @@
 package com.janluk.schoolmanagementapp.common.model;
 
+import com.janluk.schoolmanagementapp.common.model.protocol.RoleAssignable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentEntity implements Serializable {
+public class StudentEntity implements Serializable, RoleAssignable {
 
     @Id
     private UUID id;
@@ -25,10 +26,14 @@ public class StudentEntity implements Serializable {
     @JoinColumn(name = "school_user_id", referencedColumnName = "id")
     private UserEntity user;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "school_class_id", referencedColumnName = "id")
+    @ManyToOne
     private SchoolClassEntity schoolClass;
 
     @OneToMany(mappedBy = "studentId")
     private Set<GradeEntity> grades;
+
+    @Override
+    public Set<RoleEntity> getRoles() {
+        return this.user.getRoles();
+    }
 }

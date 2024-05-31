@@ -1,6 +1,5 @@
 package com.janluk.schoolmanagementapp.common.model;
 
-import com.janluk.schoolmanagementapp.common.model.vo.ClassType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +8,6 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "school_classes")
@@ -20,11 +18,10 @@ import java.util.UUID;
 public class SchoolClassEntity implements Serializable {
 
     @Id
-    private UUID id;
+    private String name;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private ClassType name;
+    @OneToMany(mappedBy = "schoolClass")
+    private Set<StudentEntity> students;
 
     @ManyToMany(mappedBy = "schoolClasses")
     private Set<TeacherTaughtSubjectEntity> teachers;

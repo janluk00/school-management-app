@@ -25,14 +25,14 @@ public class TeacherTaughtSubjectEntity implements Serializable {
     private TeacherEntity teacher;
 
     @ManyToOne
-    private SubjectEntity subject;
+    private SchoolSubjectEntity subject;
 
     @ManyToMany
     @JoinTable(name="teacher_taught_subjects_school_classes",
             joinColumns=
             @JoinColumn(name="teacher_taught_subject_id", referencedColumnName="id"),
             inverseJoinColumns=
-            @JoinColumn(name="school_class_id", referencedColumnName="id")
+            @JoinColumn(name="school_class_name", referencedColumnName="name")
     )
     private Set<SchoolClassEntity> schoolClasses;
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -23,8 +24,7 @@ public class GradeEntity implements Serializable {
     private UUID id;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private GradeType grade;
+    private BigDecimal grade;
 
     @Column(nullable = false)
     private Instant issuedDate;
@@ -36,5 +36,5 @@ public class GradeEntity implements Serializable {
     private UUID teacherId;
 
     @Column(nullable = false)
-    private UUID subjectId;
+    private String subjectName;
 }
