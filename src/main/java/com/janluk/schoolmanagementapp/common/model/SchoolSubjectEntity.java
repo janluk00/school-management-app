@@ -23,7 +23,7 @@ public class SchoolSubjectEntity implements Serializable {
     @OneToMany(mappedBy = "subjectName")
     private Set<GradeEntity> grades;
 
-    @ManyToMany(mappedBy = "taughtSubjects", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "taughtSubjects")
     @Builder.Default
     private Set<TeacherEntity> teachers = new HashSet<>();
 

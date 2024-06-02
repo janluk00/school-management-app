@@ -1,5 +1,6 @@
 package com.janluk.schoolmanagementapp.common.repository.adapter;
 
+import com.janluk.schoolmanagementapp.common.exception.NoResultFoundException;
 import com.janluk.schoolmanagementapp.common.model.TeacherEntity;
 import com.janluk.schoolmanagementapp.common.repository.port.TeacherRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,15 @@ public class SqlTeacherRepository implements TeacherRepository {
 
     private final JpaTeacherRepository jpaTeacherRepository;
 
+
+    @Override
+    public TeacherEntity getById(UUID id) {
+        return jpaTeacherRepository.findById(id)
+                .orElseThrow(() -> new NoResultFoundException(
+                        "Could not find teacher with id: %s".formatted(id.toString())
+                    )
+                );
+    }
 
     @Override
     public UUID save(TeacherEntity teacher) {
