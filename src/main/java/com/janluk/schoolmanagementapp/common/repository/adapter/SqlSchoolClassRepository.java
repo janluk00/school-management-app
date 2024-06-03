@@ -3,6 +3,7 @@ package com.janluk.schoolmanagementapp.common.repository.adapter;
 
 import com.janluk.schoolmanagementapp.common.exception.NoResultFoundException;
 import com.janluk.schoolmanagementapp.common.model.SchoolClassEntity;
+import com.janluk.schoolmanagementapp.common.model.vo.ClassType;
 import com.janluk.schoolmanagementapp.common.repository.port.SchoolClassRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,10 +16,10 @@ public class SqlSchoolClassRepository implements SchoolClassRepository {
     private final JpaSchoolClassRepository jpaSchoolClassRepository;
 
     @Override
-    public SchoolClassEntity getById(String name) {
-        return jpaSchoolClassRepository.findById(name)
+    public SchoolClassEntity getById(ClassType schoolClass) {
+        return jpaSchoolClassRepository.findById(schoolClass.name())
                 .orElseThrow(() -> new NoResultFoundException(
-                        "Could not find school class with name: %s".formatted(name)
+                        "Could not find school class with name: %s".formatted(schoolClass.name())
                     )
                 );
     }

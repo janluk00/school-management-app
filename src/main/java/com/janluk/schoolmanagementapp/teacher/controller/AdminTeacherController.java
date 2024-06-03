@@ -1,6 +1,8 @@
 package com.janluk.schoolmanagementapp.teacher.controller;
 
+import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
 import com.janluk.schoolmanagementapp.common.schema.SchoolClassRequest;
+import com.janluk.schoolmanagementapp.common.schema.SchoolSubjectRequest;
 import com.janluk.schoolmanagementapp.teacher.schema.CreateTeacherRequest;
 import com.janluk.schoolmanagementapp.teacher.service.AdminTeacherService;
 import jakarta.validation.Valid;
@@ -33,11 +35,24 @@ public class AdminTeacherController {
         return ResponseEntity.ok(adminTeacherService.assignTutorToTeacher(id, request));
     }
 
-    @DeleteMapping(path = "/{id}/tutor")
-    public ResponseEntity<Void> removeTutorAssignment(
-            @PathVariable UUID id
+    @PostMapping(path = "/{id}/subjects", consumes = APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> assignSubjectToTeacher(
+            @PathVariable UUID id,
+            @Valid @RequestBody SchoolSubjectRequest request
     ) {
+        return ResponseEntity.ok(adminTeacherService.assignSubjectToTutor(id, request));
+    }
+
+    @DeleteMapping(path = "/{id}/tutor")
+    public ResponseEntity<Void> removeTutorAssignment(@PathVariable UUID id) {
         adminTeacherService.removeTutorAssignment(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping(path = "/{id}/subjects")
+    public ResponseEntity<Void> removeSubjectFromTeacher(@PathVariable UUID id, @RequestParam SubjectType subject) {
+        adminTeacherService.removeSubjectFromTeacher(id, subject);
 
         return ResponseEntity.noContent().build();
     }
