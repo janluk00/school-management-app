@@ -1,5 +1,6 @@
 package com.janluk.schoolmanagementapp.teacher.service;
 
+import com.janluk.schoolmanagementapp.common.criteria.CommonUserFilters;
 import com.janluk.schoolmanagementapp.common.exception.EmailAlreadyExistsException;
 import com.janluk.schoolmanagementapp.common.model.SchoolClassEntity;
 import com.janluk.schoolmanagementapp.common.model.SchoolSubjectEntity;
@@ -12,14 +13,18 @@ import com.janluk.schoolmanagementapp.common.schema.SchoolClassRequest;
 import com.janluk.schoolmanagementapp.common.schema.SchoolSubjectRequest;
 import com.janluk.schoolmanagementapp.common.user.RoleAdder;
 import com.janluk.schoolmanagementapp.common.user.UserValidator;
+import com.janluk.schoolmanagementapp.teacher.criteria.TeacherSearcher;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherAlreadyTeachingSubjectException;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherIsAlreadyTutor;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherNotAssignedAsTutorException;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherNotTeachingSubjectException;
 import com.janluk.schoolmanagementapp.teacher.mapper.TeacherMapper;
 import com.janluk.schoolmanagementapp.teacher.schema.CreateTeacherRequest;
+import com.janluk.schoolmanagementapp.teacher.schema.TeacherSearchDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +42,13 @@ public class AdminTeacherService {
     private final SchoolSubjectRepository schoolSubjectRepository;
     private final TeacherMapper teacherMapper;
     private final RoleAdder roleAdder;
+    private final TeacherSearcher teacherSearcher;
+
+    public Page<TeacherSearchDTO> searchTeachers(CommonUserFilters userFilters, Pageable pageable) {
+        Page<TeacherEntity> teachers = teacherSearcher.searchTeachers(userFilters, pageable);
+
+        return teacherMapper.teacherEntitiesToPageTeacherSearchDTOs(teachers);
+    }
 
     @Transactional
     public String createTeacher(CreateTeacherRequest request) {

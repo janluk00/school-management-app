@@ -20,7 +20,7 @@ public class TeacherEntity implements Serializable, RoleAssignable {
     @Id
     private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "school_user_id", referencedColumnName = "id")
     private UserEntity user;
 

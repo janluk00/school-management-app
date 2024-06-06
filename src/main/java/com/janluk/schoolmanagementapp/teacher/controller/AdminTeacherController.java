@@ -1,12 +1,16 @@
 package com.janluk.schoolmanagementapp.teacher.controller;
 
+import com.janluk.schoolmanagementapp.common.criteria.CommonUserFilters;
 import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
 import com.janluk.schoolmanagementapp.common.schema.SchoolClassRequest;
 import com.janluk.schoolmanagementapp.common.schema.SchoolSubjectRequest;
 import com.janluk.schoolmanagementapp.teacher.schema.CreateTeacherRequest;
+import com.janluk.schoolmanagementapp.teacher.schema.TeacherSearchDTO;
 import com.janluk.schoolmanagementapp.teacher.service.AdminTeacherService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +25,14 @@ import static org.springframework.http.MediaType.*;
 public class AdminTeacherController {
 
     private final AdminTeacherService adminTeacherService;
+
+    @GetMapping
+    public ResponseEntity<Page<TeacherSearchDTO>> searchTeachers(
+            @ModelAttribute CommonUserFilters filters,
+            Pageable pageable
+    ) {
+        return ResponseEntity.ok(adminTeacherService.searchTeachers(filters, pageable));
+    }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createTeacher(@RequestBody CreateTeacherRequest request) {

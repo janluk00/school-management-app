@@ -4,7 +4,11 @@ import com.janluk.schoolmanagementapp.common.exception.NoResultFoundException;
 import com.janluk.schoolmanagementapp.common.model.TeacherEntity;
 import com.janluk.schoolmanagementapp.common.repository.port.TeacherRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
@@ -26,6 +30,11 @@ public class SqlTeacherRepository implements TeacherRepository {
     }
 
     @Override
+    public Page<TeacherEntity> getAll(Specification<TeacherEntity> spec, Pageable pageable) {
+        return jpaTeacherRepository.findAll(spec, pageable);
+    }
+
+    @Override
     public UUID save(TeacherEntity teacher) {
         TeacherEntity teacherEntity = jpaTeacherRepository.save(teacher);
 
@@ -33,5 +42,5 @@ public class SqlTeacherRepository implements TeacherRepository {
     }
 }
 
-interface JpaTeacherRepository extends JpaRepository<TeacherEntity, UUID> {
+interface JpaTeacherRepository extends JpaRepository<TeacherEntity, UUID>, JpaSpecificationExecutor<TeacherEntity> {
 }
