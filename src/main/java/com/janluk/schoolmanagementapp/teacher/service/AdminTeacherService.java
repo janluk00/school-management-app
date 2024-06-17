@@ -68,7 +68,7 @@ public class AdminTeacherService {
         TeacherEntity teacher = teacherRepository.getById(id);
         SchoolClassEntity schoolClass = schoolClassRepository.getById(request.classType());
 
-        if (isTeacherTutorOfClass(teacher, schoolClass)) {
+        if (isTeacherTutorOfSchoolClass(teacher, schoolClass)) {
             log.warn(
                     "Teacher with id %s is already the tutor of class %s."
                             .formatted(teacher.getId(), request.classType().name())
@@ -100,7 +100,7 @@ public class AdminTeacherService {
         TeacherEntity teacher = teacherRepository.getById(id);
         SchoolSubjectEntity schoolSubject = schoolSubjectRepository.getById(request.subjectType());
 
-        if (isTeacherOfSubject(teacher, schoolSubject)) {
+        if (isTeacherOfSchoolSubject(teacher, schoolSubject)) {
             log.warn(
                     "Teacher with id: %s is already teaching subject: %s."
                             .formatted(teacher.getId().toString(), request.subjectType().name())
@@ -118,7 +118,7 @@ public class AdminTeacherService {
         TeacherEntity teacher = teacherRepository.getById(id);
         SchoolSubjectEntity schoolSubject = schoolSubjectRepository.getById(subject);
 
-        if (!isTeacherOfSubject(teacher, schoolSubject)) {
+        if (!isTeacherOfSchoolSubject(teacher, schoolSubject)) {
             log.warn("Teacher with id: %s is not teaching subject: %s.".formatted(teacher.getId(), subject.name()));
             throw new TeacherNotTeachingSubjectException(teacher.getId().toString(), subject.name());
         }
@@ -126,7 +126,7 @@ public class AdminTeacherService {
         teacher.getTaughtSubjects().remove(schoolSubject);
     }
 
-    private boolean isTeacherTutorOfClass(TeacherEntity teacher, SchoolClassEntity schoolClass) {
+    private boolean isTeacherTutorOfSchoolClass(TeacherEntity teacher, SchoolClassEntity schoolClass) {
         SchoolClassEntity tutorClass = teacher.getTutorClass();
 
         return tutorClass != null && tutorClass.equals(schoolClass);
@@ -136,7 +136,7 @@ public class AdminTeacherService {
         return teacher.getTutorClass() != null;
     }
 
-    private boolean isTeacherOfSubject(TeacherEntity teacher, SchoolSubjectEntity schoolSubject) {
+    private boolean isTeacherOfSchoolSubject(TeacherEntity teacher, SchoolSubjectEntity schoolSubject) {
         Set<SchoolSubjectEntity> taughtSubjects = teacher.getTaughtSubjects();
 
         return taughtSubjects.contains(schoolSubject);
