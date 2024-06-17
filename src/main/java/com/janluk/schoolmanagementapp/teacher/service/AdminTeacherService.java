@@ -47,7 +47,7 @@ public class AdminTeacherService {
     public Page<TeacherSearchDTO> searchTeachers(CommonUserFilters userFilters, Pageable pageable) {
         Page<TeacherEntity> teachers = teacherSearcher.searchTeachers(userFilters, pageable);
 
-        return teacherMapper.teacherEntitiesToPageTeacherSearchDTOs(teachers);
+        return teacherMapper.pageTeacherEntitiesToPageTeacherSearchDTOs(teachers);
     }
 
     @Transactional
