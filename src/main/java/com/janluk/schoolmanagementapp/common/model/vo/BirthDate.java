@@ -1,11 +1,8 @@
 package com.janluk.schoolmanagementapp.common.model.vo;
 
-import jakarta.persistence.Embeddable;
-
 import java.time.LocalDate;
 import java.time.Period;
 
-@Embeddable
 public record BirthDate(LocalDate birthDate) {
 
     public static final int MIN_AGE_REQUIREMENT = 8;
@@ -26,4 +23,5 @@ public record BirthDate(LocalDate birthDate) {
 
         return age.getYears();
     }
+
 }

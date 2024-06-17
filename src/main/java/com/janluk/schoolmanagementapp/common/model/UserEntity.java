@@ -1,12 +1,12 @@
 package com.janluk.schoolmanagementapp.common.model;
 
 import com.janluk.schoolmanagementapp.common.model.protocol.RoleAssignable;
-import com.janluk.schoolmanagementapp.common.model.vo.BirthDate;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -37,7 +37,7 @@ public class UserEntity implements Serializable, RoleAssignable {
 
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private BirthDate birthDate;
+    private LocalDate birthDate;
 
     @Column
     private String passwordConfirmationToken;

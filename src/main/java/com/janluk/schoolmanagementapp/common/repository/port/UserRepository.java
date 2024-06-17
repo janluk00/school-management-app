@@ -10,7 +10,7 @@ public interface UserRepository {
 
     UserEntity getByPasswordConfirmationToken(String passwordConfirmationToken);
 
-    UUID save(UserEntity user);
-
     boolean existsByEmail(String email);
+
+    UUID save(UserEntity user);
 }

@@ -2,7 +2,7 @@ package com.janluk.schoolmanagementapp.common.exception;
 
 public class EmailAlreadyExistsException extends RuntimeException{
 
-    public EmailAlreadyExistsException(String message) {
-        super("Email: %s already in use!".formatted(message));
+    public EmailAlreadyExistsException(String email) {
+        super("Email: %s already in use.".formatted(email));
     }
 }

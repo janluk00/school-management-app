@@ -20,7 +20,7 @@ public class TeacherEntity implements Serializable, RoleAssignable {
     @Id
     private UUID id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "school_user_id", referencedColumnName = "id")
     private UserEntity user;
 
@@ -34,7 +34,7 @@ public class TeacherEntity implements Serializable, RoleAssignable {
     @OneToMany(mappedBy = "teacher")
     private Set<TeacherTaughtSubjectEntity> teacherTaughtSubjects;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name="teachers_subjects",
             joinColumns=
             @JoinColumn(name="teacher_id", referencedColumnName="id"),
@@ -46,5 +46,9 @@ public class TeacherEntity implements Serializable, RoleAssignable {
     @Override
     public Set<RoleEntity> getRoles() {
         return this.user.getRoles();
+    }
+
+    public void assignTutor(SchoolClassEntity schoolClass) {
+        this.tutorClass = schoolClass;
     }
 }

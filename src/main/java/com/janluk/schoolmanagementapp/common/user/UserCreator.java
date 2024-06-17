@@ -22,7 +22,7 @@ public class UserCreator {
                 .surname(surname)
                 .email(email)
                 .password(null)
-                .birthDate(birthDate)
+                .birthDate(birthDate.birthDate())
                 .passwordConfirmationToken(generateToken())
                 .build();
     }
@@ -34,7 +34,7 @@ public class UserCreator {
                 .surname(request.surname())
                 .email(request.email())
                 .password(null)
-                .birthDate(new BirthDate(request.birthDate()))
+                .birthDate(new BirthDate(request.birthDate()).birthDate())
                 .passwordConfirmationToken(generateToken())
                 .build();
     }

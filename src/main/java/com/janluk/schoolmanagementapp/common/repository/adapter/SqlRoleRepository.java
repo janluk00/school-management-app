@@ -17,13 +17,12 @@ public class SqlRoleRepository implements RoleRepository{
     private final JpaRoleRepository jpaRoleRepository;
 
     @Override
-    public RoleEntity getByRole(String role) {
-        return jpaRoleRepository.findByRole(role)
+    public RoleEntity getById(String role) {
+        return jpaRoleRepository.findById(role)
                 .orElseThrow(() -> new NoResultFoundException("Could not find role: %s".formatted(role)));
     }
 }
 
-interface JpaRoleRepository extends JpaRepository<RoleEntity, UUID> {
+interface JpaRoleRepository extends JpaRepository<RoleEntity, String> {
 
-    Optional<RoleEntity> findByRole(String role);
 }

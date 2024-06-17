@@ -29,7 +29,7 @@ public class RoleAdder {
     }
 
     private void addRole(RoleAssignable entity, RoleType roleType) {
-        RoleEntity role = roleRepository.getByRole(roleType.name());
+        RoleEntity role = roleRepository.getById(roleType.name());
 
         entity.getUser().getRoles().add(role);
     }

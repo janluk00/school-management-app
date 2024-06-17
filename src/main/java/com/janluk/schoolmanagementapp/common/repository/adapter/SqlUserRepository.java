@@ -29,7 +29,8 @@ public class SqlUserRepository implements UserRepository {
     public UserEntity getByPasswordConfirmationToken(String passwordConfirmationToken) {
         return jpaUserRepository.findByPasswordConfirmationToken(passwordConfirmationToken)
                 .orElseThrow(() -> new NoResultFoundException(
-                        "Could not find user with token: %s".formatted(passwordConfirmationToken))
+                        "Could not find user with token: %s".formatted(passwordConfirmationToken)
+                    )
                 );
     }
 

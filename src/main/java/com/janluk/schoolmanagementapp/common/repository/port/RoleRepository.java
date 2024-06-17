@@ -4,5 +4,5 @@ import com.janluk.schoolmanagementapp.common.model.RoleEntity;
 
 public interface RoleRepository {
 
-    RoleEntity getByRole(String role);
+    RoleEntity getById(String role);
 }
