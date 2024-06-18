@@ -35,4 +35,15 @@ public class TeacherInCourseEntity implements Serializable {
     )
     @Builder.Default
     private Set<SchoolClassEntity> schoolClasses = new HashSet<>();
+
+    public void assignToClass(SchoolClassEntity schoolClass) {
+        if (this.schoolClasses.contains(schoolClass)) {
+            throw new IllegalArgumentException(
+                    "Teacher already teaches school class with name: %s"
+                            .formatted(schoolClass.getName())
+            );
+        }
+
+        this.schoolClasses.add(schoolClass);
+    }
 }
