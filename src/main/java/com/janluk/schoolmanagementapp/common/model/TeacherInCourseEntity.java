@@ -1,12 +1,10 @@
 package com.janluk.schoolmanagementapp.common.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -14,6 +12,7 @@ import java.util.UUID;
 @Table(name = "teachers_in_course")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TeacherInCourseEntity implements Serializable {
@@ -30,9 +29,10 @@ public class TeacherInCourseEntity implements Serializable {
     @ManyToMany
     @JoinTable(name="teachers_in_course_school_classes",
             joinColumns=
-            @JoinColumn(name="teacher_taught_subject_id", referencedColumnName="id"),
+            @JoinColumn(name="teacher_in_course_id", referencedColumnName="id"),
             inverseJoinColumns=
             @JoinColumn(name="school_class_name", referencedColumnName="name")
     )
-    private Set<SchoolClassEntity> schoolClasses;
+    @Builder.Default
+    private Set<SchoolClassEntity> schoolClasses = new HashSet<>();
 }
