@@ -32,7 +32,7 @@ public class TeacherEntity implements Serializable, RoleAssignable {
     private Set<GradeEntity> gradesIssued;
 
     @OneToMany(mappedBy = "teacher")
-    private Set<TeacherTaughtSubjectEntity> teacherTaughtSubjects;
+    private Set<TeacherInCourseEntity> teacherTaughtSubjects;
 
     @ManyToMany
     @JoinTable(name="teachers_subjects",

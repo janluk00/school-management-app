@@ -60,4 +60,9 @@
                  relativeToChangelogFile="true"/>
     </changeSet>
 
+    <changeSet id="012-rename-teacher-taught-subject-table-and-all-tables-related-to-it" author="janluk">
+        <sqlFile path="/sql/012-rename-teacher-taught-subject-table-and-all-tables-related-to-it.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+
 </databaseChangeLog>

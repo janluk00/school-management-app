@@ -11,12 +11,12 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "teacher_taught_subjects")
+@Table(name = "teachers_in_course")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeacherTaughtSubjectEntity implements Serializable {
+public class TeacherInCourseEntity implements Serializable {
 
     @Id
     private UUID id;
@@ -28,7 +28,7 @@ public class TeacherTaughtSubjectEntity implements Serializable {
     private SchoolSubjectEntity subject;
 
     @ManyToMany
-    @JoinTable(name="teacher_taught_subjects_school_classes",
+    @JoinTable(name="teachers_in_course_school_classes",
             joinColumns=
             @JoinColumn(name="teacher_taught_subject_id", referencedColumnName="id"),
             inverseJoinColumns=
