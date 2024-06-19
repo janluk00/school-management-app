@@ -28,5 +28,5 @@ public class SchoolSubjectEntity implements Serializable {
     private Set<TeacherEntity> teachers = new HashSet<>();
 
     @OneToMany(mappedBy = "subject")
-    private Set<TeacherTaughtSubjectEntity> subjectTeachers;
+    private Set<TeacherInCourseEntity> subjectTeachers;
 }

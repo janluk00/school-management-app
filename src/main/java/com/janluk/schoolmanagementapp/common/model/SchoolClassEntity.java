@@ -24,5 +24,5 @@ public class SchoolClassEntity implements Serializable {
     private Set<StudentEntity> students;
 
     @ManyToMany(mappedBy = "schoolClasses")
-    private Set<TeacherTaughtSubjectEntity> teachers;
+    private Set<TeacherInCourseEntity> teachers;
 }

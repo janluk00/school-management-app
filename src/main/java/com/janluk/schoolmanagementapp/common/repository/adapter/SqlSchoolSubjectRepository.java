@@ -5,6 +5,8 @@ import com.janluk.schoolmanagementapp.common.model.SchoolSubjectEntity;
 import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
 import com.janluk.schoolmanagementapp.common.repository.port.SchoolSubjectRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +23,11 @@ public class SqlSchoolSubjectRepository implements SchoolSubjectRepository {
                         "Could not find school subject with name: %s".formatted(subject.name())
                     )
                 );
+    }
+
+    @Override
+    public Page<SchoolSubjectEntity> getAll(Pageable pageable) {
+        return jpaSchoolSubjectRepository.findAll(pageable);
     }
 }
 

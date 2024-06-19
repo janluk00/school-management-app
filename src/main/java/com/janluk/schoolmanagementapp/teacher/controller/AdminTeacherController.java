@@ -26,7 +26,7 @@ public class AdminTeacherController {
 
     private final AdminTeacherService adminTeacherService;
 
-    @GetMapping
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<TeacherSearchDTO>> searchTeachers(
             @ModelAttribute CommonUserFilters filters,
             Pageable pageable

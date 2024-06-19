@@ -27,7 +27,7 @@ public class TeacherMapper {
                 .build();
     }
 
-    public Page<TeacherSearchDTO> teacherEntitiesToPageTeacherSearchDTOs(Page<TeacherEntity> teachers) {
+    public Page<TeacherSearchDTO> pageTeacherEntitiesToPageTeacherSearchDTOs(Page<TeacherEntity> teachers) {
         return teachers.map(this::teacherEntityToTeacherSearchDTO);
     }
 
