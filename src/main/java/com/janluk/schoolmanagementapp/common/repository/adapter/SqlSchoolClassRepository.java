@@ -6,6 +6,8 @@ import com.janluk.schoolmanagementapp.common.model.SchoolClassEntity;
 import com.janluk.schoolmanagementapp.common.model.vo.ClassType;
 import com.janluk.schoolmanagementapp.common.repository.port.SchoolClassRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -23,8 +25,12 @@ public class SqlSchoolClassRepository implements SchoolClassRepository {
                     )
                 );
     }
+
+    @Override
+    public Page<SchoolClassEntity> getAll(Pageable pageable) {
+        return jpaSchoolClassRepository.findAll(pageable);
+    }
 }
 
 interface JpaSchoolClassRepository extends JpaRepository<SchoolClassEntity, String> {
-
 }

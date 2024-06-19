@@ -5,19 +5,25 @@ import com.janluk.schoolmanagementapp.common.model.SchoolClassEntity;
 import com.janluk.schoolmanagementapp.common.model.SchoolSubjectEntity;
 import com.janluk.schoolmanagementapp.common.model.TeacherEntity;
 import com.janluk.schoolmanagementapp.common.model.TeacherInCourseEntity;
-import com.janluk.schoolmanagementapp.common.repository.port.SchoolClassRepository;
-import com.janluk.schoolmanagementapp.common.repository.port.SchoolSubjectRepository;
-import com.janluk.schoolmanagementapp.common.repository.port.TeacherInCourseRepository;
-import com.janluk.schoolmanagementapp.common.repository.port.TeacherRepository;
+import com.janluk.schoolmanagementapp.common.model.vo.ClassType;
+import com.janluk.schoolmanagementapp.common.repository.port.*;
+import com.janluk.schoolmanagementapp.common.schema.StudentDTO;
+import com.janluk.schoolmanagementapp.common.schema.TaughtSubjectInCourseDTO;
 import com.janluk.schoolmanagementapp.schoolClass.exception.SchoolClassAlreadyHasTeacherOfSchoolSubjectException;
 import com.janluk.schoolmanagementapp.schoolClass.exception.TeacherInCourseNotAssignedToSchoolClassException;
+import com.janluk.schoolmanagementapp.schoolClass.mapper.SchoolClassMapper;
 import com.janluk.schoolmanagementapp.schoolClass.schema.AssignTeacherToCourseRequest;
 import com.janluk.schoolmanagementapp.schoolClass.schema.RemoveTeacherFromCourseRequest;
+import com.janluk.schoolmanagementapp.schoolClass.schema.SchoolClassDTO;
+import com.janluk.schoolmanagementapp.student.mapper.StudentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -30,6 +36,21 @@ public class AdminSchoolClassService {
     private final TeacherRepository teacherRepository;
     private final TeacherInCourseRepository teacherInCourseRepository;
     private final SchoolSubjectRepository schoolSubjectRepository;
+    private final SchoolClassMapper schoolClassMapper;
+    private final StudentRepository studentRepository;
+    private final StudentMapper studentMapper;
+
+    public Page<SchoolClassDTO> getAllSchoolClasses(Pageable pageable) {
+        return schoolClassMapper.pageSchoolClassEntitiesToSchoolClassDTOs(schoolClassRepository.getAll(pageable));
+    }
+
+    public List<StudentDTO> getAllStudentsInClass(ClassType schoolClass) {
+        return studentMapper.studentEntitiesToStudentDTOs(studentRepository.getAllInSchoolClass(schoolClass.name()));
+    }
+
+    public List<TaughtSubjectInCourseDTO> getAllCoursesForClass(ClassType schoolClass) {
+        return schoolSubjectRepository.getAllTaughtSubjectsInClass(schoolClass.name());
+    }
 
     @Transactional
     public String assignTeacherToCourse(AssignTeacherToCourseRequest request) {
