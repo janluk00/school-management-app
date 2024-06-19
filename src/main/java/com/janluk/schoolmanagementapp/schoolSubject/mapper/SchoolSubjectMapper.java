@@ -1,7 +1,7 @@
-package com.janluk.schoolmanagementapp.subject.mapper;
+package com.janluk.schoolmanagementapp.schoolSubject.mapper;
 
 import com.janluk.schoolmanagementapp.common.model.SchoolSubjectEntity;
-import com.janluk.schoolmanagementapp.subject.schema.SchoolSubjectDTO;
+import com.janluk.schoolmanagementapp.schoolSubject.schema.SchoolSubjectDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 

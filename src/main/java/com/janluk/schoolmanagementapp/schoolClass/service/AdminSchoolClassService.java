@@ -1,5 +1,6 @@
-package com.janluk.schoolmanagementapp.subject.service;
+package com.janluk.schoolmanagementapp.schoolClass.service;
 
+import com.janluk.schoolmanagementapp.common.exception.TeacherNotTeachingSubjectException;
 import com.janluk.schoolmanagementapp.common.model.SchoolClassEntity;
 import com.janluk.schoolmanagementapp.common.model.SchoolSubjectEntity;
 import com.janluk.schoolmanagementapp.common.model.TeacherEntity;
@@ -8,15 +9,12 @@ import com.janluk.schoolmanagementapp.common.repository.port.SchoolClassReposito
 import com.janluk.schoolmanagementapp.common.repository.port.SchoolSubjectRepository;
 import com.janluk.schoolmanagementapp.common.repository.port.TeacherInCourseRepository;
 import com.janluk.schoolmanagementapp.common.repository.port.TeacherRepository;
-import com.janluk.schoolmanagementapp.subject.exception.SchoolClassAlreadyHasTeacherOfSchoolSubjectException;
-import com.janluk.schoolmanagementapp.subject.mapper.SchoolSubjectMapper;
-import com.janluk.schoolmanagementapp.subject.schema.AssignTeacherToCourseRequest;
-import com.janluk.schoolmanagementapp.subject.schema.SchoolSubjectDTO;
-import com.janluk.schoolmanagementapp.teacher.exception.TeacherNotTeachingSubjectException;
+import com.janluk.schoolmanagementapp.schoolClass.exception.SchoolClassAlreadyHasTeacherOfSchoolSubjectException;
+import com.janluk.schoolmanagementapp.schoolClass.exception.TeacherInCourseNotAssignedToSchoolClassException;
+import com.janluk.schoolmanagementapp.schoolClass.schema.AssignTeacherToCourseRequest;
+import com.janluk.schoolmanagementapp.schoolClass.schema.RemoveTeacherFromCourseRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,19 +24,12 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AdminSchoolSubjectService {
+public class AdminSchoolClassService {
 
-    private final SchoolSubjectRepository schoolSubjectRepository;
-    private final SchoolSubjectMapper schoolSubjectMapper;
     private final SchoolClassRepository schoolClassRepository;
     private final TeacherRepository teacherRepository;
     private final TeacherInCourseRepository teacherInCourseRepository;
-
-    public Page<SchoolSubjectDTO> getAllSchoolSubjects(Pageable pageable) {
-        return schoolSubjectMapper.pageSchoolSubjectEntitiesToSchoolSubjectDTOs(
-                schoolSubjectRepository.getAll(pageable)
-        );
-    }
+    private final SchoolSubjectRepository schoolSubjectRepository;
 
     @Transactional
     public String assignTeacherToCourse(AssignTeacherToCourseRequest request) {
@@ -70,6 +61,27 @@ public class AdminSchoolSubjectService {
         return teacherInClassId.toString();
     }
 
+    @Transactional
+    public void removeTeacherFromCourse(RemoveTeacherFromCourseRequest request) {
+        TeacherEntity teacher = teacherRepository.getById(request.teacherId());
+        SchoolClassEntity schoolClass = schoolClassRepository.getById(request.classType());
+
+        TeacherInCourseEntity teacherInCourse = getTeacherOfSubject(teacher, request.subjectType().name());
+
+        if (!doesTeacherInCourseOfSchoolClass(teacherInCourse, schoolClass)) {
+            log.warn(
+                    "Teacher in course with id: %s does not teach school class: %s"
+                            .formatted(teacherInCourse.getId().toString(), request.classType().name())
+            );
+            throw new TeacherInCourseNotAssignedToSchoolClassException(
+                    teacherInCourse.getId().toString(),
+                    request.classType().name()
+            );
+        }
+
+        teacherInCourse.removeFromClass(schoolClass);
+    }
+
     private boolean isTeacherOfSchoolSubject(TeacherEntity teacher, SchoolSubjectEntity schoolSubject) {
         Set<SchoolSubjectEntity> taughtSubjects = teacher.getTaughtSubjects();
 
@@ -95,10 +107,10 @@ public class AdminSchoolSubjectService {
         TeacherInCourseEntity teacherInCourse = teacherInCourseRepository.getByTeacherAndSchoolSubject(
                 teacher.getId(),
                 schoolSubject.getName()
-        ).orElse( // new instance
+        ).orElse(
                 TeacherInCourseEntity.builder()
-                .id(UUID.randomUUID())
-                .build()
+                        .id(UUID.randomUUID())
+                        .build()
         );
 
         teacherInCourse.assignToClass(schoolClass);
@@ -109,5 +121,22 @@ public class AdminSchoolSubjectService {
         }
 
         return teacherInCourseRepository.save(teacherInCourse);
+    }
+
+    private TeacherInCourseEntity getTeacherOfSubject(TeacherEntity teacher, String schoolSubject) {
+        return teacher.getTeacherInCourses().stream()
+                .filter(teacherInCourse -> teacherInCourse.getSubject().getName().equals(schoolSubject))
+                .findFirst()
+                .orElseThrow(
+                        () -> new TeacherNotTeachingSubjectException(teacher.getId().toString(), schoolSubject)
+                );
+    }
+
+    private boolean doesTeacherInCourseOfSchoolClass(
+            TeacherInCourseEntity teacherInCourse,
+            SchoolClassEntity schoolClass
+    ) {
+        return teacherInCourse.getSchoolClasses().stream()
+                .anyMatch(taughtSchoolClass -> taughtSchoolClass.getName().equals(schoolClass.getName()));
     }
 }

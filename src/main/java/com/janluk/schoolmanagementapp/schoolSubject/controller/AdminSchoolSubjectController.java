@@ -1,8 +1,7 @@
-package com.janluk.schoolmanagementapp.subject.controller;
+package com.janluk.schoolmanagementapp.schoolSubject.controller;
 
-import com.janluk.schoolmanagementapp.subject.schema.AssignTeacherToCourseRequest;
-import com.janluk.schoolmanagementapp.subject.schema.SchoolSubjectDTO;
-import com.janluk.schoolmanagementapp.subject.service.AdminSchoolSubjectService;
+import com.janluk.schoolmanagementapp.schoolSubject.schema.SchoolSubjectDTO;
+import com.janluk.schoolmanagementapp.schoolSubject.service.AdminSchoolSubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,10 +21,5 @@ public class AdminSchoolSubjectController {
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<SchoolSubjectDTO>> getAllSchoolSubjects(Pageable pageable) {
         return ResponseEntity.ok(adminSchoolSubjectService.getAllSchoolSubjects(pageable));
-    }
-
-    @PostMapping(path = "/courses",consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> assignTeacherToCourse(@RequestBody AssignTeacherToCourseRequest request) {
-        return ResponseEntity.ok(adminSchoolSubjectService.assignTeacherToCourse(request));
     }
 }

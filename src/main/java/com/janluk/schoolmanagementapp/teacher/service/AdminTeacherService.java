@@ -17,7 +17,7 @@ import com.janluk.schoolmanagementapp.teacher.criteria.TeacherSearcher;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherAlreadyTeachingSubjectException;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherIsAlreadyTutor;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherNotAssignedAsTutorException;
-import com.janluk.schoolmanagementapp.teacher.exception.TeacherNotTeachingSubjectException;
+import com.janluk.schoolmanagementapp.common.exception.TeacherNotTeachingSubjectException;
 import com.janluk.schoolmanagementapp.teacher.mapper.TeacherMapper;
 import com.janluk.schoolmanagementapp.teacher.schema.CreateTeacherRequest;
 import com.janluk.schoolmanagementapp.teacher.schema.TeacherSearchDTO;
@@ -119,7 +119,7 @@ public class AdminTeacherService {
         SchoolSubjectEntity schoolSubject = schoolSubjectRepository.getById(subject);
 
         if (!isTeacherOfSchoolSubject(teacher, schoolSubject)) {
-            log.warn("Teacher with id: %s is not teaching subject: %s.".formatted(teacher.getId(), subject.name()));
+            log.warn("Teacher with id: %s does not teach subject: %s.".formatted(teacher.getId(), subject.name()));
             throw new TeacherNotTeachingSubjectException(teacher.getId().toString(), subject.name());
         }
 

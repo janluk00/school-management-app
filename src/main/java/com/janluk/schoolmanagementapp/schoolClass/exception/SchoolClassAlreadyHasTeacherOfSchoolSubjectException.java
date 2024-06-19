@@ -1,4 +1,4 @@
-package com.janluk.schoolmanagementapp.subject.exception;
+package com.janluk.schoolmanagementapp.schoolClass.exception;
 
 public class SchoolClassAlreadyHasTeacherOfSchoolSubjectException extends RuntimeException {
 

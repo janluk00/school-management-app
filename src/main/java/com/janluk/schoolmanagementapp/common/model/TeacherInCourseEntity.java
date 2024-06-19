@@ -46,4 +46,15 @@ public class TeacherInCourseEntity implements Serializable {
 
         this.schoolClasses.add(schoolClass);
     }
+
+    public void removeFromClass(SchoolClassEntity schoolClass) {
+        if (!this.schoolClasses.contains(schoolClass)) {
+            throw new IllegalArgumentException(
+                    "Teacher does not teach school class with name: %s"
+                            .formatted(schoolClass.getName())
+            );
+        }
+
+        this.schoolClasses.remove(schoolClass);
+    }
 }
