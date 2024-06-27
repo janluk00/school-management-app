@@ -7,6 +7,7 @@ import java.util.UUID;
 @Builder
 public record StudentDTO(
         UUID id,
+        String schoolClass,
         UserBaseInformationDTO user
 ) {
 }

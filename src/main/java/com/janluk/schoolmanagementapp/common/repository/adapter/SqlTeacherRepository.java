@@ -38,7 +38,7 @@ public class SqlTeacherRepository implements TeacherRepository {
     public UUID save(TeacherEntity teacher) {
         TeacherEntity teacherEntity = jpaTeacherRepository.save(teacher);
 
-        return teacher.getId();
+        return teacherEntity.getId();
     }
 }
 

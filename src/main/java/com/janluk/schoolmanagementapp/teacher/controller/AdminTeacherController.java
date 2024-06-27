@@ -5,7 +5,7 @@ import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
 import com.janluk.schoolmanagementapp.common.schema.SchoolClassRequest;
 import com.janluk.schoolmanagementapp.common.schema.SchoolSubjectRequest;
 import com.janluk.schoolmanagementapp.teacher.schema.CreateTeacherRequest;
-import com.janluk.schoolmanagementapp.teacher.schema.TeacherSearchDTO;
+import com.janluk.schoolmanagementapp.teacher.schema.TeacherDTO;
 import com.janluk.schoolmanagementapp.teacher.service.AdminTeacherService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,11 +27,16 @@ public class AdminTeacherController {
     private final AdminTeacherService adminTeacherService;
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<TeacherSearchDTO>> searchTeachers(
+    public ResponseEntity<Page<TeacherDTO>> searchTeachers(
             @ModelAttribute CommonUserFilters filters,
             Pageable pageable
     ) {
         return ResponseEntity.ok(adminTeacherService.searchTeachers(filters, pageable));
+    }
+
+    @GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<TeacherDTO> getTeacherById(@PathVariable UUID id) {
+        return ResponseEntity.ok(adminTeacherService.getTeacherById(id));
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)

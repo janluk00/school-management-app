@@ -13,5 +13,5 @@ public interface TeacherRepository {
 
     Page<TeacherEntity> getAll(Specification<TeacherEntity> spec, Pageable pageable);
 
-    UUID save (TeacherEntity teacher);
+    UUID save(TeacherEntity teacher);
 }
