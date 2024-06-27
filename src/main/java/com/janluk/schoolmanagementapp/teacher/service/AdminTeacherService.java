@@ -20,7 +20,7 @@ import com.janluk.schoolmanagementapp.teacher.exception.TeacherNotAssignedAsTuto
 import com.janluk.schoolmanagementapp.common.exception.TeacherNotTeachingSubjectException;
 import com.janluk.schoolmanagementapp.teacher.mapper.TeacherMapper;
 import com.janluk.schoolmanagementapp.teacher.schema.CreateTeacherRequest;
-import com.janluk.schoolmanagementapp.teacher.schema.TeacherSearchDTO;
+import com.janluk.schoolmanagementapp.teacher.schema.TeacherDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -44,14 +44,14 @@ public class AdminTeacherService {
     private final RoleAdder roleAdder;
     private final TeacherSearcher teacherSearcher;
 
-    public Page<TeacherSearchDTO> searchTeachers(CommonUserFilters userFilters, Pageable pageable) {
+    public Page<TeacherDTO> searchTeachers(CommonUserFilters userFilters, Pageable pageable) {
         Page<TeacherEntity> teachers = teacherSearcher.searchTeachers(userFilters, pageable);
 
-        return teacherMapper.pageTeacherEntitiesToPageTeacherSearchDTOs(teachers);
+        return teacherMapper.pageTeacherEntitiesToPageTeacherDTOs(teachers);
     }
 
-    public TeacherSearchDTO getTeacherById(UUID id) {
-        return teacherMapper.teacherEntityToTeacherSearchDTO(teacherRepository.getById(id));
+    public TeacherDTO getTeacherById(UUID id) {
+        return teacherMapper.teacherEntityToTeacherDTO(teacherRepository.getById(id));
     }
 
     @Transactional

@@ -4,11 +4,10 @@ import com.janluk.schoolmanagementapp.common.model.SchoolSubjectEntity;
 import com.janluk.schoolmanagementapp.common.model.TeacherEntity;
 import com.janluk.schoolmanagementapp.common.model.UserEntity;
 import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
-import com.janluk.schoolmanagementapp.common.schema.CreateUserRequest;
 import com.janluk.schoolmanagementapp.common.schema.UserBaseInformationDTO;
 import com.janluk.schoolmanagementapp.common.user.UserCreator;
 import com.janluk.schoolmanagementapp.teacher.schema.CreateTeacherRequest;
-import com.janluk.schoolmanagementapp.teacher.schema.TeacherSearchDTO;
+import com.janluk.schoolmanagementapp.teacher.schema.TeacherDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -27,12 +26,12 @@ public class TeacherMapper {
                 .build();
     }
 
-    public Page<TeacherSearchDTO> pageTeacherEntitiesToPageTeacherSearchDTOs(Page<TeacherEntity> teachers) {
-        return teachers.map(this::teacherEntityToTeacherSearchDTO);
+    public Page<TeacherDTO> pageTeacherEntitiesToPageTeacherDTOs(Page<TeacherEntity> teachers) {
+        return teachers.map(this::teacherEntityToTeacherDTO);
     }
 
-    public TeacherSearchDTO teacherEntityToTeacherSearchDTO(TeacherEntity teacher) {
-        return TeacherSearchDTO.builder()
+    public TeacherDTO teacherEntityToTeacherDTO(TeacherEntity teacher) {
+        return TeacherDTO.builder()
                 .id(teacher.getId())
                 .user(userEntityToUserBaseInformationDTO(teacher.getUser()))
                 .build();
