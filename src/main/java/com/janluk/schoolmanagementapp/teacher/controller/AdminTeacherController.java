@@ -34,6 +34,11 @@ public class AdminTeacherController {
         return ResponseEntity.ok(adminTeacherService.searchTeachers(filters, pageable));
     }
 
+    @GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<TeacherSearchDTO> getTeacherById(@PathVariable UUID id) {
+        return ResponseEntity.ok(adminTeacherService.getTeacherById(id));
+    }
+
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createTeacher(@RequestBody CreateTeacherRequest request) {
         return ResponseEntity.status(CREATED).body(adminTeacherService.createTeacher(request));

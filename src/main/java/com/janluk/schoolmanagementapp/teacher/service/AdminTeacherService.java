@@ -50,6 +50,10 @@ public class AdminTeacherService {
         return teacherMapper.pageTeacherEntitiesToPageTeacherSearchDTOs(teachers);
     }
 
+    public TeacherSearchDTO getTeacherById(UUID id) {
+        return teacherMapper.teacherEntityToTeacherSearchDTO(teacherRepository.getById(id));
+    }
+
     @Transactional
     public String createTeacher(CreateTeacherRequest request) {
         if (!userValidator.isEmailUnique(request.user().email())) {
@@ -57,7 +61,7 @@ public class AdminTeacherService {
             throw new EmailAlreadyExistsException(request.user().email());
         }
 
-        TeacherEntity teacher = teacherMapper.teacherCreateRequestToTeacherEntity(request, request.user());
+        TeacherEntity teacher = teacherMapper.createTeacherRequestToTeacherEntity(request);
         roleAdder.addTeacherRole(teacher);
 
         return teacherRepository.save(teacher).toString();

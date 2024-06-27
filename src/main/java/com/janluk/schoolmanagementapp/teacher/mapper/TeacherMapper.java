@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 @Component
 public class TeacherMapper {
 
-    public TeacherEntity teacherCreateRequestToTeacherEntity(CreateTeacherRequest createRequest, CreateUserRequest user) {
+    public TeacherEntity createTeacherRequestToTeacherEntity(CreateTeacherRequest createRequest) {
         return TeacherEntity.builder()
                 .id(UUID.randomUUID())
-                .user(UserCreator.createUserEntity(user))
+                .user(UserCreator.createUserEntity(createRequest.user()))
                 .taughtSubjects(subjectTypesToSubjectEntities(createRequest.taughtSubjects()))
                 .build();
     }
@@ -31,7 +31,7 @@ public class TeacherMapper {
         return teachers.map(this::teacherEntityToTeacherSearchDTO);
     }
 
-    private TeacherSearchDTO teacherEntityToTeacherSearchDTO(TeacherEntity teacher) {
+    public TeacherSearchDTO teacherEntityToTeacherSearchDTO(TeacherEntity teacher) {
         return TeacherSearchDTO.builder()
                 .id(teacher.getId())
                 .user(userEntityToUserBaseInformationDTO(teacher.getUser()))
@@ -49,9 +49,13 @@ public class TeacherMapper {
 
     private Set<SchoolSubjectEntity> subjectTypesToSubjectEntities(Set<SubjectType> subjectTypes) {
         return subjectTypes.stream()
-                .map(item -> SchoolSubjectEntity.builder()
-                        .name(item.name())
-                        .build())
+                .map(this::subjectTypeToSchoolSubjectEntity)
                 .collect(Collectors.toSet());
+    }
+
+    private SchoolSubjectEntity subjectTypeToSchoolSubjectEntity(SubjectType subjectType) {
+        return SchoolSubjectEntity.builder()
+                .name(subjectType.name())
+                .build();
     }
 }
