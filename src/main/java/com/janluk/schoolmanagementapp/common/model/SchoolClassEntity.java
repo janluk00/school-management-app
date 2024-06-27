@@ -1,10 +1,7 @@
 package com.janluk.schoolmanagementapp.common.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -13,6 +10,7 @@ import java.util.Set;
 @Table(name = "school_classes")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class SchoolClassEntity implements Serializable {
