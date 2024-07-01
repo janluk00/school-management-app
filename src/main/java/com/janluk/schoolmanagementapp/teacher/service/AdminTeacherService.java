@@ -9,6 +9,7 @@ import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
 import com.janluk.schoolmanagementapp.common.repository.port.SchoolClassRepository;
 import com.janluk.schoolmanagementapp.common.repository.port.SchoolSubjectRepository;
 import com.janluk.schoolmanagementapp.common.repository.port.TeacherRepository;
+import com.janluk.schoolmanagementapp.common.schema.CourseDTO;
 import com.janluk.schoolmanagementapp.common.schema.SchoolClassRequest;
 import com.janluk.schoolmanagementapp.common.schema.SchoolSubjectRequest;
 import com.janluk.schoolmanagementapp.common.user.RoleAdder;
@@ -28,6 +29,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -52,6 +54,10 @@ public class AdminTeacherService {
 
     public TeacherDTO getTeacherById(UUID id) {
         return teacherMapper.teacherEntityToTeacherDTO(teacherRepository.getById(id));
+    }
+
+    public List<CourseDTO> getAllCoursesByTeacherId(UUID id) {
+        return teacherRepository.getAllCoursesByTeacher(id);
     }
 
     @Transactional
