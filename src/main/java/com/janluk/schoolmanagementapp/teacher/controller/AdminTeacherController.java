@@ -2,6 +2,7 @@ package com.janluk.schoolmanagementapp.teacher.controller;
 
 import com.janluk.schoolmanagementapp.common.criteria.CommonUserFilters;
 import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
+import com.janluk.schoolmanagementapp.common.schema.CourseDTO;
 import com.janluk.schoolmanagementapp.common.schema.SchoolClassRequest;
 import com.janluk.schoolmanagementapp.common.schema.SchoolSubjectRequest;
 import com.janluk.schoolmanagementapp.teacher.schema.CreateTeacherRequest;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.*;
@@ -37,6 +39,11 @@ public class AdminTeacherController {
     @GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<TeacherDTO> getTeacherById(@PathVariable UUID id) {
         return ResponseEntity.ok(adminTeacherService.getTeacherById(id));
+    }
+
+    @GetMapping(path = "/{id}/courses", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CourseDTO>> getCoursesByTeacherId(@PathVariable UUID id) {
+        return ResponseEntity.ok(adminTeacherService.getAllCoursesByTeacherId(id));
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
