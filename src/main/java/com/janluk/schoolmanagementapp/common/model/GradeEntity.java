@@ -1,11 +1,7 @@
 package com.janluk.schoolmanagementapp.common.model;
 
-import com.janluk.schoolmanagementapp.common.model.vo.GradeType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,6 +12,7 @@ import java.util.UUID;
 @Table(name = "grades")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class GradeEntity implements Serializable {

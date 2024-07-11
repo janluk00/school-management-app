@@ -29,12 +29,16 @@ public class StudentEntity implements Serializable, RoleAssignable {
     @ManyToOne
     private SchoolClassEntity schoolClass;
 
-    @OneToMany(mappedBy = "studentId")
+    @OneToMany(mappedBy = "studentId", cascade = CascadeType.PERSIST)
     @Builder.Default
     private List<GradeEntity> grades = new ArrayList<>();
 
     @Override
     public Set<RoleEntity> getRoles() {
         return this.user.getRoles();
+    }
+
+    public void addGrade(GradeEntity grade) {
+        this.grades.add(grade);
     }
 }
