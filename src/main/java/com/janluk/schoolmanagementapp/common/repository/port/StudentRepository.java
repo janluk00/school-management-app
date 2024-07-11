@@ -14,6 +14,8 @@ public interface StudentRepository {
 
     List<StudentEntity> getAllInSchoolClass(String schoolClass);
 
+    List<StudentEntity> getAllInSchoolClassWithGrades(String schoolClass);
+
     Page<StudentEntity> getAll(Specification<StudentEntity> spec, Pageable pageable);
 
     UUID save(StudentEntity student);

@@ -1,16 +1,20 @@
 package com.janluk.schoolmanagementapp.student.mapper;
 
+import com.janluk.schoolmanagementapp.common.model.GradeEntity;
 import com.janluk.schoolmanagementapp.common.model.SchoolClassEntity;
 import com.janluk.schoolmanagementapp.common.model.StudentEntity;
 import com.janluk.schoolmanagementapp.common.model.UserEntity;
 import com.janluk.schoolmanagementapp.common.model.vo.ClassType;
 import com.janluk.schoolmanagementapp.common.schema.StudentDTO;
 import com.janluk.schoolmanagementapp.common.schema.UserBaseInformationDTO;
+import com.janluk.schoolmanagementapp.common.schema.UserPersonalDTO;
 import com.janluk.schoolmanagementapp.common.user.UserCreator;
 import com.janluk.schoolmanagementapp.student.schema.CreateStudentRequest;
+import com.janluk.schoolmanagementapp.teacher.schema.StudentPerformanceDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,6 +45,33 @@ public class StudentMapper {
                 .user(userEntityToUserBaseInformationDTO(student.getUser()))
                 .schoolClass(student.getSchoolClass().getName())
                 .build();
+    }
+
+    public List<StudentPerformanceDTO> studentEntitiesToStudentPerformanceDTOs(List<StudentEntity> students) {
+        return students.stream()
+                .map(this::studentEntityToStudentPerformanceDTO)
+                .toList();
+    }
+
+    private StudentPerformanceDTO studentEntityToStudentPerformanceDTO(StudentEntity student) {
+        return StudentPerformanceDTO.builder()
+                .id(student.getId())
+                .user(userEntityToUserPersonalDTO(student.getUser()))
+                .grades(gradeEntitiesToBigDecimals(student.getGrades()))
+                .build();
+    }
+
+    private UserPersonalDTO userEntityToUserPersonalDTO(UserEntity user) {
+        return UserPersonalDTO.builder()
+                .name(user.getName())
+                .surname(user.getSurname())
+                .build();
+    }
+
+    private List<BigDecimal> gradeEntitiesToBigDecimals(List<GradeEntity> grades) {
+        return grades.stream()
+                .map(GradeEntity::getGrade)
+                .toList();
     }
 
     private UserBaseInformationDTO userEntityToUserBaseInformationDTO(UserEntity user) {
