@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -25,8 +26,17 @@ public class SqlStudentRepository implements StudentRepository {
     public StudentEntity getById(UUID id) {
         return jpaStudentRepository.findById(id)
                 .orElseThrow(() -> new NoResultFoundException(
-                                "Could not find student with id: %s".formatted(id.toString())
-                        )
+                        "Could not find student with id: %s".formatted(id.toString())
+                    )
+                );
+    }
+
+    @Override
+    public String getStudentSchoolClassByEmail(String email) {
+        return jpaStudentRepository.findStudentSchoolClassByEmail(email)
+                .orElseThrow(() -> new NoResultFoundException(
+                        "Could not find student with email: %s".formatted(email)
+                    )
                 );
     }
 
@@ -66,4 +76,9 @@ interface JpaStudentRepository extends JpaRepository<StudentEntity, UUID>, JpaSp
                     "JOIN FETCH s.user LEFT JOIN FETCH s.grades WHERE s.schoolClass.name = ?1"
     )
     List<StudentEntity> findAllInSchoolClassWithGrades(String schoolClass);
+
+    @Query(
+            value = "SELECT s.schoolClass.name FROM StudentEntity s JOIN s.user u WHERE u.email = ?1"
+    )
+    Optional<String> findStudentSchoolClassByEmail(String email);
 }

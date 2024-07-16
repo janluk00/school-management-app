@@ -10,12 +10,15 @@ import com.janluk.schoolmanagementapp.common.schema.UserBaseInformationDTO;
 import com.janluk.schoolmanagementapp.common.schema.UserPersonalDTO;
 import com.janluk.schoolmanagementapp.common.user.UserCreator;
 import com.janluk.schoolmanagementapp.student.schema.CreateStudentRequest;
+import com.janluk.schoolmanagementapp.student.schema.GradeDTO;
+import com.janluk.schoolmanagementapp.student.schema.SchoolSubjectGradesDTO;
 import com.janluk.schoolmanagementapp.teacher.schema.StudentPerformanceDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Component
@@ -53,6 +56,12 @@ public class StudentMapper {
                 .toList();
     }
 
+    public List<SchoolSubjectGradesDTO> mapToSchoolSubjectGradesDTOs(Map<String, List<GradeDTO>> grades) {
+        return grades.entrySet().stream()
+                .map(this::mapToSchoolSubjectGradesDTO)
+                .toList();
+    }
+
     private StudentPerformanceDTO studentEntityToStudentPerformanceDTO(StudentEntity student) {
         return StudentPerformanceDTO.builder()
                 .id(student.getId())
@@ -86,6 +95,19 @@ public class StudentMapper {
     private SchoolClassEntity classTypeToSchoolClassEntity(ClassType classType) {
         return SchoolClassEntity.builder()
                 .name(classType.name())
+                .build();
+    }
+
+    private SchoolSubjectGradesDTO mapToSchoolSubjectGradesDTO(Map.Entry<String, List<GradeDTO>> entry) {
+        String schoolSubject = entry.getKey();
+
+        List<BigDecimal> grades = entry.getValue().stream()
+                .map(GradeDTO::grade)
+                .toList();
+
+        return SchoolSubjectGradesDTO.builder()
+                .schoolSubject(schoolSubject)
+                .grades(grades)
                 .build();
     }
 }
