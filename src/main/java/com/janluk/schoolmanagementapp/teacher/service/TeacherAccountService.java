@@ -33,11 +33,15 @@ public class TeacherAccountService {
     private final GradeMapper gradeMapper;
     private final StudentMapper studentMapper;
 
-    public List<CourseDTO> getAllCoursesByTeacherEmail(String email) {
+    public List<CourseDTO> getAllCoursesByTeacher(String email) {
         return teacherRepository.getAllCoursesByTeacher(email);
     }
 
-    public List<StudentPerformanceDTO> getAllStudentsInCourse(ClassType schoolClass, SubjectType schoolSubject, String email) {
+    public List<StudentPerformanceDTO> getAllStudentsInCourse(
+            ClassType schoolClass,
+            SubjectType schoolSubject,
+            String email
+    ) {
         SchoolClassEntity taughtClass = schoolClassRepository.getById(schoolClass);
         TeacherEntity teacher = teacherRepository.getByEmail(email);
         SchoolSubjectEntity taughtSubject = schoolSubjectRepository.getById(schoolSubject);

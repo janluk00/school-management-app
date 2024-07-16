@@ -12,6 +12,8 @@ public interface StudentRepository {
 
     StudentEntity getById(UUID id);
 
+    String getStudentSchoolClassByEmail(String email);
+
     List<StudentEntity> getAllInSchoolClass(String schoolClass);
 
     List<StudentEntity> getAllInSchoolClassWithGrades(String schoolClass);

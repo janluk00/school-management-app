@@ -28,7 +28,7 @@ public class TeacherAccountController {
 
     @GetMapping(path = "/courses", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CourseDTO>> getCourses(Principal principal) {
-        return ResponseEntity.ok(teacherAccountService.getAllCoursesByTeacherEmail(principal.getName()));
+        return ResponseEntity.ok(teacherAccountService.getAllCoursesByTeacher(principal.getName()));
     }
 
     @GetMapping(path = "/classes/{schoolClass}/students", produces = APPLICATION_JSON_VALUE)
