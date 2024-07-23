@@ -1,6 +1,7 @@
 package com.janluk.schoolmanagementapp.security.controller;
 
 import com.janluk.schoolmanagementapp.security.schema.ConfirmPasswordRequest;
+import com.janluk.schoolmanagementapp.security.schema.EmailRequest;
 import com.janluk.schoolmanagementapp.security.service.AccountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,10 @@ public class AccountController {
         accountService.confirmPassword(token, request);
 
         return ResponseEntity.ok("ok");
+    }
+
+    @PostMapping("/change-password")
+    public void changePassword(@RequestBody EmailRequest email) {
+        accountService.changePassword(email.email());
     }
 }
