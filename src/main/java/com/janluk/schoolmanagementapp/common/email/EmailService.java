@@ -1,4 +1,4 @@
-package com.janluk.schoolmanagementapp.common.email.service;
+package com.janluk.schoolmanagementapp.common.email;
 
 public interface EmailService {
 

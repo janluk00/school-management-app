@@ -11,14 +11,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "grades")
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GradeEntity implements Serializable {
-
-    @Id
-    private UUID id;
+public class GradeEntity extends BaseEntity implements Serializable {
 
     @Column(nullable = false)
     private BigDecimal grade;

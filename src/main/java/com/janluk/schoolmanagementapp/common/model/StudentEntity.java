@@ -8,19 +8,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "students")
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentEntity implements Serializable, RoleAssignable {
-
-    @Id
-    private UUID id;
+public class StudentEntity extends BaseEntity implements Serializable, RoleAssignable {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "school_user_id", referencedColumnName = "id")

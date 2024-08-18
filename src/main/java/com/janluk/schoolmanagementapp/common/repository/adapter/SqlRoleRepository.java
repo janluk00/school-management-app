@@ -7,12 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-import java.util.UUID;
-
 @Repository
 @RequiredArgsConstructor
-public class SqlRoleRepository implements RoleRepository{
+class SqlRoleRepository implements RoleRepository{
 
     private final JpaRoleRepository jpaRoleRepository;
 
@@ -23,6 +20,7 @@ public class SqlRoleRepository implements RoleRepository{
     }
 }
 
+@Repository
 interface JpaRoleRepository extends JpaRepository<RoleEntity, String> {
 
 }

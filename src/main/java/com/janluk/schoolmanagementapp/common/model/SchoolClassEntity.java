@@ -9,10 +9,10 @@ import java.util.Set;
 @Entity
 @Table(name = "school_classes")
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "name")
 public class SchoolClassEntity implements Serializable {
 
     @Id

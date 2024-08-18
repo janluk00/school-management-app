@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -20,7 +19,6 @@ public class TeacherMapper {
 
     public TeacherEntity createTeacherRequestToTeacherEntity(CreateTeacherRequest createRequest) {
         return TeacherEntity.builder()
-                .id(UUID.randomUUID())
                 .user(UserCreator.createUserEntity(createRequest.user()))
                 .taughtSubjects(subjectTypesToSubjectEntities(createRequest.taughtSubjects()))
                 .build();

@@ -1,7 +1,6 @@
 package com.janluk.schoolmanagementapp.common.repository.port;
 
 import com.janluk.schoolmanagementapp.common.model.SchoolSubjectEntity;
-import com.janluk.schoolmanagementapp.common.model.TeacherInCourseEntity;
 import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
 import com.janluk.schoolmanagementapp.common.schema.TaughtSubjectInCourseDTO;
 import org.springframework.data.domain.Page;

@@ -1,6 +1,6 @@
 package com.janluk.schoolmanagementapp.teacher.criteria;
 
-public class TeacherFields {
+class TeacherFields {
 
     static final String USER = "user";
 }

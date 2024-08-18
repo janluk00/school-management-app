@@ -1,28 +1,31 @@
-package com.janluk.schoolmanagementapp.common.email.service;
+package com.janluk.schoolmanagementapp.common.email;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
 
-import static com.janluk.schoolmanagementapp.common.email.config.EmailProperties.ACCOUNT_CONFIRM_URI;
-import static com.janluk.schoolmanagementapp.common.email.config.EmailProperties.CONFIRMATION_TITLE;
+import static com.janluk.schoolmanagementapp.common.email.EmailProperties.ACCOUNT_CONFIRM_URI;
+import static com.janluk.schoolmanagementapp.common.email.EmailProperties.CONFIRMATION_TITLE;
 
-@Service
-@RequiredArgsConstructor
 @Slf4j
-public class EmailServiceImpl implements EmailService{
+class RealEmailService implements EmailService {
 
-    @Value("${application.url}")
-    private String applicationUrl;
-
-    @Value("${spring.mail.username}")
-    private String sender;
-
+    private final String applicationUrl;
+    private final String sender;
     private final JavaMailSender javaMailSender;
+
+    public RealEmailService(
+            @Value("${application.url}") String applicationUrl,
+            @Value("${spring.mail.username}") String sender,
+            JavaMailSender javaMailSender
+    ) {
+        this.applicationUrl = applicationUrl;
+        this.sender = sender;
+        this.javaMailSender = javaMailSender;
+    }
+
 
     @Async
     public void sendNotification(String receiver, String passwordConfirmationToken) {

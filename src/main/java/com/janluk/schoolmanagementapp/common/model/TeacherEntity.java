@@ -6,19 +6,14 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "teachers")
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeacherEntity implements Serializable, RoleAssignable {
-
-    @Id
-    private UUID id;
+public class TeacherEntity extends BaseEntity implements Serializable, RoleAssignable {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "school_user_id", referencedColumnName = "id")
@@ -50,5 +45,9 @@ public class TeacherEntity implements Serializable, RoleAssignable {
 
     public void assignTutor(SchoolClassEntity schoolClass) {
         this.tutorClass = schoolClass;
+    }
+
+    public void removeTutoring() {
+        this.tutorClass = null;
     }
 }

@@ -14,10 +14,9 @@ import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
-public class SqlGradeRepository implements GradeRepository {
+class SqlGradeRepository implements GradeRepository {
 
     private final JpaGradeRepository jpaGradeRepository;
-
 
     @Override
     public List<GradeDTO> getAllGradesByStudent(String email) {
@@ -30,6 +29,7 @@ public class SqlGradeRepository implements GradeRepository {
     }
 }
 
+@Repository
 interface JpaGradeRepository extends JpaRepository<GradeEntity, UUID> {
 
     @Query(

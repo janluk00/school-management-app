@@ -4,7 +4,7 @@ import com.janluk.schoolmanagementapp.security.schema.ConfirmPasswordRequest;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class PasswordsMatchValidator implements ConstraintValidator<PasswordsMatch, ConfirmPasswordRequest> {
+class PasswordsMatchValidator implements ConstraintValidator<PasswordsMatch, ConfirmPasswordRequest> {
 
     @Override
     public void initialize(PasswordsMatch constraintAnnotation) {

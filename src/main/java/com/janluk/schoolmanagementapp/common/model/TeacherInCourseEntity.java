@@ -6,23 +6,20 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "teachers_in_course")
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeacherInCourseEntity implements Serializable {
+public class TeacherInCourseEntity extends BaseEntity implements Serializable {
 
-    @Id
-    private UUID id;
-
+    @Setter
     @ManyToOne
     private TeacherEntity teacher;
 
+    @Setter
     @ManyToOne
     private SchoolSubjectEntity subject;
 

@@ -19,14 +19,12 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Component
 public class StudentMapper {
 
     public StudentEntity createStudentRequestToStudentEntity(CreateStudentRequest createRequest) {
         return StudentEntity.builder()
-                .id(UUID.randomUUID())
                 .user(UserCreator.createUserEntity(createRequest.user()))
                 .schoolClass(classTypeToSchoolClassEntity(createRequest.schoolClass()))
                 .build();

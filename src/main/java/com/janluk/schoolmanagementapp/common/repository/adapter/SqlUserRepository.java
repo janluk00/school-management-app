@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class SqlUserRepository implements UserRepository {
+class SqlUserRepository implements UserRepository {
 
     private final JpaUserRepository jpaUserRepository;
 
