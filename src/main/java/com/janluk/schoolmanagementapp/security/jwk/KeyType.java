@@ -1,6 +1,6 @@
 package com.janluk.schoolmanagementapp.security.jwk;
 
-public enum KeyType {
+enum KeyType {
 
     PRIVATE, PUBLIC
 }

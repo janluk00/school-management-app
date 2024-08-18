@@ -9,19 +9,16 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
+
+import static com.janluk.schoolmanagementapp.common.user.TokenGenerator.*;
 
 @Entity
 @Table(name = "school_users")
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity implements Serializable, RoleAssignable {
-
-    @Id
-    private UUID id;
+public class UserEntity extends BaseEntity implements Serializable, RoleAssignable {
 
     @Column(nullable = false)
     private String name;
@@ -55,5 +52,14 @@ public class UserEntity implements Serializable, RoleAssignable {
     @Override
     public UserEntity getUser() {
         return this;
+    }
+
+    public void updatePasswordAndClearToken(String password) {
+        this.password = password;
+        this.passwordConfirmationToken = null;
+    }
+
+    public void generateNewToken() {
+        this.passwordConfirmationToken = generateToken();
     }
 }

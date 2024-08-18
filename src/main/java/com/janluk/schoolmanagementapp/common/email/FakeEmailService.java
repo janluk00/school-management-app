@@ -1,15 +1,18 @@
-package com.janluk.schoolmanagementapp.common.email.service;
+package com.janluk.schoolmanagementapp.common.email;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 
-import static com.janluk.schoolmanagementapp.common.email.config.EmailProperties.*;
+import static com.janluk.schoolmanagementapp.common.email.EmailProperties.*;
 
 @Slf4j
-public class FakeEmailServiceImpl implements EmailService {
+class FakeEmailService implements EmailService {
 
-    @Value("${application.url}")
-    private String applicationUrl;
+    private final String applicationUrl;
+
+    public FakeEmailService(@Value("${application.url}") String applicationUrl) {
+        this.applicationUrl = applicationUrl;
+    }
 
     @Override
     public void sendNotification(String receiverEmail, String passwordConfirmationToken) {

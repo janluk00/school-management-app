@@ -1,7 +1,6 @@
 package com.janluk.schoolmanagementapp.security.config;
 
 import com.janluk.schoolmanagementapp.security.service.CustomizedUserDetailsService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,13 +22,18 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@RequiredArgsConstructor
-public class SecurityConfig {
+class SecurityConfig {
 
     private final CustomizedUserDetailsService userDetailsService;
+    private final String API_PREFIX;
 
-    @Value("${api.prefix}")
-    String API_PREFIX;
+    public SecurityConfig(
+            CustomizedUserDetailsService userDetailsService,
+            @Value("${api.prefix}") String API_PREFIX
+    ) {
+        this.userDetailsService = userDetailsService;
+        this.API_PREFIX = API_PREFIX;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

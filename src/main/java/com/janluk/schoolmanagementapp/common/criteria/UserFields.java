@@ -1,6 +1,6 @@
 package com.janluk.schoolmanagementapp.common.criteria;
 
-public class UserFields {
+class UserFields {
 
     static final String NAME = "name";
     static final String SURNAME = "surname";

@@ -12,7 +12,6 @@ public class GradeMapper {
 
     public GradeEntity toGradeEntity(BigDecimal grade, UUID studentId, String schoolSubject, UUID teacherId) {
         return GradeEntity.builder()
-                .id(UUID.randomUUID())
                 .grade(grade)
                 .issuedDate(Instant.now())
                 .studentId(studentId)

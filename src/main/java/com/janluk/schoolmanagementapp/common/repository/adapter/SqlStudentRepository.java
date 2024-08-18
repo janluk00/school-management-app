@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
-public class SqlStudentRepository implements StudentRepository {
+class SqlStudentRepository implements StudentRepository {
 
     private final JpaStudentRepository jpaStudentRepository;
 

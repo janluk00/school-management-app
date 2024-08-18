@@ -16,7 +16,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping("${api.prefix}/auth")
 @AllArgsConstructor
-public class AuthController {
+class AuthController {
 
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;

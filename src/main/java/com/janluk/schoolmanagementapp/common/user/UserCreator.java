@@ -4,8 +4,6 @@ import com.janluk.schoolmanagementapp.common.model.UserEntity;
 import com.janluk.schoolmanagementapp.common.model.vo.BirthDate;
 import com.janluk.schoolmanagementapp.common.schema.CreateUserRequest;
 
-import java.util.UUID;
-
 import static com.janluk.schoolmanagementapp.common.user.TokenGenerator.generateToken;
 
 public class UserCreator {
@@ -17,7 +15,6 @@ public class UserCreator {
             BirthDate birthDate
             ) {
         return UserEntity.builder()
-                .id(UUID.randomUUID())
                 .name(name)
                 .surname(surname)
                 .email(email)
@@ -29,7 +26,6 @@ public class UserCreator {
 
     public static UserEntity createUserEntity(CreateUserRequest request) {
         return UserEntity.builder()
-                .id(UUID.randomUUID())
                 .name(request.name())
                 .surname(request.surname())
                 .email(request.email())

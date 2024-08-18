@@ -2,7 +2,6 @@ package com.janluk.schoolmanagementapp.common.repository.adapter;
 
 import com.janluk.schoolmanagementapp.common.exception.NoResultFoundException;
 import com.janluk.schoolmanagementapp.common.model.SchoolSubjectEntity;
-import com.janluk.schoolmanagementapp.common.model.TeacherInCourseEntity;
 import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
 import com.janluk.schoolmanagementapp.common.repository.port.SchoolSubjectRepository;
 import com.janluk.schoolmanagementapp.common.schema.TaughtSubjectInCourseDTO;
@@ -17,7 +16,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class SqlSchoolSubjectRepository implements SchoolSubjectRepository {
+class SqlSchoolSubjectRepository implements SchoolSubjectRepository {
 
     private final JpaSchoolSubjectRepository jpaSchoolSubjectRepository;
 

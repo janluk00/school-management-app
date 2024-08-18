@@ -6,6 +6,7 @@ import com.janluk.schoolmanagementapp.common.schema.TaughtSubjectInCourseDTO;
 import com.janluk.schoolmanagementapp.schoolClass.schema.AssignTeacherToCourseRequest;
 import com.janluk.schoolmanagementapp.schoolClass.schema.RemoveTeacherFromCourseRequest;
 import com.janluk.schoolmanagementapp.schoolClass.schema.SchoolClassDTO;
+import com.janluk.schoolmanagementapp.schoolClass.service.AdminCourseAssignmentService;
 import com.janluk.schoolmanagementapp.schoolClass.service.AdminSchoolClassService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,9 +21,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping("${api.prefix}/admin/classes")
 @RequiredArgsConstructor
-public class AdminSchoolClassController {
+class AdminSchoolClassController {
 
     private final AdminSchoolClassService adminSchoolClassService;
+    private final AdminCourseAssignmentService adminCourseAssignmentService;
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<SchoolClassDTO>> getAllSchoolClasses(Pageable pageable) {
@@ -41,12 +43,12 @@ public class AdminSchoolClassController {
 
     @PostMapping(path = "/courses", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> assignTeacherToCourse(@RequestBody AssignTeacherToCourseRequest request) {
-        return ResponseEntity.ok(adminSchoolClassService.assignTeacherToCourse(request));
+        return ResponseEntity.ok(adminCourseAssignmentService.assignTeacherToCourse(request));
     }
 
     @DeleteMapping(path = "/courses", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> removeTeacherFromCourse(@RequestBody RemoveTeacherFromCourseRequest request) {
-        adminSchoolClassService.removeTeacherFromCourse(request);
+        adminCourseAssignmentService.removeTeacherFromCourse(request);
 
         return ResponseEntity.noContent().build();
     }

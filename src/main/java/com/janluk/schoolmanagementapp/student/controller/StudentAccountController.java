@@ -18,7 +18,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping("${api.prefix}/students")
 @RequiredArgsConstructor
-public class StudentAccountController {
+class StudentAccountController {
 
     private final StudentAccountService studentAccountService;
 
