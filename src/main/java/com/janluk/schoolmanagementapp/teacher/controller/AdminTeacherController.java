@@ -49,14 +49,14 @@ class AdminTeacherController {
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createTeacher(@RequestBody CreateTeacherRequest request) {
+    public ResponseEntity<String> createTeacher(@RequestBody @Valid CreateTeacherRequest request) {
         return ResponseEntity.status(CREATED).body(adminTeacherService.createTeacher(request));
     }
 
     @PostMapping(path = "/{id}/tutor", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> assignTutorToTeacher(
             @PathVariable UUID id,
-            @Valid @RequestBody SchoolClassRequest request
+            @RequestBody @Valid SchoolClassRequest request
     ) {
         return ResponseEntity.ok(adminTeacherAssignmentService.assignTutorToTeacher(id, request));
     }
@@ -64,7 +64,7 @@ class AdminTeacherController {
     @PostMapping(path = "/{id}/subjects", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> assignSubjectToTeacher(
             @PathVariable UUID id,
-            @Valid @RequestBody SchoolSubjectRequest request
+            @RequestBody @Valid SchoolSubjectRequest request
     ) {
         return ResponseEntity.ok(adminTeacherAssignmentService.assignSubjectToTutor(id, request));
     }

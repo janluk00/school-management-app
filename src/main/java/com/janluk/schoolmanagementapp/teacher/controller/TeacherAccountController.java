@@ -8,6 +8,7 @@ import com.janluk.schoolmanagementapp.teacher.schema.StudentPerformanceDTO;
 import com.janluk.schoolmanagementapp.teacher.schema.StudentPerformanceReportDTO;
 import com.janluk.schoolmanagementapp.teacher.service.TeacherAccountService;
 import com.janluk.schoolmanagementapp.teacher.service.TeacherStatisticsService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,7 +53,7 @@ class TeacherAccountController {
     @PostMapping(path = "/students/{studentId}/grades")
     public ResponseEntity<String> addGrade(
             @PathVariable UUID studentId,
-            @RequestBody AddGradeRequest request,
+            @RequestBody @Valid AddGradeRequest request,
             Principal principal
     ) {
         return ResponseEntity.ok(teacherAccountService.addGrade(studentId, request, principal.getName()));

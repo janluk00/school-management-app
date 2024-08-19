@@ -8,6 +8,7 @@ import com.janluk.schoolmanagementapp.schoolClass.schema.RemoveTeacherFromCourse
 import com.janluk.schoolmanagementapp.schoolClass.schema.SchoolClassDTO;
 import com.janluk.schoolmanagementapp.schoolClass.service.AdminCourseAssignmentService;
 import com.janluk.schoolmanagementapp.schoolClass.service.AdminSchoolClassService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,12 +43,12 @@ class AdminSchoolClassController {
     }
 
     @PostMapping(path = "/courses", consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> assignTeacherToCourse(@RequestBody AssignTeacherToCourseRequest request) {
+    public ResponseEntity<String> assignTeacherToCourse(@RequestBody @Valid AssignTeacherToCourseRequest request) {
         return ResponseEntity.ok(adminCourseAssignmentService.assignTeacherToCourse(request));
     }
 
     @DeleteMapping(path = "/courses", consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> removeTeacherFromCourse(@RequestBody RemoveTeacherFromCourseRequest request) {
+    public ResponseEntity<Void> removeTeacherFromCourse(@RequestBody @Valid RemoveTeacherFromCourseRequest request) {
         adminCourseAssignmentService.removeTeacherFromCourse(request);
 
         return ResponseEntity.noContent().build();

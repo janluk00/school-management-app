@@ -4,6 +4,7 @@ import com.janluk.schoolmanagementapp.common.criteria.CommonUserFilters;
 import com.janluk.schoolmanagementapp.common.schema.StudentDTO;
 import com.janluk.schoolmanagementapp.student.schema.CreateStudentRequest;
 import com.janluk.schoolmanagementapp.student.service.AdminStudentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +37,7 @@ class AdminStudentController {
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createStudent(@RequestBody CreateStudentRequest request) {
+    public ResponseEntity<String> createStudent(@RequestBody @Valid CreateStudentRequest request) {
         return ResponseEntity.status(CREATED).body(adminStudentService.createStudent(request));
     }
 }
