@@ -1,6 +1,7 @@
 package com.janluk.schoolmanagementapp.student.service;
 
 import com.janluk.schoolmanagementapp.common.criteria.CommonUserFilters;
+import com.janluk.schoolmanagementapp.common.email.EmailService;
 import com.janluk.schoolmanagementapp.common.exception.EmailAlreadyExistsException;
 import com.janluk.schoolmanagementapp.common.model.StudentEntity;
 import com.janluk.schoolmanagementapp.common.repository.port.StudentRepository;
@@ -29,6 +30,7 @@ public class AdminStudentService {
     private final RoleAdder roleAdder;
     private final StudentRepository studentRepository;
     private final StudentSearcher studentSearcher;
+    private final EmailService emailService;
 
     public Page<StudentDTO> searchStudents(CommonUserFilters userFilters, Pageable pageable) {
         Page<StudentEntity> students = studentSearcher.searchStudents(userFilters, pageable);
@@ -48,8 +50,13 @@ public class AdminStudentService {
         }
 
         StudentEntity student = studentMapper.createStudentRequestToStudentEntity(request);
+        String studentId = student.getId().toString();
         roleAdder.addStudentRole(student);
 
-        return studentRepository.save(student).toString();
+        studentRepository.save(student);
+
+        emailService.sendNotification(student.getUser().getEmail(), student.getUser().getPasswordConfirmationToken());
+
+        return studentId;
     }
 }

@@ -26,7 +26,7 @@ class AccountController {
     }
 
     @PostMapping("/change-password")
-    public void changePassword(@RequestBody EmailRequest email) {
+    public void changePassword(@RequestBody @Valid EmailRequest email) {
         accountService.changePassword(email.email());
     }
 }

@@ -1,7 +1,10 @@
 package com.janluk.schoolmanagementapp.common.schema;
 
 import com.janluk.schoolmanagementapp.common.model.vo.ClassType;
+import jakarta.validation.constraints.NotNull;
 
-// TODO: ADD VALIDATION
-public record SchoolClassRequest(ClassType classType) {
+public record SchoolClassRequest(
+        @NotNull(message = "School class type cannot be null!")
+        ClassType classType
+) {
 }
