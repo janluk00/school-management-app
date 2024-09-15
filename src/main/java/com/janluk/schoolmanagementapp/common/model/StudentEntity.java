@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -26,7 +27,7 @@ public class StudentEntity extends BaseEntity implements Serializable, RoleAssig
 
     @OneToMany(mappedBy = "studentId", cascade = CascadeType.PERSIST)
     @Builder.Default
-    private List<GradeEntity> grades = new ArrayList<>();
+    private Set<GradeEntity> grades = new HashSet<>();
 
     @Override
     public Set<RoleEntity> getRoles() {

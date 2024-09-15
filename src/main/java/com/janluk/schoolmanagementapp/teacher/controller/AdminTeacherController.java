@@ -70,16 +70,12 @@ class AdminTeacherController {
     }
 
     @DeleteMapping(path = "/{id}/tutor")
-    public ResponseEntity<Void> removeTutorAssignment(@PathVariable UUID id) {
-        adminTeacherAssignmentService.removeTutorAssignment(id);
-
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> removeTutorAssignment(@PathVariable UUID id) {
+        return ResponseEntity.ok(adminTeacherAssignmentService.removeTutorAssignment(id));
     }
 
     @DeleteMapping(path = "/{id}/subjects")
-    public ResponseEntity<Void> removeSubjectFromTeacher(@PathVariable UUID id, @RequestParam SubjectType subject) {
-        adminTeacherAssignmentService.removeSubjectFromTeacher(id, subject);
-
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> removeSubjectFromTeacher(@PathVariable UUID id, @RequestParam SubjectType subject) {
+        return ResponseEntity.ok(adminTeacherAssignmentService.removeSubjectFromTeacher(id, subject));
     }
 }

@@ -14,5 +14,5 @@ public interface SchoolSubjectRepository {
 
     Page<SchoolSubjectEntity> getAll(Pageable pageable);
 
-    List<TaughtSubjectInCourseDTO> getAllTaughtSubjectsInClass(String schoolClass);
+    List<TaughtSubjectInCourseDTO> getAllTaughtSubjectsInCourse(String schoolClass);
 }

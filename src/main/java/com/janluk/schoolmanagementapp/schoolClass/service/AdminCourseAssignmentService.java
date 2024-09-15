@@ -4,10 +4,10 @@ import com.janluk.schoolmanagementapp.common.exception.TeacherNotTeachingSubject
 import com.janluk.schoolmanagementapp.common.model.SchoolClassEntity;
 import com.janluk.schoolmanagementapp.common.model.SchoolSubjectEntity;
 import com.janluk.schoolmanagementapp.common.model.TeacherEntity;
-import com.janluk.schoolmanagementapp.common.model.TeacherInCourseEntity;
+import com.janluk.schoolmanagementapp.common.model.CourseEntity;
 import com.janluk.schoolmanagementapp.common.repository.port.*;
 import com.janluk.schoolmanagementapp.schoolClass.exception.SchoolClassAlreadyHasTeacherOfSchoolSubjectException;
-import com.janluk.schoolmanagementapp.schoolClass.exception.TeacherInCourseNotAssignedToSchoolClassException;
+import com.janluk.schoolmanagementapp.schoolClass.exception.CourseNotAssignedToSchoolClassException;
 import com.janluk.schoolmanagementapp.schoolClass.schema.AssignTeacherToCourseRequest;
 import com.janluk.schoolmanagementapp.schoolClass.schema.RemoveTeacherFromCourseRequest;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class AdminCourseAssignmentService {
 
     private final SchoolClassRepository schoolClassRepository;
     private final TeacherRepository teacherRepository;
-    private final TeacherInCourseRepository teacherInCourseRepository;
+    private final CourseRepository courseRepository;
     private final SchoolSubjectRepository schoolSubjectRepository;
 
     @Transactional
@@ -44,7 +44,7 @@ public class AdminCourseAssignmentService {
 
         if (doesSchoolClassAlreadyHasTeacherOfSchoolSubject(schoolClass, schoolSubject)) {
             log.warn(
-                    "School class with name: %s already has a teacher of school subject with name: %s"
+                    "School class with name: %s already has a teacher of school subject with name: %s."
                             .formatted(schoolClass, schoolSubject)
             );
             throw new SchoolClassAlreadyHasTeacherOfSchoolSubjectException(
@@ -53,30 +53,32 @@ public class AdminCourseAssignmentService {
             );
         }
 
-        UUID teacherInClassId = assignTeacherToCourse(teacher, schoolClass, schoolSubject);
+        UUID courseId = assignTeacherToCourse(teacher, schoolClass, schoolSubject);
 
-        return teacherInClassId.toString();
+        return courseId.toString();
     }
 
     @Transactional
-    public void removeTeacherFromCourse(RemoveTeacherFromCourseRequest request) {
+    public String removeTeacherFromCourse(RemoveTeacherFromCourseRequest request) {
         TeacherEntity teacher = teacherRepository.getById(request.teacherId());
         SchoolClassEntity schoolClass = schoolClassRepository.getById(request.classType());
 
-        TeacherInCourseEntity teacherInCourse = getTeacherOfSubject(teacher, request.subjectType().name());
+        CourseEntity course = getTeacherOfSubject(teacher, request.subjectType().name());
 
-        if (!doesTeacherInCourseOfSchoolClass(teacherInCourse, schoolClass)) {
+        if (!isSchoolClassAssignedToCourse(course, schoolClass)) {
             log.warn(
-                    "Teacher in course with id: %s does not teach school class: %s"
-                            .formatted(teacherInCourse.getId().toString(), request.classType().name())
+                    "School class: %s is not assigned to course with id: %s"
+                            .formatted(request.classType().name(), course.getId().toString())
             );
-            throw new TeacherInCourseNotAssignedToSchoolClassException(
-                    teacherInCourse.getId().toString(),
+            throw new CourseNotAssignedToSchoolClassException(
+                    course.getId().toString(),
                     request.classType().name()
             );
         }
 
-        teacherInCourse.removeFromClass(schoolClass);
+        course.removeFromClass(schoolClass);
+
+        return course.getId().toString();
     }
 
     private boolean isTeacherOfSchoolSubject(TeacherEntity teacher, SchoolSubjectEntity schoolSubject) {
@@ -88,12 +90,12 @@ public class AdminCourseAssignmentService {
     private boolean doesSchoolClassAlreadyHasTeacherOfSchoolSubject(
             SchoolClassEntity schoolClass, SchoolSubjectEntity schoolSubject
     ) {
-        return schoolClass.getTeachers().stream()
+        return schoolClass.getCourses().stream()
                 .anyMatch(teacher -> teacher.getSubject().equals(schoolSubject));
     }
 
-    private boolean hasTeacherInCourseJustBeenCreated(TeacherInCourseEntity teacherInCourse) {
-        return teacherInCourse.getSchoolClasses().size() == 1;
+    private boolean hasCourseJustBeenCreated(CourseEntity course) {
+        return course.getSchoolClasses().size() == 1;
     }
 
     private UUID assignTeacherToCourse(
@@ -101,38 +103,38 @@ public class AdminCourseAssignmentService {
             SchoolClassEntity schoolClass,
             SchoolSubjectEntity schoolSubject
     ) {
-        TeacherInCourseEntity teacherInCourse = teacherInCourseRepository.getByTeacherAndSchoolSubject(
+        CourseEntity course = courseRepository.getByTeacherAndSchoolSubject(
                 teacher.getId(),
                 schoolSubject.getName()
         ).orElse(
-                TeacherInCourseEntity.builder()
+                CourseEntity.builder()
                         .build()
         );
 
-        teacherInCourse.assignToClass(schoolClass);
+        course.assignToClass(schoolClass);
 
-        if (hasTeacherInCourseJustBeenCreated(teacherInCourse)) {
-            teacherInCourse.setTeacher(teacher);
-            teacherInCourse.setSubject(schoolSubject);
+        if (hasCourseJustBeenCreated(course)) {
+            course.assignTeacher(teacher);
+            course.assignSubject(schoolSubject);
         }
 
-        return teacherInCourseRepository.save(teacherInCourse);
+        return courseRepository.save(course);
     }
 
-    private TeacherInCourseEntity getTeacherOfSubject(TeacherEntity teacher, String schoolSubject) {
-        return teacher.getTeacherInCourses().stream()
-                .filter(teacherInCourse -> teacherInCourse.getSubject().getName().equals(schoolSubject))
+    private CourseEntity getTeacherOfSubject(TeacherEntity teacher, String schoolSubject) {
+        return teacher.getCourses().stream()
+                .filter(course -> course.getSubject().getName().equals(schoolSubject))
                 .findFirst()
                 .orElseThrow(
                         () -> new TeacherNotTeachingSubjectException(teacher.getId().toString(), schoolSubject)
                 );
     }
 
-    private boolean doesTeacherInCourseOfSchoolClass(
-            TeacherInCourseEntity teacherInCourse,
+    private boolean isSchoolClassAssignedToCourse(
+            CourseEntity course,
             SchoolClassEntity schoolClass
     ) {
-        return teacherInCourse.getSchoolClasses().stream()
+        return course.getSchoolClasses().stream()
                 .anyMatch(taughtSchoolClass -> taughtSchoolClass.getName().equals(schoolClass.getName()));
     }
 }

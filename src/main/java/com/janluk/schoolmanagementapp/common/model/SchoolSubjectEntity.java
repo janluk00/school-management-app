@@ -16,6 +16,10 @@ import java.util.Set;
 @EqualsAndHashCode(of = "name")
 public class SchoolSubjectEntity implements Serializable {
 
+    public SchoolSubjectEntity(String name) {
+        this.name = name;
+    }
+
     @Id
     private String name;
 
@@ -27,5 +31,5 @@ public class SchoolSubjectEntity implements Serializable {
     private Set<TeacherEntity> teachers = new HashSet<>();
 
     @OneToMany(mappedBy = "subject")
-    private Set<TeacherInCourseEntity> subjectTeachers;
+    private Set<CourseEntity> courses;
 }

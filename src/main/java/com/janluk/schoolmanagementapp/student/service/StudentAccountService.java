@@ -40,6 +40,6 @@ public class StudentAccountService {
     public List<TaughtSubjectInCourseDTO> getAllCoursesByStudent(String email) {
         String studentSchoolClass = studentRepository.getStudentSchoolClassByEmail(email);
 
-        return schoolSubjectRepository.getAllTaughtSubjectsInClass(studentSchoolClass);
+        return schoolSubjectRepository.getAllTaughtSubjectsInCourse(studentSchoolClass);
     }
 }
