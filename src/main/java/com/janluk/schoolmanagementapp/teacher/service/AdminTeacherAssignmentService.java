@@ -11,7 +11,7 @@ import com.janluk.schoolmanagementapp.common.repository.port.TeacherRepository;
 import com.janluk.schoolmanagementapp.common.schema.SchoolClassRequest;
 import com.janluk.schoolmanagementapp.common.schema.SchoolSubjectRequest;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherAlreadyTeachingSubjectException;
-import com.janluk.schoolmanagementapp.teacher.exception.TeacherIsAlreadyTutor;
+import com.janluk.schoolmanagementapp.teacher.exception.TeacherIsAlreadyTutorException;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherNotAssignedAsTutorException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,10 +37,10 @@ public class AdminTeacherAssignmentService {
 
         if (isTeacherTutorOfSchoolClass(teacher, schoolClass)) {
             log.warn(
-                    "Teacher with id %s is already the tutor of class %s."
+                    "Teacher with id: %s is already the tutor of class: %s."
                             .formatted(teacher.getId(), request.classType().name())
             );
-            throw new TeacherIsAlreadyTutor(teacher.getId().toString(), request.classType().name());
+            throw new TeacherIsAlreadyTutorException(teacher.getId().toString(), request.classType().name());
         }
         teacher.assignTutor(schoolClass);
 
@@ -48,7 +48,7 @@ public class AdminTeacherAssignmentService {
     }
 
     @Transactional
-    public void removeTutorAssignment(UUID id) {
+    public String removeTutorAssignment(UUID id) {
         TeacherEntity teacher = teacherRepository.getById(id);
 
         if (!isTeacherAlreadyTutor(teacher)) {
@@ -60,6 +60,8 @@ public class AdminTeacherAssignmentService {
         }
 
         teacher.removeTutoring();
+
+        return teacher.getId().toString();
     }
 
     @Transactional
@@ -81,7 +83,7 @@ public class AdminTeacherAssignmentService {
     }
 
     @Transactional
-    public void removeSubjectFromTeacher(UUID id, SubjectType subject) {
+    public String removeSubjectFromTeacher(UUID id, SubjectType subject) {
         TeacherEntity teacher = teacherRepository.getById(id);
         SchoolSubjectEntity schoolSubject = schoolSubjectRepository.getById(subject);
 
@@ -91,6 +93,8 @@ public class AdminTeacherAssignmentService {
         }
 
         teacher.getTaughtSubjects().remove(schoolSubject);
+
+        return teacher.getId().toString();
     }
 
     private boolean isTeacherTutorOfSchoolClass(TeacherEntity teacher, SchoolClassEntity schoolClass) {

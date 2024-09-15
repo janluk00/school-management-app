@@ -8,25 +8,23 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "teachers_in_course")
+@Table(name = "courses")
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeacherInCourseEntity extends BaseEntity implements Serializable {
+public class CourseEntity extends BaseEntity implements Serializable {
 
-    @Setter
     @ManyToOne
     private TeacherEntity teacher;
 
-    @Setter
     @ManyToOne
     private SchoolSubjectEntity subject;
 
     @ManyToMany
-    @JoinTable(name="teachers_in_course_school_classes",
+    @JoinTable(name="courses_school_classes",
             joinColumns=
-            @JoinColumn(name="teacher_in_course_id", referencedColumnName="id"),
+            @JoinColumn(name="course_id", referencedColumnName="id"),
             inverseJoinColumns=
             @JoinColumn(name="school_class_name", referencedColumnName="name")
     )
@@ -53,5 +51,13 @@ public class TeacherInCourseEntity extends BaseEntity implements Serializable {
         }
 
         this.schoolClasses.remove(schoolClass);
+    }
+
+    public void assignTeacher(TeacherEntity teacher) {
+        this.teacher = teacher;
+    }
+
+    public void assignSubject(SchoolSubjectEntity subject) {
+        this.subject = subject;
     }
 }

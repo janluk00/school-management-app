@@ -48,9 +48,7 @@ class AdminSchoolClassController {
     }
 
     @DeleteMapping(path = "/courses", consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> removeTeacherFromCourse(@RequestBody @Valid RemoveTeacherFromCourseRequest request) {
-        adminCourseAssignmentService.removeTeacherFromCourse(request);
-
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> removeTeacherFromCourse(@RequestBody @Valid RemoveTeacherFromCourseRequest request) {
+        return ResponseEntity.ok(adminCourseAssignmentService.removeTeacherFromCourse(request));
     }
 }

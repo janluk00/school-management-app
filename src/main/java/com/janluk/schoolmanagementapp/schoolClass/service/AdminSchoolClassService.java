@@ -35,6 +35,6 @@ public class AdminSchoolClassService {
     }
 
     public List<TaughtSubjectInCourseDTO> getAllCoursesForClass(ClassType schoolClass) {
-        return schoolSubjectRepository.getAllTaughtSubjectsInClass(schoolClass.name());
+        return schoolSubjectRepository.getAllTaughtSubjectsInCourse(schoolClass.name());
     }
 }

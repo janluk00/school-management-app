@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -64,7 +65,7 @@ public class StudentMapper {
         return StudentPerformanceDTO.builder()
                 .id(student.getId())
                 .user(userEntityToUserPersonalDTO(student.getUser()))
-                .grades(gradeEntitiesToBigDecimals(student.getGrades()))
+                .grades(gradeEntitiesToBigDecimals(new ArrayList<>(student.getGrades())))
                 .build();
     }
 

@@ -5,9 +5,9 @@ import com.janluk.schoolmanagementapp.common.exception.EmailAlreadyExistsExcepti
 import com.janluk.schoolmanagementapp.common.exception.NoResultFoundException;
 import com.janluk.schoolmanagementapp.common.exception.TeacherNotTeachingSubjectException;
 import com.janluk.schoolmanagementapp.schoolClass.exception.SchoolClassAlreadyHasTeacherOfSchoolSubjectException;
-import com.janluk.schoolmanagementapp.schoolClass.exception.TeacherInCourseNotAssignedToSchoolClassException;
+import com.janluk.schoolmanagementapp.schoolClass.exception.CourseNotAssignedToSchoolClassException;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherAlreadyTeachingSubjectException;
-import com.janluk.schoolmanagementapp.teacher.exception.TeacherIsAlreadyTutor;
+import com.janluk.schoolmanagementapp.teacher.exception.TeacherIsAlreadyTutorException;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherNotAssignedAsTutorException;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherNotInCourseException;
 import org.springframework.http.HttpStatus;
@@ -101,8 +101,8 @@ class GlobalExceptionHandler {
             value = {
                     EmailAlreadyExistsException.class,
                     SchoolClassAlreadyHasTeacherOfSchoolSubjectException.class,
-                    TeacherInCourseNotAssignedToSchoolClassException.class,
-                    TeacherIsAlreadyTutor.class
+                    CourseNotAssignedToSchoolClassException.class,
+                    TeacherIsAlreadyTutorException.class
             }
     )
     public ResponseEntity<ErrorResponse> handleConflictException(RuntimeException exception) {

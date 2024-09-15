@@ -46,7 +46,7 @@ public class TeacherAccountService {
         TeacherEntity teacher = teacherRepository.getByEmail(email);
         SchoolSubjectEntity taughtSubject = schoolSubjectRepository.getById(schoolSubject);
 
-        if (!isTeacherInCourseWithSubjectAndClass(teacher, taughtClass, taughtSubject)) {
+        if (!doesSchoolClassCourseInSchoolSubjectExists(teacher, taughtClass, taughtSubject)) {
             log.warn("Teacher with email %s is not assigned to course with school subject %s and school class %s."
                     .formatted(email, taughtSubject.getName(), taughtClass.getName()));
             throw new TeacherNotInCourseException(email, taughtSubject.getName(), taughtClass.getName());
@@ -64,7 +64,7 @@ public class TeacherAccountService {
         SchoolClassEntity schoolClass = studentEntity.getSchoolClass();
         TeacherEntity teacher = teacherRepository.getByEmail(email);
 
-        if (!isTeacherInCourseWithSubjectAndClass(teacher, studentEntity.getSchoolClass(), schoolSubject)) {
+        if (!doesSchoolClassCourseInSchoolSubjectExists(teacher, studentEntity.getSchoolClass(), schoolSubject)) {
             log.warn("Teacher with email %s is not assigned to course with school subject %s and school class %s."
                     .formatted(email, schoolSubject.getName(), schoolClass.getName()));
             throw new TeacherNotInCourseException(email, schoolSubject.getName(), schoolClass.getName());
@@ -82,13 +82,13 @@ public class TeacherAccountService {
         return grade.getId().toString();
     }
 
-    private boolean isTeacherInCourseWithSubjectAndClass(
+    private boolean doesSchoolClassCourseInSchoolSubjectExists(
             TeacherEntity teacher,
             SchoolClassEntity schoolClass,
             SchoolSubjectEntity schoolSubject
     ) {
-        return teacher.getTeacherInCourses().stream()
-                .anyMatch(teacherInCourse -> teacherInCourse.getSubject().equals(schoolSubject) &&
-                        teacherInCourse.getSchoolClasses().contains(schoolClass));
+        return teacher.getCourses().stream()
+                .anyMatch(course -> course.getSubject().equals(schoolSubject) &&
+                        course.getSchoolClasses().contains(schoolClass));
     }
 }

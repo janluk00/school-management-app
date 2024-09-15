@@ -35,7 +35,7 @@ class SqlSchoolSubjectRepository implements SchoolSubjectRepository {
     }
 
     @Override
-    public List<TaughtSubjectInCourseDTO> getAllTaughtSubjectsInClass(String schoolClass) {
+    public List<TaughtSubjectInCourseDTO> getAllTaughtSubjectsInCourse(String schoolClass) {
         return jpaSchoolSubjectRepository.findTaughtSubjectsInClass(schoolClass);
     }
 }

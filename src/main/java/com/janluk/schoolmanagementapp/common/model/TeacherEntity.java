@@ -27,7 +27,7 @@ public class TeacherEntity extends BaseEntity implements Serializable, RoleAssig
     private Set<GradeEntity> gradesIssued;
 
     @OneToMany(mappedBy = "teacher")
-    private Set<TeacherInCourseEntity> teacherInCourses;
+    private Set<CourseEntity> courses;
 
     @ManyToMany
     @JoinTable(name="teachers_subjects",

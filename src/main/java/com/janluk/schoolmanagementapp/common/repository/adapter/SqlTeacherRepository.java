@@ -80,30 +80,30 @@ interface JpaTeacherRepository extends JpaRepository<TeacherEntity, UUID>, JpaSp
 
     @Query(
             value = "SELECT " +
-                    "new com.janluk.schoolmanagementapp.common.schema.CourseDTO(sc.name, tic.subject.name) " +
-                    "FROM TeacherEntity t JOIN t.teacherInCourses tic JOIN tic.schoolClasses sc WHERE t.id = ?1"
+                    "new com.janluk.schoolmanagementapp.common.schema.CourseDTO(sc.name, c.subject.name) " +
+                    "FROM TeacherEntity t JOIN t.courses c JOIN c.schoolClasses sc WHERE t.id = ?1"
     )
     List<CourseDTO> findAllCoursesByTeacher(UUID id);
 
     @Query(
             value = "SELECT " +
-                    "new com.janluk.schoolmanagementapp.common.schema.CourseDTO(sc.name, tic.subject.name) " +
-                    "FROM TeacherEntity t JOIN t.teacherInCourses tic JOIN tic.schoolClasses sc WHERE t.user.email = ?1"
+                    "new com.janluk.schoolmanagementapp.common.schema.CourseDTO(sc.name, c.subject.name) " +
+                    "FROM TeacherEntity t JOIN t.courses c JOIN c.schoolClasses sc WHERE t.user.email = ?1"
     )
     List<CourseDTO> findAllCoursesByTeacher(String email);
 
     @Query(
             value = "SELECT " +
                     "new com.janluk.schoolmanagementapp.teacher.schema.StudentPerformanceReportDTO( " +
-                    "s.schoolClass.name, tic.subject.name, avg(g.grade)) " +
+                    "s.schoolClass.name, c.subject.name, avg(g.grade)) " +
                     "FROM TeacherEntity t " +
                     "JOIN t.user u " +
-                    "JOIN t.teacherInCourses tic " +
+                    "JOIN t.courses c " +
                     "JOIN tic.schoolClasses sc " +
                     "JOIN sc.students s " +
                     "JOIN s.grades g " +
                     "WHERE u.email = ?1 " +
-                    "GROUP BY s.schoolClass.name, tic.subject.name"
+                    "GROUP BY s.schoolClass.name, c.subject.name"
     )
     List<StudentPerformanceReportDTO> findStatisticsOfStudentsByTeacher(String email);
 }
