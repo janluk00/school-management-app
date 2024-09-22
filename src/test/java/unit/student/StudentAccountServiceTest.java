@@ -20,8 +20,6 @@ import repository.InMemoryStudentRepository;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -54,8 +52,7 @@ class StudentAccountServiceTest {
         // given
         GradeEntity grade5 = GradeFactory.aGrade(5, SubjectType.MATHEMATICS.name());
         GradeEntity grade3 = GradeFactory.aGrade(3, SubjectType.MATHEMATICS.name());
-        Set<GradeEntity> studentGrades = Stream.of(grade3, grade5)
-                .collect(Collectors.toSet());
+        Set<GradeEntity> studentGrades = new HashSet<>(Arrays.asList(grade3, grade5));
         StudentEntity student = StudentFactory.aStudentWithUserAndGrade(STUDENT_EMAIL, studentGrades);
         gradeRepository.initializeWithStudents(Collections.singleton(student));
 
@@ -82,8 +79,7 @@ class StudentAccountServiceTest {
         // given
         GradeEntity grade5 = GradeFactory.aGrade(5, SubjectType.MATHEMATICS.name());
         GradeEntity grade3 = GradeFactory.aGrade(3, SubjectType.MATHEMATICS.name());
-        Set<GradeEntity> studentGrades = Stream.of(grade3, grade5)
-                .collect(Collectors.toSet());
+        Set<GradeEntity> studentGrades = new HashSet<>(Arrays.asList(grade3, grade5));
         StudentEntity student = StudentFactory.aStudentWithUserAndGrade(STUDENT_EMAIL, studentGrades);
         gradeRepository.initializeWithStudents(Collections.singleton(student));
 
@@ -109,8 +105,7 @@ class StudentAccountServiceTest {
         StudentEntity studentA1 = StudentFactory.aStudentWithUser(STUDENT_EMAIL);
         SchoolSubjectEntity mathA1 = SchoolSubjectFactory.aSchoolSubjectWithMathCourse();
         SchoolSubjectEntity englishA1 = SchoolSubjectFactory.aSchoolSubjectWithEnglishCourse();
-        Set<SchoolSubjectEntity> schoolSubjects = Stream.of(mathA1, englishA1)
-                .collect(Collectors.toSet());
+        Set<SchoolSubjectEntity> schoolSubjects = new HashSet<>(Arrays.asList(mathA1, englishA1));
         studentRepository.save(studentA1);
         schoolSubjectRepository.updateSchoolSubjects(schoolSubjects);
 

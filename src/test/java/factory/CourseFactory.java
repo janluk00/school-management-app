@@ -1,6 +1,7 @@
 package factory;
 
 import com.janluk.schoolmanagementapp.common.model.CourseEntity;
+import com.janluk.schoolmanagementapp.common.model.SchoolClassEntity;
 import com.janluk.schoolmanagementapp.common.model.vo.ClassType;
 import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
 import com.janluk.schoolmanagementapp.schoolClass.schema.AssignTeacherToCourseRequest;
@@ -26,6 +27,14 @@ public class CourseFactory {
         return CourseEntity.builder()
                 .subject(SchoolSubjectFactory.aSchoolSubjectEnglish())
                 .schoolClasses(new HashSet<>(Collections.singleton(SchoolClassFactory.aSchoolClassA1())))
+                .teacher(TeacherFactory.aTeacherWithUser(TEACHER_EMAIL))
+                .build();
+    }
+
+    public static CourseEntity aCourseForSchoolClass(SubjectType subjectType, SchoolClassEntity schoolClass) {
+        return CourseEntity.builder()
+                .subject(SchoolSubjectFactory.aSchoolSubject(subjectType))
+                .schoolClasses(new HashSet<>(Collections.singleton(schoolClass)))
                 .teacher(TeacherFactory.aTeacherWithUser(TEACHER_EMAIL))
                 .build();
     }

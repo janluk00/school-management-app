@@ -25,6 +25,12 @@ public class SchoolSubjectFactory {
                 .build();
     }
 
+    public static SchoolSubjectEntity aSchoolSubject(SubjectType subjectType) {
+        return SchoolSubjectEntity.builder()
+                .name(subjectType.name())
+                .build();
+    }
+
     public static SchoolSubjectEntity aSchoolSubjectWithMathCourse() {
         return SchoolSubjectEntity.builder()
                 .name(SubjectType.MATHEMATICS.name())

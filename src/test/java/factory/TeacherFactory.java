@@ -10,6 +10,7 @@ import com.janluk.schoolmanagementapp.teacher.schema.CreateTeacherRequest;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
 public class TeacherFactory {
 
@@ -71,6 +72,18 @@ public class TeacherFactory {
                 .user(UserFactory.aTeacherUser(email))
                 .courses(new HashSet<>(Collections.singleton(course)))
                 .taughtSubjects(new HashSet<>(Collections.singleton(course.getSubject())))
+                .build();
+    }
+
+    public static TeacherEntity aTeacherWithCourses(
+            String email,
+            Set<CourseEntity> courses,
+            Set<SchoolSubjectEntity> taughtSubjects
+    ) {
+        return TeacherEntity.builder()
+                .user(UserFactory.aTeacherUser(email))
+                .courses(courses)
+                .taughtSubjects(taughtSubjects)
                 .build();
     }
 

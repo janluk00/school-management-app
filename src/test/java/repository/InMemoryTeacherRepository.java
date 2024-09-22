@@ -93,17 +93,16 @@ public class InMemoryTeacherRepository implements TeacherRepository {
                 .flatMap(course -> course.getSchoolClasses().stream()
                         .flatMap(schoolClass -> schoolClass.getStudents().stream()
                                 .flatMap(student -> student.getGrades().stream()
-                                        .map(
-                                                grade -> (
-                                                        new AbstractMap.SimpleEntry<>(
-                                                                new StudentPerformanceKey(
-                                                                        schoolClass.getName(),
-                                                                        course.getSubject().getName()
-                                                                ),
-                                                                grade.getGrade().doubleValue()
-                                                        )
+                                        .filter(grade -> grade.getSubjectName().equals(course.getSubject().getName()))
+                                        .map(grade -> (
+                                                new AbstractMap.SimpleEntry<>(
+                                                        new StudentPerformanceKey(
+                                                                schoolClass.getName(),
+                                                                course.getSubject().getName()
+                                                        ),
+                                                        grade.getGrade().doubleValue()
                                                 )
-                                        )
+                                        ))
                                 )
                         )
                 )
@@ -115,14 +114,15 @@ public class InMemoryTeacherRepository implements TeacherRepository {
                 )
                 .entrySet().stream()
                 .map(entry -> new StudentPerformanceReportDTO(
-                        entry.getKey().schoolClass(),
-                        entry.getKey().schoolSubject(),
-                        entry.getValue()
-                    )
+                                entry.getKey().schoolClass(),
+                                entry.getKey().schoolSubject(),
+                                entry.getValue()
+                        )
                 )
                 .distinct()
                 .toList();
     }
+
 
     @Override
     public Page<TeacherEntity> getAll(Specification<TeacherEntity> spec, Pageable pageable) {
