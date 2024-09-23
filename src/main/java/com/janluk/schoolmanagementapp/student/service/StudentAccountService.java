@@ -3,7 +3,7 @@ package com.janluk.schoolmanagementapp.student.service;
 import com.janluk.schoolmanagementapp.common.repository.port.GradeRepository;
 import com.janluk.schoolmanagementapp.common.repository.port.SchoolSubjectRepository;
 import com.janluk.schoolmanagementapp.common.repository.port.StudentRepository;
-import com.janluk.schoolmanagementapp.common.schema.TaughtSubjectInCourseDTO;
+import com.janluk.schoolmanagementapp.common.schema.TaughtSubjectDTO;
 import com.janluk.schoolmanagementapp.student.mapper.StudentMapper;
 import com.janluk.schoolmanagementapp.student.schema.GradeDTO;
 import com.janluk.schoolmanagementapp.student.schema.SchoolSubjectGradePointAverageDTO;
@@ -37,9 +37,9 @@ public class StudentAccountService {
         return gradeRepository.getGradePointAveragesByStudent(email);
     }
 
-    public List<TaughtSubjectInCourseDTO> getAllCoursesByStudent(String email) {
+    public List<TaughtSubjectDTO> getAllCoursesByStudent(String email) {
         String studentSchoolClass = studentRepository.getStudentSchoolClassByEmail(email);
 
-        return schoolSubjectRepository.getAllTaughtSubjectsInCourse(studentSchoolClass);
+        return schoolSubjectRepository.getAllTaughtSubjectsInSchoolClass(studentSchoolClass);
     }
 }

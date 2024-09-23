@@ -32,7 +32,7 @@ class TeacherAccountController {
         return ResponseEntity.ok(teacherAccountService.getAllCoursesByTeacher(principal.getName()));
     }
 
-    @GetMapping(path = "/classes/{schoolClass}/students", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/school-classes/{schoolClass}/students", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<List<StudentPerformanceDTO>> getAllStudentsInCourse(
             @PathVariable ClassType schoolClass,
             @RequestParam SubjectType subject,

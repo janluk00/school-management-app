@@ -4,6 +4,7 @@ import com.janluk.schoolmanagementapp.common.criteria.CommonUserFilters;
 import com.janluk.schoolmanagementapp.common.email.EmailService;
 import com.janluk.schoolmanagementapp.common.exception.EmailAlreadyExistsException;
 import com.janluk.schoolmanagementapp.common.model.StudentEntity;
+import com.janluk.schoolmanagementapp.common.model.vo.ClassType;
 import com.janluk.schoolmanagementapp.common.repository.port.StudentRepository;
 import com.janluk.schoolmanagementapp.common.schema.StudentDTO;
 import com.janluk.schoolmanagementapp.common.user.RoleAdder;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -40,6 +42,10 @@ public class AdminStudentService {
 
     public StudentDTO getStudentById(UUID id) {
         return studentMapper.studentEntityToStudentDTO(studentRepository.getById(id));
+    }
+
+    public List<StudentDTO> getAllStudentsInClass(ClassType schoolClass) {
+        return studentMapper.studentEntitiesToStudentDTOs(studentRepository.getAllInSchoolClass(schoolClass.name()));
     }
 
     @Transactional

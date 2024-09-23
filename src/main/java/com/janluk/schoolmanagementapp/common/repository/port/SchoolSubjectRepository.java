@@ -2,7 +2,7 @@ package com.janluk.schoolmanagementapp.common.repository.port;
 
 import com.janluk.schoolmanagementapp.common.model.SchoolSubjectEntity;
 import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
-import com.janluk.schoolmanagementapp.common.schema.TaughtSubjectInCourseDTO;
+import com.janluk.schoolmanagementapp.common.schema.TaughtSubjectDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,5 +14,5 @@ public interface SchoolSubjectRepository {
 
     Page<SchoolSubjectEntity> getAll(Pageable pageable);
 
-    List<TaughtSubjectInCourseDTO> getAllTaughtSubjectsInCourse(String schoolClass);
+    List<TaughtSubjectDTO> getAllTaughtSubjectsInSchoolClass(String schoolClass);
 }

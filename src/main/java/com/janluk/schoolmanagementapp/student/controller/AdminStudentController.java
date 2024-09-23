@@ -1,6 +1,7 @@
 package com.janluk.schoolmanagementapp.student.controller;
 
 import com.janluk.schoolmanagementapp.common.criteria.CommonUserFilters;
+import com.janluk.schoolmanagementapp.common.model.vo.ClassType;
 import com.janluk.schoolmanagementapp.common.schema.StudentDTO;
 import com.janluk.schoolmanagementapp.student.schema.CreateStudentRequest;
 import com.janluk.schoolmanagementapp.student.service.AdminStudentService;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -34,6 +36,11 @@ class AdminStudentController {
     @GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<StudentDTO> getStudentById(@PathVariable UUID id) {
         return ResponseEntity.ok(adminStudentService.getStudentById(id));
+    }
+
+    @GetMapping(path = "/school-classes/{schoolClass}", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<StudentDTO>> getAllStudentsInClass(@PathVariable ClassType schoolClass) {
+        return ResponseEntity.ok(adminStudentService.getAllStudentsInClass(schoolClass));
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)

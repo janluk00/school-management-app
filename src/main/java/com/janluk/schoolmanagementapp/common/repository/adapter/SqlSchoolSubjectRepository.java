@@ -4,7 +4,7 @@ import com.janluk.schoolmanagementapp.common.exception.NoResultFoundException;
 import com.janluk.schoolmanagementapp.common.model.SchoolSubjectEntity;
 import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
 import com.janluk.schoolmanagementapp.common.repository.port.SchoolSubjectRepository;
-import com.janluk.schoolmanagementapp.common.schema.TaughtSubjectInCourseDTO;
+import com.janluk.schoolmanagementapp.common.schema.TaughtSubjectDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +35,7 @@ class SqlSchoolSubjectRepository implements SchoolSubjectRepository {
     }
 
     @Override
-    public List<TaughtSubjectInCourseDTO> getAllTaughtSubjectsInCourse(String schoolClass) {
+    public List<TaughtSubjectDTO> getAllTaughtSubjectsInSchoolClass(String schoolClass) {
         return jpaSchoolSubjectRepository.findTaughtSubjectsInClass(schoolClass);
     }
 }
@@ -44,9 +44,9 @@ class SqlSchoolSubjectRepository implements SchoolSubjectRepository {
 interface JpaSchoolSubjectRepository extends JpaRepository<SchoolSubjectEntity, String> {
 
     @Query(
-            value = "SELECT new com.janluk.schoolmanagementapp.common.schema.TaughtSubjectInCourseDTO(" +
+            value = "SELECT new com.janluk.schoolmanagementapp.common.schema.TaughtSubjectDTO(" +
                     "t.subject.name, t.teacher.user.name, t.teacher.user.surname) " +
                     "FROM SchoolClassEntity c JOIN c.teachers t WHERE c.name = ?1"
     )
-    List<TaughtSubjectInCourseDTO> findTaughtSubjectsInClass(String schoolClass);
+    List<TaughtSubjectDTO> findTaughtSubjectsInClass(String schoolClass);
 }

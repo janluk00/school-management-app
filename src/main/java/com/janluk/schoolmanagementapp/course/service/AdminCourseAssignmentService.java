@@ -1,4 +1,4 @@
-package com.janluk.schoolmanagementapp.schoolClass.service;
+package com.janluk.schoolmanagementapp.course.service;
 
 import com.janluk.schoolmanagementapp.common.exception.TeacherNotTeachingSubjectException;
 import com.janluk.schoolmanagementapp.common.model.SchoolClassEntity;
@@ -6,10 +6,10 @@ import com.janluk.schoolmanagementapp.common.model.SchoolSubjectEntity;
 import com.janluk.schoolmanagementapp.common.model.TeacherEntity;
 import com.janluk.schoolmanagementapp.common.model.CourseEntity;
 import com.janluk.schoolmanagementapp.common.repository.port.*;
-import com.janluk.schoolmanagementapp.schoolClass.exception.SchoolClassAlreadyHasTeacherOfSchoolSubjectException;
-import com.janluk.schoolmanagementapp.schoolClass.exception.CourseNotAssignedToSchoolClassException;
-import com.janluk.schoolmanagementapp.schoolClass.schema.AssignTeacherToCourseRequest;
-import com.janluk.schoolmanagementapp.schoolClass.schema.RemoveTeacherFromCourseRequest;
+import com.janluk.schoolmanagementapp.course.exception.SchoolClassAlreadyHasTeacherOfSchoolSubjectException;
+import com.janluk.schoolmanagementapp.course.exception.CourseNotAssignedToSchoolClassException;
+import com.janluk.schoolmanagementapp.course.schema.AssignTeacherToCourseRequest;
+import com.janluk.schoolmanagementapp.course.schema.RemoveTeacherFromCourseRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
