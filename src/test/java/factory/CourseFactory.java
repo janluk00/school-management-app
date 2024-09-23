@@ -4,8 +4,8 @@ import com.janluk.schoolmanagementapp.common.model.CourseEntity;
 import com.janluk.schoolmanagementapp.common.model.SchoolClassEntity;
 import com.janluk.schoolmanagementapp.common.model.vo.ClassType;
 import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
-import com.janluk.schoolmanagementapp.schoolClass.schema.AssignTeacherToCourseRequest;
-import com.janluk.schoolmanagementapp.schoolClass.schema.RemoveTeacherFromCourseRequest;
+import com.janluk.schoolmanagementapp.course.schema.AssignTeacherToCourseRequest;
+import com.janluk.schoolmanagementapp.course.schema.RemoveTeacherFromCourseRequest;
 
 import java.util.Collections;
 import java.util.HashSet;

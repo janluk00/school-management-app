@@ -1,4 +1,4 @@
-package unit.schoolClass;
+package unit.course;
 
 import com.janluk.schoolmanagementapp.common.exception.TeacherNotTeachingSubjectException;
 import com.janluk.schoolmanagementapp.common.model.SchoolClassEntity;
@@ -8,11 +8,11 @@ import com.janluk.schoolmanagementapp.common.model.CourseEntity;
 import com.janluk.schoolmanagementapp.common.model.vo.ClassType;
 import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
 import com.janluk.schoolmanagementapp.common.repository.port.SchoolSubjectRepository;
-import com.janluk.schoolmanagementapp.schoolClass.exception.SchoolClassAlreadyHasTeacherOfSchoolSubjectException;
-import com.janluk.schoolmanagementapp.schoolClass.exception.CourseNotAssignedToSchoolClassException;
-import com.janluk.schoolmanagementapp.schoolClass.schema.AssignTeacherToCourseRequest;
-import com.janluk.schoolmanagementapp.schoolClass.schema.RemoveTeacherFromCourseRequest;
-import com.janluk.schoolmanagementapp.schoolClass.service.AdminCourseAssignmentService;
+import com.janluk.schoolmanagementapp.course.exception.SchoolClassAlreadyHasTeacherOfSchoolSubjectException;
+import com.janluk.schoolmanagementapp.course.exception.CourseNotAssignedToSchoolClassException;
+import com.janluk.schoolmanagementapp.course.schema.AssignTeacherToCourseRequest;
+import com.janluk.schoolmanagementapp.course.schema.RemoveTeacherFromCourseRequest;
+import com.janluk.schoolmanagementapp.course.service.AdminCourseAssignmentService;
 import factory.SchoolClassFactory;
 import factory.CourseFactory;
 import org.junit.jupiter.api.AfterEach;

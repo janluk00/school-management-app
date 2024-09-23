@@ -4,6 +4,7 @@ import com.janluk.schoolmanagementapp.common.email.EmailService;
 import com.janluk.schoolmanagementapp.common.exception.EmailAlreadyExistsException;
 import com.janluk.schoolmanagementapp.common.exception.NoResultFoundException;
 import com.janluk.schoolmanagementapp.common.model.StudentEntity;
+import com.janluk.schoolmanagementapp.common.model.vo.ClassType;
 import com.janluk.schoolmanagementapp.common.repository.port.RoleRepository;
 import com.janluk.schoolmanagementapp.common.schema.StudentDTO;
 import com.janluk.schoolmanagementapp.common.user.RoleAdder;
@@ -20,6 +21,7 @@ import repository.InMemoryRoleRepository;
 import repository.InMemoryStudentRepository;
 import repository.InMemoryUserRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,6 +49,8 @@ class AdminStudentServiceTest {
     );
 
     private static final String STUDENT_EMAIL = "student@gmail.com";
+    private static final String STUDENT_EMAIL2 = "student2@gmail.com";
+    private static final String STUDENT_EMAIL3 = "student3@gmail.com";
     private static final UUID RANDOM_UUID = UUID.randomUUID();
 
     @AfterEach
@@ -106,6 +110,27 @@ class AdminStudentServiceTest {
 
         // then
         assertEquals(exception.getMessage(), "Email: student@gmail.com already in use.");
+    }
+
+    @Test
+    void shouldReturnAllStudentsInClass() {
+        // given
+        StudentEntity student1 = StudentFactory.aStudentWithUserInClass(STUDENT_EMAIL, ClassType.A1);
+        StudentEntity student2 = StudentFactory.aStudentWithUserInClass(STUDENT_EMAIL2, ClassType.A1);
+        StudentEntity student3 = StudentFactory.aStudentWithUserInClass(STUDENT_EMAIL3, ClassType.C2);
+        studentRepository.save(student1);
+        studentRepository.save(student2);
+        studentRepository.save(student3);
+
+        // when
+        List<StudentDTO> studentDTOS = adminStudentService.getAllStudentsInClass(ClassType.A1);
+
+        // then
+        assertThat(studentDTOS)
+                .hasSize(2)
+                .extracting(StudentDTO::id)
+                .containsOnly(student1.getId(), student2.getId())
+                .doesNotContain(student3.getId());
     }
 
     @Test

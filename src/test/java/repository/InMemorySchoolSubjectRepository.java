@@ -4,7 +4,7 @@ import com.janluk.schoolmanagementapp.common.exception.NoResultFoundException;
 import com.janluk.schoolmanagementapp.common.model.SchoolSubjectEntity;
 import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
 import com.janluk.schoolmanagementapp.common.repository.port.SchoolSubjectRepository;
-import com.janluk.schoolmanagementapp.common.schema.TaughtSubjectInCourseDTO;
+import com.janluk.schoolmanagementapp.common.schema.TaughtSubjectDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -50,12 +50,12 @@ public class InMemorySchoolSubjectRepository implements SchoolSubjectRepository 
     }
 
     @Override
-    public List<TaughtSubjectInCourseDTO> getAllTaughtSubjectsInCourse(String schoolClass) {
+    public List<TaughtSubjectDTO> getAllTaughtSubjectsInSchoolClass(String schoolClass) {
         return schoolSubjects.values().stream()
                 .flatMap(schoolSubject -> schoolSubject.getCourses().stream()
                         .flatMap(course -> course.getSchoolClasses().stream()
                                 .filter(sClass -> sClass.getName().equals(schoolClass))
-                                .map(schoolClass1 -> new TaughtSubjectInCourseDTO(
+                                .map(schoolClass1 -> new TaughtSubjectDTO(
                                         schoolSubject.getName(),
                                         course.getTeacher().getUser().getName(),
                                         course.getTeacher().getUser().getSurname())))
