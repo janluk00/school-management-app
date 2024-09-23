@@ -60,7 +60,7 @@ class AdminStudentServiceTest {
     }
 
     @Test
-    void cannotGetStudentById() {
+    void shouldThrowExceptionWhenStudentNotFoundById() {
         // given
         StudentEntity student = StudentFactory.aStudentWithUser(STUDENT_EMAIL);
         studentRepository.save(student);
@@ -79,7 +79,7 @@ class AdminStudentServiceTest {
     }
 
     @Test
-    void canGetStudentById() {
+    void shouldReturnStudentWhenFoundById() {
         // given
         StudentEntity student = StudentFactory.aStudentWithUser(STUDENT_EMAIL);
         UUID studentId = student.getId();
@@ -95,7 +95,7 @@ class AdminStudentServiceTest {
     }
 
     @Test
-    void cannotCreateStudentWithExistingEmail() {
+    void shouldThrowExceptionWhenCreatingStudentWithExistingEmail() {
         // given
         StudentEntity student = StudentFactory.aStudentWithUser(STUDENT_EMAIL);
         studentRepository.save(student);
@@ -113,7 +113,7 @@ class AdminStudentServiceTest {
     }
 
     @Test
-    void shouldReturnAllStudentsInClass() {
+    void shouldReturnAllStudentsInSpecifiedClass() {
         // given
         StudentEntity student1 = StudentFactory.aStudentWithUserInClass(STUDENT_EMAIL, ClassType.A1);
         StudentEntity student2 = StudentFactory.aStudentWithUserInClass(STUDENT_EMAIL2, ClassType.A1);
@@ -134,7 +134,7 @@ class AdminStudentServiceTest {
     }
 
     @Test
-    void canCreateStudent() {
+    void shouldCreateStudent() {
         // given
         CreateStudentRequest request = StudentFactory.aCreateStudentRequestWithEmail(STUDENT_EMAIL);
 

@@ -47,7 +47,7 @@ class AdminTeacherAssignmentServiceTest {
     }
 
     @Test
-    void cannotReassignSameTutor() {
+    void shouldThrowExceptionWhenReassigningSameTutorToTeacher() {
         // given
         TeacherEntity teacherTutor = TeacherFactory.aTeacherWithTutorOf(SCHOOL_CLASS_A1);
         SchoolClassRequest schoolClassA1 = SchoolClassFactory.aSchoolClassRequestA1();
@@ -68,7 +68,7 @@ class AdminTeacherAssignmentServiceTest {
     }
 
     @Test
-    void canAssignTutor() {
+    void shouldAssignTutorToTeacher() {
         // given
         TeacherEntity teacherWithoutTutor = TeacherFactory.aTeacherWithoutTutor();
         SchoolClassRequest schoolClassA1 = SchoolClassFactory.aSchoolClassRequestA1();
@@ -90,7 +90,7 @@ class AdminTeacherAssignmentServiceTest {
     }
 
     @Test
-    void cannotRemoveTutor() {
+    void shouldThrowExceptionWhenRemovingNonAssignedTutor() {
         // given
         TeacherEntity teacherWithoutTutor = TeacherFactory.aTeacherWithoutTutor();
         UUID teacherId = teacherWithoutTutor.getId();
@@ -110,7 +110,7 @@ class AdminTeacherAssignmentServiceTest {
     }
 
     @Test
-    void canRemoveTutor() {
+    void shouldRemoveTutorAssignmentFromTeacher() {
         // given
         TeacherEntity teacherTutor = TeacherFactory.aTeacherWithTutorOf(SCHOOL_CLASS_A1);
         UUID teacherTutorId = teacherTutor.getId();
@@ -128,7 +128,7 @@ class AdminTeacherAssignmentServiceTest {
     }
 
     @Test
-    void cannotReassignSameSubjectToTeacher() {
+    void shouldThrowExceptionWhenAssigningSameSubjectToTeacher() {
         // given
         TeacherEntity teacherWithSubject = TeacherFactory.aTeacherWithSubjectOf(SubjectType.MATHEMATICS);
         SchoolSubjectRequest mathSubjectRequest = SchoolSubjectFactory.aSchoolSubjectRequestMath();
@@ -149,7 +149,7 @@ class AdminTeacherAssignmentServiceTest {
     }
 
     @Test
-    void canAssignSubjectToTeacher() {
+    void shouldAssignSubjectToTeacher() {
         // given
         TeacherEntity teacherWithoutSubject = TeacherFactory.aTeacherWithoutSubject();
         SchoolSubjectRequest mathSubjectRequest = SchoolSubjectFactory.aSchoolSubjectRequestMath();
@@ -172,7 +172,7 @@ class AdminTeacherAssignmentServiceTest {
     }
 
     @Test
-    void cannotRemoveSubjectNotAssignedToTeacher() {
+    void shouldThrowExceptionWhenRemovingUnassignedSubjectFromTeacher() {
         // given
         TeacherEntity teacherWithoutSubject = TeacherFactory.aTeacherWithoutSubject();
         UUID teacherId = teacherWithoutSubject.getId();
@@ -192,7 +192,7 @@ class AdminTeacherAssignmentServiceTest {
     }
 
     @Test
-    void canRemoveSubjectFromTeacher() {
+    void shouldRemoveSubjectFromTeacher() {
         // given
         TeacherEntity teacherWithSubject = TeacherFactory.aTeacherWithSubjectOf(SubjectType.MATHEMATICS);
         UUID teacherIdWithSubject = teacherWithSubject.getId();

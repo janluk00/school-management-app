@@ -32,7 +32,7 @@ public class AdminSchoolSubjectServiceTest {
     );
 
     @Test
-    void shouldReturnPageOfSchoolSubjects() {
+    void shouldReturnPagedListOfSchoolSubjects() {
         // given
         Pageable pageable = PageRequest.of(1, 10);
 
@@ -45,7 +45,7 @@ public class AdminSchoolSubjectServiceTest {
     }
 
     @Test
-    void shouldReturnAllTaughtSubjectsInSchoolClass() {
+    void shouldReturnAllTaughtSubjectsForSpecificSchoolClass() {
         // given
         SchoolSubjectEntity mathSubject = SchoolSubjectFactory.aSchoolSubjectWithMathCourse();
         SchoolSubjectEntity englishSubject = SchoolSubjectFactory.aSchoolSubjectWithEnglishCourse();

@@ -60,7 +60,7 @@ class TeacherAccountServiceTest {
     }
 
     @Test
-    void shouldReturnTeacherCourse() {
+    void shouldReturnCoursesForTeacherWhenCoursesExist() {
         // given
         TeacherEntity teacher = TeacherFactory.aTeacherWithCourse(TEACHER_EMAIL);
         String teacherEmail = teacher.getUser().getEmail();
@@ -81,7 +81,7 @@ class TeacherAccountServiceTest {
     }
 
     @Test
-    void shouldReturnAllStudentsInCourse() {
+    void shouldReturnStudentsInCourseWhenTeacherIsAssigned() {
         // given
         TeacherEntity teacher = TeacherFactory.aTeacherWithCourse(TEACHER_EMAIL);
         StudentEntity student1 = StudentFactory.aStudentWithUserInClass("s1@gmail.com", ClassType.A1);
@@ -109,7 +109,7 @@ class TeacherAccountServiceTest {
     }
 
     @Test
-    void shouldNotReturnAllStudentsInCourse() {
+    void shouldThrowExceptionWhenTeacherNotAssignedToCourse() {
         // given
         TeacherEntity teacher = TeacherFactory.aTeacherWithCourse(TEACHER_EMAIL);
         String teacherEmail = teacher.getUser().getEmail();
@@ -134,7 +134,7 @@ class TeacherAccountServiceTest {
     }
 
     @Test
-    void cannotAddGradeIfTeacherHasNoCourses() {
+    void shouldThrowExceptionWhenAddingGradeAndTeacherHasNoCourses() {
         // given
         TeacherEntity teacher = TeacherFactory.aTeacherWithoutCourse(TEACHER_EMAIL);
         StudentEntity student = StudentFactory.aStudentInClass(ClassType.A1);
@@ -158,7 +158,7 @@ class TeacherAccountServiceTest {
     }
 
     @Test
-    void cannotAddGradeIfTeacherNotInCourse() {
+    void shouldThrowExceptionWhenAddingGradeToUnassignedCourse() {
         // given
         TeacherEntity teacher = TeacherFactory.aTeacherWithCourse(TEACHER_EMAIL);
         StudentEntity student = StudentFactory.aStudentInClass(ClassType.A1);
@@ -182,7 +182,7 @@ class TeacherAccountServiceTest {
     }
 
     @Test
-    void canAddGrade() {
+    void shouldAddGradeWhenTeacherIsAssignedToCourse() {
         // given
         TeacherEntity teacher = TeacherFactory.aTeacherWithCourse(TEACHER_EMAIL);
         StudentEntity student = StudentFactory.aStudentInClass(ClassType.A1);

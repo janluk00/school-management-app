@@ -56,7 +56,7 @@ class AdminTeacherServiceTest {
     }
 
     @Test
-    void cannotGetTeacherById() {
+    void shouldThrowExceptionWhenTeacherNotFoundById() {
         // given
         TeacherEntity teacher = TeacherFactory.aTeacherWithUser(TEACHER_EMAIL);
         teacherRepository.save(teacher);
@@ -75,7 +75,7 @@ class AdminTeacherServiceTest {
     }
 
     @Test
-    void canGetTeacherById() {
+    void shouldReturnTeacherWhenFoundById() {
         // given
         TeacherEntity teacher = TeacherFactory.aTeacherWithUser(TEACHER_EMAIL);
         UUID teacherId = teacher.getId();
@@ -91,7 +91,7 @@ class AdminTeacherServiceTest {
     }
 
     @Test
-    void shouldReturnTeacherCourse() {
+    void shouldReturnCoursesAssignedToTeacher() {
         // given
         TeacherEntity teacher = TeacherFactory.aTeacherWithCourse(TEACHER_EMAIL);
         UUID teacherId = teacher.getId();
@@ -112,7 +112,7 @@ class AdminTeacherServiceTest {
     }
 
     @Test
-    void cannotCreateTeacherWithExistingEmail() {
+    void shouldThrowExceptionWhenCreatingTeacherWithExistingEmail() {
         // given
         TeacherEntity teacher = TeacherFactory.aTeacherWithUser(TEACHER_EMAIL);
         teacherRepository.save(teacher);
@@ -131,7 +131,7 @@ class AdminTeacherServiceTest {
     }
 
     @Test
-    void canCreateTeacher() {
+    void shouldCreateTeacher() {
         // given
         CreateTeacherRequest request = TeacherFactory.aCreateTeacherRequestWithEmail(TEACHER_EMAIL);
 

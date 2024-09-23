@@ -28,7 +28,7 @@ public class TeacherStatisticsServiceTest {
     private static final String TEACHER_EMAIL = "teacher@gmail.com";
 
     @Test
-    void shouldReturnStudentsPerformanceReport() {
+    void shouldReturnPerformanceReportForTeacherWithMultipleCourses() {
         // given
         StudentEntity student1 = StudentFactory.aStudentWithUserAndGrade(STUDENT_EMAIL1, student1Grades());
         StudentEntity student2 = StudentFactory.aStudentWithUserAndGrade(STUDENT_EMAIL2, student2Grades());

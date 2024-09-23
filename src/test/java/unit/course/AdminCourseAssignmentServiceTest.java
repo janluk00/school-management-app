@@ -52,7 +52,7 @@ class AdminCourseAssignmentServiceTest {
     }
 
     @Test
-    void cannotAssignTeacherToCourseIfTeacherDoesNotTeachSubject() {
+    void shouldThrowExceptionWhenAssigningTeacherWhoDoesNotTeachSubject() {
         // given
         TeacherEntity teacher = TeacherFactory.aTeacherWithoutSubject();
         UUID teacherId = teacher.getId();
@@ -74,7 +74,7 @@ class AdminCourseAssignmentServiceTest {
     }
 
     @Test
-    void cannotAssignTeacherToCourseIfSchoolClassAlreadyHasTeacherForSubject() {
+    void shouldThrowExceptionWhenAssigningTeacherToSubjectAlreadyTaughtInClass() {
         // given
         SchoolClassEntity schoolClass = SchoolClassFactory.aSchoolClassA1WithCourse();
         CourseEntity course = schoolClass.getCourses().iterator().next();
@@ -103,7 +103,7 @@ class AdminCourseAssignmentServiceTest {
     }
 
     @Test
-    void canAssignTeacherToCourse() {
+    void shouldAssignTeacherToCourse() {
         // given
         SchoolClassEntity schoolClass = SchoolClassFactory.aSchoolClassA1WithCourse();
         CourseEntity course = schoolClass.getCourses().iterator().next();
@@ -127,13 +127,14 @@ class AdminCourseAssignmentServiceTest {
         ).orElse(null);
 
         assertThat(addedCourse).isNotNull();
+        assertEquals(addedCourse.getId(), UUID.fromString(courseId));
         assertEquals(addedCourse.getTeacher().getId(), teacherId);
         assertThat(addedCourse.getSchoolClasses()).contains(schoolClass);
         assertEquals(addedCourse.getSubject(), schoolSubject);
     }
 
     @Test
-    void cannotRemoveTeacherFromCourseIfNotAssignedToSchoolClass() {
+    void shouldThrowExceptionWhenRemovingTeacherNotAssignedToCourseInClass() {
         // given
         SchoolClassEntity schoolClass = SchoolClassFactory.aSchoolClassA1WithCourse();
         CourseEntity course = schoolClass.getCourses().iterator().next();
@@ -161,7 +162,7 @@ class AdminCourseAssignmentServiceTest {
     }
 
     @Test
-    void canRemoveTeacherFromCourse() {
+    void shouldRemoveTeacherFromAssignedCourseInClass() {
         // given
         SchoolClassEntity schoolClass = SchoolClassFactory.aSchoolClassA1WithCourse();
         CourseEntity course = schoolClass.getCourses().iterator().next();

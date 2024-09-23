@@ -23,7 +23,7 @@ public class AdminSchoolClassServiceTest {
     );
 
     @Test
-    void shouldReturnPageOfSchoolClasses() {
+    void shouldReturnPagedListOfSchoolClasses() {
         // given
         Pageable pageable = PageRequest.of(1, 10);
 

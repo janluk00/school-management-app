@@ -48,7 +48,7 @@ class StudentAccountServiceTest {
     }
 
     @Test
-    void shouldReturnGradesGroupedBySchoolSubjectForGivenStudentEmail() {
+    void shouldReturnGradesGroupedBySubjectForGivenStudent() {
         // given
         GradeEntity grade5 = GradeFactory.aGrade(5, SubjectType.MATHEMATICS.name());
         GradeEntity grade3 = GradeFactory.aGrade(3, SubjectType.MATHEMATICS.name());
@@ -75,7 +75,7 @@ class StudentAccountServiceTest {
     }
 
     @Test
-    void shouldReturnGPAGroupedBySchoolSubjectForGivenStudentEmail() {
+    void shouldReturnGradePointAverageGroupedBySubjectForGivenStudent() {
         // given
         GradeEntity grade5 = GradeFactory.aGrade(5, SubjectType.MATHEMATICS.name());
         GradeEntity grade3 = GradeFactory.aGrade(3, SubjectType.MATHEMATICS.name());
@@ -100,7 +100,7 @@ class StudentAccountServiceTest {
     }
 
     @Test
-    void shouldReturnStudentCourses() {
+    void shouldReturnAllCoursesForGivenStudent() {
         // given
         StudentEntity studentA1 = StudentFactory.aStudentWithUser(STUDENT_EMAIL);
         SchoolSubjectEntity mathA1 = SchoolSubjectFactory.aSchoolSubjectWithMathCourse();
