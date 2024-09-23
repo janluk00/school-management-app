@@ -61,7 +61,7 @@ class AdminTeacherController {
         return ResponseEntity.ok(adminTeacherAssignmentService.assignTutorToTeacher(id, request));
     }
 
-    @PostMapping(path = "/{id}/subjects", consumes = APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/{id}/school-subjects", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> assignSubjectToTeacher(
             @PathVariable UUID id,
             @RequestBody @Valid SchoolSubjectRequest request
@@ -74,7 +74,7 @@ class AdminTeacherController {
         return ResponseEntity.ok(adminTeacherAssignmentService.removeTutorAssignment(id));
     }
 
-    @DeleteMapping(path = "/{id}/subjects")
+    @DeleteMapping(path = "/{id}/school-subjects")
     public ResponseEntity<String> removeSubjectFromTeacher(@PathVariable UUID id, @RequestParam SubjectType subject) {
         return ResponseEntity.ok(adminTeacherAssignmentService.removeSubjectFromTeacher(id, subject));
     }

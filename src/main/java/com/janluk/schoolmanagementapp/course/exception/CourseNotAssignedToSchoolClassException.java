@@ -1,4 +1,4 @@
-package com.janluk.schoolmanagementapp.schoolClass.exception;
+package com.janluk.schoolmanagementapp.course.exception;
 
 public class CourseNotAssignedToSchoolClassException extends RuntimeException {
 

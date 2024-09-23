@@ -4,7 +4,7 @@ import com.janluk.schoolmanagementapp.common.model.GradeEntity;
 import com.janluk.schoolmanagementapp.common.model.SchoolSubjectEntity;
 import com.janluk.schoolmanagementapp.common.model.StudentEntity;
 import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
-import com.janluk.schoolmanagementapp.common.schema.TaughtSubjectInCourseDTO;
+import com.janluk.schoolmanagementapp.common.schema.TaughtSubjectDTO;
 import com.janluk.schoolmanagementapp.student.mapper.StudentMapper;
 import com.janluk.schoolmanagementapp.student.schema.SchoolSubjectGradePointAverageDTO;
 import com.janluk.schoolmanagementapp.student.schema.SchoolSubjectGradesDTO;
@@ -110,13 +110,13 @@ class StudentAccountServiceTest {
         schoolSubjectRepository.updateSchoolSubjects(schoolSubjects);
 
         // when
-        List<TaughtSubjectInCourseDTO> subjectInCourseDTOS = studentAccountService.getAllCoursesByStudent(STUDENT_EMAIL);
+        List<TaughtSubjectDTO> subjectInCourseDTOS = studentAccountService.getAllCoursesByStudent(STUDENT_EMAIL);
 
         // then
         assertThat(subjectInCourseDTOS)
                 .isNotEmpty()
                 .hasSize(2)
-                .extracting(TaughtSubjectInCourseDTO::subjectName)
+                .extracting(TaughtSubjectDTO::subjectName)
                 .containsOnly(SubjectType.MATHEMATICS.name(), SubjectType.ENGLISH.name());
     }
 }

@@ -1,6 +1,6 @@
 package com.janluk.schoolmanagementapp.student.controller;
 
-import com.janluk.schoolmanagementapp.common.schema.TaughtSubjectInCourseDTO;
+import com.janluk.schoolmanagementapp.common.schema.TaughtSubjectDTO;
 import com.janluk.schoolmanagementapp.student.schema.SchoolSubjectGradePointAverageDTO;
 import com.janluk.schoolmanagementapp.student.schema.SchoolSubjectGradesDTO;
 import com.janluk.schoolmanagementapp.student.service.StudentAccountService;
@@ -37,7 +37,7 @@ class StudentAccountController {
     }
 
     @GetMapping(path = "/courses", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TaughtSubjectInCourseDTO>> getAllCoursesByStudent(Principal principal) {
+    public ResponseEntity<List<TaughtSubjectDTO>> getAllCoursesByStudent(Principal principal) {
         return ResponseEntity.ok(studentAccountService.getAllCoursesByStudent(principal.getName()));
     }
 }
