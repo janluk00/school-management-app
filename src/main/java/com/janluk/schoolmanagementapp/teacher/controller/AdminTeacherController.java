@@ -24,7 +24,7 @@ import static org.springframework.http.MediaType.*;
 @RestController
 @RequestMapping("${api.prefix}/admin/teachers")
 @RequiredArgsConstructor
-class AdminTeacherController {
+public class AdminTeacherController {
 
     private final AdminTeacherService adminTeacherService;
     private final AdminTeacherAssignmentService adminTeacherAssignmentService;

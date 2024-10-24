@@ -17,7 +17,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-class SqlSchoolSubjectRepository implements SchoolSubjectRepository {
+public class SqlSchoolSubjectRepository implements SchoolSubjectRepository {
 
     private final JpaSchoolSubjectRepository jpaSchoolSubjectRepository;
 

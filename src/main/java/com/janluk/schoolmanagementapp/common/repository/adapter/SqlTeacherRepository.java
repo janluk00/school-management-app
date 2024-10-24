@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
-class SqlTeacherRepository implements TeacherRepository {
+public class SqlTeacherRepository implements TeacherRepository {
 
     private final JpaTeacherRepository jpaTeacherRepository;
 

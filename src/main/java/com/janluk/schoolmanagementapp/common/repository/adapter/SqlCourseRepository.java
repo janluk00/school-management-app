@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
-class SqlCourseRepository implements CourseRepository {
+public class SqlCourseRepository implements CourseRepository {
 
     private final JpaCourseRepository jpaCourseRepository;
 

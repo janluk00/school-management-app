@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
-class SqlGradeRepository implements GradeRepository {
+public class SqlGradeRepository implements GradeRepository {
 
     private final JpaGradeRepository jpaGradeRepository;
 

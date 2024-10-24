@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-class SqlSchoolClassRepository implements SchoolClassRepository {
+public class SqlSchoolClassRepository implements SchoolClassRepository {
 
     private final JpaSchoolClassRepository jpaSchoolClassRepository;
 
