@@ -74,4 +74,9 @@
         <sqlFile path="/sql/014-rename-teachers-in-course-table-to-courses.sql"
                  relativeToChangelogFile="true"/>
     </changeSet>
+
+    <changeSet id="015-example-init-db" author="janluk">
+        <sqlFile path="/sql/015-example-init-db.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
