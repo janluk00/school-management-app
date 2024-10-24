@@ -6,6 +6,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5433/school-db
     username: school_admin
+# demonstration purpose ||| don't do that
     password: password:)
     driver-class-name: org.postgresql.Driver
 

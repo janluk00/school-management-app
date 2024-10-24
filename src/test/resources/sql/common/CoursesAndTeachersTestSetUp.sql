@@ -1,5 +1,5 @@
 insert into school_users(id, name, surname, email, password, birth_date, password_confirmation_token)
-values ('37cb3950-1f36-4dd9-9d73-5b9ffe47aa19', 'Thanos', 'Thanos', 'thanos@gmail.com',
+values ('ebb6885d-4c02-498e-978f-53c8df4d78e8', 'Admin', 'Admin', 'admin@gmail.com',
         '{bcrypt}$2a$10$sf7v/Xt0qh78KPCBeRunjOEGdZIPOl9WIh1B6OSCJi.Zb5.aczMGG', '2000-01-01', null),
        ('d445aba7-56f0-4033-b8df-099f5de08eec', 'Gary', 'Oldman', 'oldman@gmail.com',
         '{bcrypt}$2a$10$sf7v/Xt0qh78KPCBeRunjOEGdZIPOl9WIh1B6OSCJi.Zb5.aczMGG', '1958-03-21', null),
@@ -14,7 +14,7 @@ values ('097eaa63-9995-45cb-be07-9f34401c5808', 'd445aba7-56f0-4033-b8df-099f5de
        ('7b236ff9-e134-420e-bce5-b79da1bb419d', '09b89dd4-4cd0-409a-9525-c192754ca772', 'A1');
 
 insert into school_users_roles(school_user_id, role)
-values ('37cb3950-1f36-4dd9-9d73-5b9ffe47aa19', 'ROLE_ADMIN'),
+values ('ebb6885d-4c02-498e-978f-53c8df4d78e8', 'ROLE_ADMIN'),
        ('d445aba7-56f0-4033-b8df-099f5de08eec', 'ROLE_TEACHER'),
        ('63425de7-ad85-4abb-a44b-bba846b07759', 'ROLE_TEACHER'),
        ('09b89dd4-4cd0-409a-9525-c192754ca772', 'ROLE_TEACHER');
