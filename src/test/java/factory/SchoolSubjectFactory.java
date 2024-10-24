@@ -13,6 +13,10 @@ public class SchoolSubjectFactory {
         return new SchoolSubjectRequest(SubjectType.MATHEMATICS);
     }
 
+    public static SchoolSubjectRequest aSchoolBiologyRequestMath() {
+        return new SchoolSubjectRequest(SubjectType.BIOLOGY);
+    }
+
     public static SchoolSubjectEntity aSchoolSubjectMath() {
         return SchoolSubjectEntity.builder()
                 .name(SubjectType.MATHEMATICS.name())

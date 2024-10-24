@@ -23,7 +23,7 @@ public class OperationHelper {
             Join<? extends RoleAssignable, UserEntity> userJoin,
             CriteriaBuilder cb
     ) {
-        Predicate predicate = cb.like(userJoin.get(column), "%" + value + "%");
+        Predicate predicate = cb.like(cb.lower(userJoin.get(column)), "%" + value.toLowerCase() + "%");
 
         predicates.add(predicate);
     }

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +17,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-class SqlSchoolSubjectRepository implements SchoolSubjectRepository {
+public class SqlSchoolSubjectRepository implements SchoolSubjectRepository {
 
     private final JpaSchoolSubjectRepository jpaSchoolSubjectRepository;
 
@@ -41,12 +42,12 @@ class SqlSchoolSubjectRepository implements SchoolSubjectRepository {
 }
 
 @Repository
-interface JpaSchoolSubjectRepository extends JpaRepository<SchoolSubjectEntity, String> {
+interface JpaSchoolSubjectRepository extends JpaRepository<SchoolSubjectEntity, String>, JpaSpecificationExecutor<SchoolSubjectEntity> {
 
     @Query(
             value = "SELECT new com.janluk.schoolmanagementapp.common.schema.TaughtSubjectDTO(" +
-                    "t.subject.name, t.teacher.user.name, t.teacher.user.surname) " +
-                    "FROM SchoolClassEntity c JOIN c.teachers t WHERE c.name = ?1"
+                    "c.subject.name, c.teacher.user.name, c.teacher.user.surname) " +
+                    "FROM SchoolClassEntity sc JOIN sc.courses c WHERE sc.name = ?1"
     )
     List<TaughtSubjectDTO> findTaughtSubjectsInClass(String schoolClass);
 }

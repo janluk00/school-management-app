@@ -4,6 +4,7 @@ import com.janluk.schoolmanagementapp.common.criteria.CommonUserFilters;
 import com.janluk.schoolmanagementapp.common.model.vo.ClassType;
 import com.janluk.schoolmanagementapp.common.schema.StudentDTO;
 import com.janluk.schoolmanagementapp.student.schema.CreateStudentRequest;
+import com.janluk.schoolmanagementapp.student.schema.CreateStudentResponse;
 import com.janluk.schoolmanagementapp.student.service.AdminStudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping("${api.prefix}/admin/students")
 @RequiredArgsConstructor
-class AdminStudentController {
+public class AdminStudentController {
 
     private final AdminStudentService adminStudentService;
 
@@ -44,7 +45,7 @@ class AdminStudentController {
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createStudent(@RequestBody @Valid CreateStudentRequest request) {
+    public ResponseEntity<CreateStudentResponse> createStudent(@RequestBody @Valid CreateStudentRequest request) {
         return ResponseEntity.status(CREATED).body(adminStudentService.createStudent(request));
     }
 }

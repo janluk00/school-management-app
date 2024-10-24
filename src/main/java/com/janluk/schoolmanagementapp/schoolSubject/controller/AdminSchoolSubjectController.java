@@ -17,7 +17,7 @@ import static org.springframework.http.MediaType.*;
 @RestController
 @RequestMapping("${api.prefix}/admin/school-subjects")
 @RequiredArgsConstructor
-class AdminSchoolSubjectController {
+public class AdminSchoolSubjectController {
 
     private final AdminSchoolSubjectService adminSchoolSubjectService;
 
@@ -26,7 +26,7 @@ class AdminSchoolSubjectController {
         return ResponseEntity.ok(adminSchoolSubjectService.getAllSchoolSubjects(pageable));
     }
 
-    @GetMapping(path = "/school-classes/{schoolClass}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/school-classes/{schoolClass}/courses", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TaughtSubjectDTO>> getAllCoursesForClass(@PathVariable ClassType schoolClass) {
         return ResponseEntity.ok(adminSchoolSubjectService.getAllTaughtSubjectsInClass(schoolClass));
     }

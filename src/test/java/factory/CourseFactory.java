@@ -39,10 +39,10 @@ public class CourseFactory {
                 .build();
     }
 
-    public static AssignTeacherToCourseRequest anAssignTeacherToCourseRequest(UUID teacherId) {
+    public static AssignTeacherToCourseRequest aAssignTeacherToCourseRequest(UUID teacherId, SubjectType subject) {
         return new AssignTeacherToCourseRequest(
                 ClassType.A1,
-                SubjectType.MATHEMATICS,
+                subject,
                 teacherId
         );
     }

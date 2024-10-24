@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-class SqlRoleRepository implements RoleRepository{
+public class SqlRoleRepository implements RoleRepository{
 
     private final JpaRoleRepository jpaRoleRepository;
 

@@ -12,6 +12,7 @@ import com.janluk.schoolmanagementapp.common.user.UserValidator;
 import com.janluk.schoolmanagementapp.student.criteria.StudentSearcher;
 import com.janluk.schoolmanagementapp.student.mapper.StudentMapper;
 import com.janluk.schoolmanagementapp.student.schema.CreateStudentRequest;
+import com.janluk.schoolmanagementapp.student.schema.CreateStudentResponse;
 import com.janluk.schoolmanagementapp.student.service.AdminStudentService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -139,10 +140,10 @@ class AdminStudentServiceTest {
         CreateStudentRequest request = StudentFactory.aCreateStudentRequestWithEmail(STUDENT_EMAIL);
 
         // when
-        String studentId = adminStudentService.createStudent(request);
+        CreateStudentResponse response = adminStudentService.createStudent(request);
 
         // then
-        StudentEntity savedStudent = studentRepository.getById(UUID.fromString(studentId));
+        StudentEntity savedStudent = studentRepository.getById(UUID.fromString(response.studentId()));
         assertThat(savedStudent)
                 .isNotNull()
                 .hasFieldOrPropertyWithValue("user.email", STUDENT_EMAIL)

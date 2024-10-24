@@ -11,6 +11,7 @@ import com.janluk.schoolmanagementapp.common.user.UserValidator;
 import com.janluk.schoolmanagementapp.teacher.criteria.TeacherSearcher;
 import com.janluk.schoolmanagementapp.teacher.mapper.TeacherMapper;
 import com.janluk.schoolmanagementapp.teacher.schema.CreateTeacherRequest;
+import com.janluk.schoolmanagementapp.teacher.schema.CreateTeacherResponse;
 import com.janluk.schoolmanagementapp.teacher.schema.TeacherDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +50,7 @@ public class AdminTeacherService {
     }
 
     @Transactional
-    public String createTeacher(CreateTeacherRequest request) {
+    public CreateTeacherResponse createTeacher(CreateTeacherRequest request) {
         if (!userValidator.isEmailUnique(request.user().email())) {
             log.warn("Email: %s already in use.".formatted(request.user().email()));
             throw new EmailAlreadyExistsException(request.user().email());
@@ -63,6 +64,6 @@ public class AdminTeacherService {
 
         emailService.sendNotification(teacher.getUser().getEmail(), teacher.getUser().getPasswordConfirmationToken());
 
-        return teacherId;
+        return new CreateTeacherResponse(teacherId);
     }
 }
