@@ -46,11 +46,6 @@ class SqlStudentRepository implements StudentRepository {
     }
 
     @Override
-    public List<StudentEntity> getAllInSchoolClassWithGrades(String schoolClass) {
-        return jpaStudentRepository.findAllInSchoolClassWithGrades(schoolClass);
-    }
-
-    @Override
     public Page<StudentEntity> getAll(Specification<StudentEntity> spec, Pageable pageable) {
         return jpaStudentRepository.findAll(spec, pageable);
     }
@@ -70,12 +65,6 @@ interface JpaStudentRepository extends JpaRepository<StudentEntity, UUID>, JpaSp
             value = "SELECT s FROM StudentEntity s JOIN s.user WHERE s.schoolClass.name = ?1"
     )
     List<StudentEntity> findAllInSchoolClass(String schoolClass);
-
-    @Query(
-            value = "SELECT s FROM StudentEntity s " +
-                    "JOIN FETCH s.user LEFT JOIN FETCH s.grades WHERE s.schoolClass.name = ?1"
-    )
-    List<StudentEntity> findAllInSchoolClassWithGrades(String schoolClass);
 
     @Query(
             value = "SELECT s.schoolClass.name FROM StudentEntity s JOIN s.user u WHERE u.email = ?1"

@@ -14,7 +14,7 @@ import com.janluk.schoolmanagementapp.common.schema.CourseDTO;
 import com.janluk.schoolmanagementapp.student.mapper.StudentMapper;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherNotInCourseException;
 import com.janluk.schoolmanagementapp.teacher.schema.AddGradeRequest;
-import com.janluk.schoolmanagementapp.teacher.schema.StudentPerformanceDTO;
+import com.janluk.schoolmanagementapp.teacher.schema.CreateGradeResponse;
 import com.janluk.schoolmanagementapp.teacher.service.TeacherAccountService;
 import factory.StudentFactory;
 import factory.TeacherFactory;
@@ -81,59 +81,6 @@ class TeacherAccountServiceTest {
     }
 
     @Test
-    void shouldReturnStudentsInCourseWhenTeacherIsAssigned() {
-        // given
-        TeacherEntity teacher = TeacherFactory.aTeacherWithCourse(TEACHER_EMAIL);
-        StudentEntity student1 = StudentFactory.aStudentWithUserInClass("s1@gmail.com", ClassType.A1);
-        StudentEntity student2 = StudentFactory.aStudentWithUserInClass("s2@gmail.com", ClassType.A1);
-        StudentEntity student3 = StudentFactory.aStudentWithUserInClass("s3@gmail.com", ClassType.B3);
-        String teacherEmail = teacher.getUser().getEmail();
-        teacherRepository.save(teacher);
-        studentRepository.save(student1);
-        studentRepository.save(student2);
-        studentRepository.save(student3);
-
-        // when
-        List<StudentPerformanceDTO> studentPerformanceDTOS = teacherAccountService.getAllStudentsInCourse(
-                ClassType.A1,
-                SubjectType.MATHEMATICS,
-                teacherEmail
-        );
-
-        // then
-        assertThat(studentPerformanceDTOS)
-                .hasSize(2)
-                .extracting(StudentPerformanceDTO::id)
-                .containsOnly(student1.getId(), student2.getId())
-                .doesNotHaveDuplicates();
-    }
-
-    @Test
-    void shouldThrowExceptionWhenTeacherNotAssignedToCourse() {
-        // given
-        TeacherEntity teacher = TeacherFactory.aTeacherWithCourse(TEACHER_EMAIL);
-        String teacherEmail = teacher.getUser().getEmail();
-        teacherRepository.save(teacher);
-
-        // when
-        TeacherNotInCourseException teacherNotInCourseException = assertThrows(
-                TeacherNotInCourseException.class,
-                () -> teacherAccountService.getAllStudentsInCourse(
-                        ClassType.A2,
-                        SubjectType.MATHEMATICS,
-                        teacherEmail
-                )
-        );
-
-        // then
-        assertEquals(
-                "Teacher with email teacher@gmail.com is not assigned " +
-                        "to course with school subject MATHEMATICS and school class A2.",
-                teacherNotInCourseException.getMessage()
-        );
-    }
-
-    @Test
     void shouldThrowExceptionWhenAddingGradeAndTeacherHasNoCourses() {
         // given
         TeacherEntity teacher = TeacherFactory.aTeacherWithoutCourse(TEACHER_EMAIL);
@@ -192,7 +139,8 @@ class TeacherAccountServiceTest {
         AddGradeRequest request = new AddGradeRequest(GradeType.B, SubjectType.MATHEMATICS);
 
         // when
-        String gradeId = teacherAccountService.addGrade(studentId, request, TEACHER_EMAIL);
+        CreateGradeResponse response = teacherAccountService.addGrade(studentId, request, TEACHER_EMAIL);
+        String gradeId = response.gradeId();
 
         // then
         StudentEntity updatedStudent = studentRepository.getById(studentId);

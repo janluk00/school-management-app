@@ -11,7 +11,9 @@ import com.janluk.schoolmanagementapp.common.repository.port.SchoolSubjectReposi
 import com.janluk.schoolmanagementapp.course.exception.SchoolClassAlreadyHasTeacherOfSchoolSubjectException;
 import com.janluk.schoolmanagementapp.course.exception.CourseNotAssignedToSchoolClassException;
 import com.janluk.schoolmanagementapp.course.schema.AssignTeacherToCourseRequest;
+import com.janluk.schoolmanagementapp.course.schema.AssignTeacherToCourseResponse;
 import com.janluk.schoolmanagementapp.course.schema.RemoveTeacherFromCourseRequest;
+import com.janluk.schoolmanagementapp.course.schema.RemoveTeacherFromCourseResponse;
 import com.janluk.schoolmanagementapp.course.service.AdminCourseAssignmentService;
 import factory.SchoolClassFactory;
 import factory.CourseFactory;
@@ -58,7 +60,10 @@ class AdminCourseAssignmentServiceTest {
         UUID teacherId = teacher.getId();
         teacherRepository.save(teacher);
 
-        AssignTeacherToCourseRequest request = CourseFactory.anAssignTeacherToCourseRequest(teacherId);
+        AssignTeacherToCourseRequest request = CourseFactory.aAssignTeacherToCourseRequest(
+                teacherId,
+                SubjectType.MATHEMATICS
+        );
 
         // when
         TeacherNotTeachingSubjectException exception = assertThrows(
@@ -85,8 +90,9 @@ class AdminCourseAssignmentServiceTest {
         teacherRepository.save(teacher);
         courseRepository.save(course);
 
-        AssignTeacherToCourseRequest request = CourseFactory.anAssignTeacherToCourseRequest(
-                teacherId
+        AssignTeacherToCourseRequest request = CourseFactory.aAssignTeacherToCourseRequest(
+                teacherId,
+                SubjectType.MATHEMATICS
         );
 
         // when
@@ -113,12 +119,14 @@ class AdminCourseAssignmentServiceTest {
 
         teacherRepository.save(teacher);
 
-        AssignTeacherToCourseRequest request = CourseFactory.anAssignTeacherToCourseRequest(
-                teacherId
+        AssignTeacherToCourseRequest request = CourseFactory.aAssignTeacherToCourseRequest(
+                teacherId,
+                SubjectType.MATHEMATICS
         );
 
         // when
-        String courseId = adminCourseAssignmentService.assignTeacherToCourse(request);
+        AssignTeacherToCourseResponse response = adminCourseAssignmentService.assignTeacherToCourse(request);
+        String courseId = response.courseId();
 
         // then
         CourseEntity addedCourse = courseRepository.getByTeacherAndSchoolSubject(
@@ -178,7 +186,8 @@ class AdminCourseAssignmentServiceTest {
         );
 
         // when
-        UUID courseId = UUID.fromString(adminCourseAssignmentService.removeTeacherFromCourse(request));
+        RemoveTeacherFromCourseResponse response = adminCourseAssignmentService.removeTeacherFromCourse(request);
+        UUID courseId = UUID.fromString(response.courseId());
 
         // then
         CourseEntity addedCourse = courseRepository.getById(courseId);

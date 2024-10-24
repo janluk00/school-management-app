@@ -5,8 +5,7 @@ import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
 import com.janluk.schoolmanagementapp.common.schema.CourseDTO;
 import com.janluk.schoolmanagementapp.common.schema.SchoolClassRequest;
 import com.janluk.schoolmanagementapp.common.schema.SchoolSubjectRequest;
-import com.janluk.schoolmanagementapp.teacher.schema.CreateTeacherRequest;
-import com.janluk.schoolmanagementapp.teacher.schema.TeacherDTO;
+import com.janluk.schoolmanagementapp.teacher.schema.*;
 import com.janluk.schoolmanagementapp.teacher.service.AdminTeacherAssignmentService;
 import com.janluk.schoolmanagementapp.teacher.service.AdminTeacherService;
 import jakarta.validation.Valid;
@@ -49,12 +48,12 @@ class AdminTeacherController {
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createTeacher(@RequestBody @Valid CreateTeacherRequest request) {
+    public ResponseEntity<CreateTeacherResponse> createTeacher(@RequestBody @Valid CreateTeacherRequest request) {
         return ResponseEntity.status(CREATED).body(adminTeacherService.createTeacher(request));
     }
 
     @PostMapping(path = "/{id}/tutor", consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> assignTutorToTeacher(
+    public ResponseEntity<AssignTutorToTeacherResponse> assignTutorToTeacher(
             @PathVariable UUID id,
             @RequestBody @Valid SchoolClassRequest request
     ) {
@@ -62,20 +61,23 @@ class AdminTeacherController {
     }
 
     @PostMapping(path = "/{id}/school-subjects", consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> assignSubjectToTeacher(
+    public ResponseEntity<AssignSubjectToTeacherResponse> assignSubjectToTeacher(
             @PathVariable UUID id,
             @RequestBody @Valid SchoolSubjectRequest request
     ) {
-        return ResponseEntity.ok(adminTeacherAssignmentService.assignSubjectToTutor(id, request));
+        return ResponseEntity.ok(adminTeacherAssignmentService.assignSubjectToTeacher(id, request));
     }
 
     @DeleteMapping(path = "/{id}/tutor")
-    public ResponseEntity<String> removeTutorAssignment(@PathVariable UUID id) {
+    public ResponseEntity<RemoveTutorAssignmentResponse> removeTutorAssignment(@PathVariable UUID id) {
         return ResponseEntity.ok(adminTeacherAssignmentService.removeTutorAssignment(id));
     }
 
     @DeleteMapping(path = "/{id}/school-subjects")
-    public ResponseEntity<String> removeSubjectFromTeacher(@PathVariable UUID id, @RequestParam SubjectType subject) {
+    public ResponseEntity<RemoveSubjectFromTeacherResponse> removeSubjectFromTeacher(
+            @PathVariable UUID id,
+            @RequestParam SubjectType subject
+    ) {
         return ResponseEntity.ok(adminTeacherAssignmentService.removeSubjectFromTeacher(id, subject));
     }
 }

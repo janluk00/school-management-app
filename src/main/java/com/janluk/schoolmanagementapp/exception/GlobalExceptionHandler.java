@@ -27,7 +27,10 @@ class GlobalExceptionHandler {
             value = {
                     DatePatternException.class,
                     TeacherAlreadyTeachingSubjectException.class,
-                    HttpMessageNotReadableException.class
+                    HttpMessageNotReadableException.class,
+                    TeacherNotTeachingSubjectException.class,
+                    TeacherNotInCourseException.class,
+                    TeacherNotAssignedAsTutorException.class
             }
     )
     public ResponseEntity<ErrorResponse> handleBadRequestException(RuntimeException exception) {
@@ -63,24 +66,6 @@ class GlobalExceptionHandler {
                                 .statusCode(HttpStatus.UNAUTHORIZED.value())
                                 .httpStatus(HttpStatus.UNAUTHORIZED)
                                 .message(AUTHENTICATION_MESSAGE)
-                                .build()
-                );
-    }
-
-    @ExceptionHandler(
-            value = {
-                    TeacherNotTeachingSubjectException.class,
-                    TeacherNotInCourseException.class,
-                    TeacherNotAssignedAsTutorException.class
-            }
-    )
-    public ResponseEntity<ErrorResponse> handleForbiddenException(RuntimeException exception) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(
-                        ErrorResponse.builder()
-                                .statusCode(HttpStatus.FORBIDDEN.value())
-                                .httpStatus(HttpStatus.FORBIDDEN)
-                                .message(exception.getMessage())
                                 .build()
                 );
     }

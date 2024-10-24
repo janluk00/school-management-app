@@ -1,7 +1,9 @@
 package com.janluk.schoolmanagementapp.course.controller;
 
 import com.janluk.schoolmanagementapp.course.schema.AssignTeacherToCourseRequest;
+import com.janluk.schoolmanagementapp.course.schema.AssignTeacherToCourseResponse;
 import com.janluk.schoolmanagementapp.course.schema.RemoveTeacherFromCourseRequest;
+import com.janluk.schoolmanagementapp.course.schema.RemoveTeacherFromCourseResponse;
 import com.janluk.schoolmanagementapp.course.service.AdminCourseAssignmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +21,16 @@ public class AdminCourseController {
     private final AdminCourseAssignmentService adminCourseAssignmentService;
 
     @PostMapping(path = "", consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> assignTeacherToCourse(@RequestBody @Valid AssignTeacherToCourseRequest request) {
+    public ResponseEntity<AssignTeacherToCourseResponse> assignTeacherToCourse(
+            @RequestBody @Valid AssignTeacherToCourseRequest request
+    ) {
         return ResponseEntity.ok(adminCourseAssignmentService.assignTeacherToCourse(request));
     }
 
     @DeleteMapping(path = "", consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> removeTeacherFromCourse(@RequestBody @Valid RemoveTeacherFromCourseRequest request) {
+    public ResponseEntity<RemoveTeacherFromCourseResponse> removeTeacherFromCourse(
+            @RequestBody @Valid RemoveTeacherFromCourseRequest request
+    ) {
         return ResponseEntity.ok(adminCourseAssignmentService.removeTeacherFromCourse(request));
     }
 }

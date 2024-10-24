@@ -2,8 +2,6 @@ package com.janluk.schoolmanagementapp.teacher.service;
 
 import com.janluk.schoolmanagementapp.common.mapper.GradeMapper;
 import com.janluk.schoolmanagementapp.common.model.*;
-import com.janluk.schoolmanagementapp.common.model.vo.ClassType;
-import com.janluk.schoolmanagementapp.common.model.vo.SubjectType;
 import com.janluk.schoolmanagementapp.common.repository.port.SchoolClassRepository;
 import com.janluk.schoolmanagementapp.common.repository.port.SchoolSubjectRepository;
 import com.janluk.schoolmanagementapp.common.repository.port.StudentRepository;
@@ -12,7 +10,7 @@ import com.janluk.schoolmanagementapp.common.schema.CourseDTO;
 import com.janluk.schoolmanagementapp.student.mapper.StudentMapper;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherNotInCourseException;
 import com.janluk.schoolmanagementapp.teacher.schema.AddGradeRequest;
-import com.janluk.schoolmanagementapp.teacher.schema.StudentPerformanceDTO;
+import com.janluk.schoolmanagementapp.teacher.schema.CreateGradeResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,28 +35,8 @@ public class TeacherAccountService {
         return teacherRepository.getAllCoursesByTeacher(email);
     }
 
-    public List<StudentPerformanceDTO> getAllStudentsInCourse(
-            ClassType schoolClass,
-            SubjectType schoolSubject,
-            String email
-    ) {
-        SchoolClassEntity taughtClass = schoolClassRepository.getById(schoolClass);
-        TeacherEntity teacher = teacherRepository.getByEmail(email);
-        SchoolSubjectEntity taughtSubject = schoolSubjectRepository.getById(schoolSubject);
-
-        if (!doesSchoolClassCourseInSchoolSubjectExists(teacher, taughtClass, taughtSubject)) {
-            log.warn("Teacher with email %s is not assigned to course with school subject %s and school class %s."
-                    .formatted(email, taughtSubject.getName(), taughtClass.getName()));
-            throw new TeacherNotInCourseException(email, taughtSubject.getName(), taughtClass.getName());
-        }
-
-        return studentMapper.studentEntitiesToStudentPerformanceDTOs(
-                studentRepository.getAllInSchoolClassWithGrades(taughtClass.getName())
-        );
-    }
-
     @Transactional
-    public String addGrade(UUID studentId, AddGradeRequest request, String email) {
+    public CreateGradeResponse addGrade(UUID studentId, AddGradeRequest request, String email) {
         StudentEntity studentEntity = studentRepository.getById(studentId);
         SchoolSubjectEntity schoolSubject = schoolSubjectRepository.getById(request.subjectType());
         SchoolClassEntity schoolClass = studentEntity.getSchoolClass();
@@ -78,8 +56,9 @@ public class TeacherAccountService {
         );
 
         studentEntity.addGrade(grade);
+        String gradeId = grade.getId().toString();
 
-        return grade.getId().toString();
+        return new CreateGradeResponse(gradeId);
     }
 
     private boolean doesSchoolClassCourseInSchoolSubjectExists(

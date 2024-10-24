@@ -11,6 +11,10 @@ import com.janluk.schoolmanagementapp.common.schema.SchoolSubjectRequest;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherAlreadyTeachingSubjectException;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherIsAlreadyTutorException;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherNotAssignedAsTutorException;
+import com.janluk.schoolmanagementapp.teacher.schema.AssignSubjectToTeacherResponse;
+import com.janluk.schoolmanagementapp.teacher.schema.AssignTutorToTeacherResponse;
+import com.janluk.schoolmanagementapp.teacher.schema.RemoveSubjectFromTeacherResponse;
+import com.janluk.schoolmanagementapp.teacher.schema.RemoveTutorAssignmentResponse;
 import com.janluk.schoolmanagementapp.teacher.service.AdminTeacherAssignmentService;
 import factory.SchoolClassFactory;
 import factory.SchoolSubjectFactory;
@@ -76,9 +80,11 @@ class AdminTeacherAssignmentServiceTest {
         teacherRepository.save(teacherWithoutTutor);
 
         // when
-        UUID tutorTeacherId = UUID.fromString(
-                adminTeacherAssignmentService.assignTutorToTeacher(teacherId, schoolClassA1)
+        AssignTutorToTeacherResponse response = adminTeacherAssignmentService.assignTutorToTeacher(
+                teacherId,
+                schoolClassA1
         );
+        UUID tutorTeacherId = UUID.fromString(response.teacherId());
 
         // then
         TeacherEntity teacher = teacherRepository.getById(tutorTeacherId);
@@ -117,7 +123,8 @@ class AdminTeacherAssignmentServiceTest {
         teacherRepository.save(teacherTutor);
 
         // when
-        UUID teacherWithoutTutorId = UUID.fromString(adminTeacherAssignmentService.removeTutorAssignment(teacherTutorId));
+        RemoveTutorAssignmentResponse response = adminTeacherAssignmentService.removeTutorAssignment(teacherTutorId);
+        UUID teacherWithoutTutorId = UUID.fromString(response.teacherId());
 
         // then
         TeacherEntity teacherWithoutTutor = teacherRepository.getById(teacherWithoutTutorId);
@@ -138,7 +145,7 @@ class AdminTeacherAssignmentServiceTest {
         // when
         TeacherAlreadyTeachingSubjectException teacherAlreadyTeachingSubjectException = assertThrows(
                 TeacherAlreadyTeachingSubjectException.class,
-                () -> adminTeacherAssignmentService.assignSubjectToTutor(teacherId, mathSubjectRequest)
+                () -> adminTeacherAssignmentService.assignSubjectToTeacher(teacherId, mathSubjectRequest)
         );
 
         // then
@@ -157,9 +164,11 @@ class AdminTeacherAssignmentServiceTest {
         teacherRepository.save(teacherWithoutSubject);
 
         // when
-        UUID teacherIdWithSubject = UUID.fromString(
-                adminTeacherAssignmentService.assignSubjectToTutor(teacherId, mathSubjectRequest)
+        AssignSubjectToTeacherResponse response = adminTeacherAssignmentService.assignSubjectToTeacher(
+                teacherId,
+                mathSubjectRequest
         );
+        UUID teacherIdWithSubject = UUID.fromString(response.teacherId());
 
         // then
         TeacherEntity teacher = teacherRepository.getById(teacherIdWithSubject);
@@ -199,9 +208,11 @@ class AdminTeacherAssignmentServiceTest {
         teacherRepository.save(teacherWithSubject);
 
         // when
-        UUID teacherIdWithoutSubject = UUID.fromString(
-                adminTeacherAssignmentService.removeSubjectFromTeacher(teacherIdWithSubject, SubjectType.MATHEMATICS)
+        RemoveSubjectFromTeacherResponse response = adminTeacherAssignmentService.removeSubjectFromTeacher(
+                teacherIdWithSubject,
+                SubjectType.MATHEMATICS
         );
+        UUID teacherIdWithoutSubject = UUID.fromString(response.teacherId());
 
         // then
         TeacherEntity teacherWithoutSubject = teacherRepository.getById(teacherIdWithoutSubject);

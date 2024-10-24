@@ -8,6 +8,8 @@ public interface UserRepository {
 
     UserEntity getByEmail(String email);
 
+    UserEntity getByEmailWithRoles(String email);
+
     UserEntity getByPasswordConfirmationToken(String passwordConfirmationToken);
 
     boolean existsByEmail(String email);

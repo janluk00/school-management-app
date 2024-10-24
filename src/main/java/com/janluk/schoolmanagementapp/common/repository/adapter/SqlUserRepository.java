@@ -5,6 +5,7 @@ import com.janluk.schoolmanagementapp.common.model.UserEntity;
 
 import com.janluk.schoolmanagementapp.common.repository.port.UserRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -22,6 +23,12 @@ class SqlUserRepository implements UserRepository {
     @Override
     public UserEntity getByEmail(String email) {
         return jpaUserRepository.findByEmail(email)
+                .orElseThrow(() -> new NoResultFoundException("Could not find user with e-mail: %s".formatted(email)));
+    }
+
+    @Override
+    public UserEntity getByEmailWithRoles(String email) {
+        return jpaUserRepository.findByEmailWithRoles(email)
                 .orElseThrow(() -> new NoResultFoundException("Could not find user with e-mail: %s".formatted(email)));
     }
 
@@ -51,6 +58,9 @@ class SqlUserRepository implements UserRepository {
 interface JpaUserRepository extends JpaRepository<UserEntity, UUID> {
 
     Optional<UserEntity> findByEmail(String email);
+
+    @Query("SELECT u FROM UserEntity u JOIN FETCH u.roles WHERE u.email = ?1")
+    Optional<UserEntity> findByEmailWithRoles(String email);
 
     Optional<UserEntity> findByPasswordConfirmationToken(String passwordConfirmationToken);
 

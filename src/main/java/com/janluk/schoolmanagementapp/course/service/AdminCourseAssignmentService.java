@@ -9,7 +9,9 @@ import com.janluk.schoolmanagementapp.common.repository.port.*;
 import com.janluk.schoolmanagementapp.course.exception.SchoolClassAlreadyHasTeacherOfSchoolSubjectException;
 import com.janluk.schoolmanagementapp.course.exception.CourseNotAssignedToSchoolClassException;
 import com.janluk.schoolmanagementapp.course.schema.AssignTeacherToCourseRequest;
+import com.janluk.schoolmanagementapp.course.schema.AssignTeacherToCourseResponse;
 import com.janluk.schoolmanagementapp.course.schema.RemoveTeacherFromCourseRequest;
+import com.janluk.schoolmanagementapp.course.schema.RemoveTeacherFromCourseResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class AdminCourseAssignmentService {
     private final SchoolSubjectRepository schoolSubjectRepository;
 
     @Transactional
-    public String assignTeacherToCourse(AssignTeacherToCourseRequest request) {
+    public AssignTeacherToCourseResponse assignTeacherToCourse(AssignTeacherToCourseRequest request) {
         TeacherEntity teacher = teacherRepository.getById(request.teacherId());
         SchoolClassEntity schoolClass = schoolClassRepository.getById(request.classType());
         SchoolSubjectEntity schoolSubject = schoolSubjectRepository.getById(request.subjectType());
@@ -55,11 +57,11 @@ public class AdminCourseAssignmentService {
 
         UUID courseId = assignTeacherToCourse(teacher, schoolClass, schoolSubject);
 
-        return courseId.toString();
+        return new AssignTeacherToCourseResponse(courseId.toString());
     }
 
     @Transactional
-    public String removeTeacherFromCourse(RemoveTeacherFromCourseRequest request) {
+    public RemoveTeacherFromCourseResponse removeTeacherFromCourse(RemoveTeacherFromCourseRequest request) {
         TeacherEntity teacher = teacherRepository.getById(request.teacherId());
         SchoolClassEntity schoolClass = schoolClassRepository.getById(request.classType());
 
@@ -77,8 +79,9 @@ public class AdminCourseAssignmentService {
         }
 
         course.removeFromClass(schoolClass);
+        String courseId = course.getId().toString();
 
-        return course.getId().toString();
+        return new RemoveTeacherFromCourseResponse(courseId);
     }
 
     private boolean isTeacherOfSchoolSubject(TeacherEntity teacher, SchoolSubjectEntity schoolSubject) {

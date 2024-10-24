@@ -12,6 +12,7 @@ import com.janluk.schoolmanagementapp.common.user.UserValidator;
 import com.janluk.schoolmanagementapp.student.criteria.StudentSearcher;
 import com.janluk.schoolmanagementapp.student.mapper.StudentMapper;
 import com.janluk.schoolmanagementapp.student.schema.CreateStudentRequest;
+import com.janluk.schoolmanagementapp.student.schema.CreateStudentResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -49,7 +50,7 @@ public class AdminStudentService {
     }
 
     @Transactional
-    public String createStudent(CreateStudentRequest request) {
+    public CreateStudentResponse createStudent(CreateStudentRequest request) {
         if (!userValidator.isEmailUnique(request.user().email())) {
             log.warn("Email: %s already in use.".formatted(request.user().email()));
             throw new EmailAlreadyExistsException(request.user().email());
@@ -63,6 +64,6 @@ public class AdminStudentService {
 
         emailService.sendNotification(student.getUser().getEmail(), student.getUser().getPasswordConfirmationToken());
 
-        return studentId;
+        return new CreateStudentResponse(studentId);
     }
 }

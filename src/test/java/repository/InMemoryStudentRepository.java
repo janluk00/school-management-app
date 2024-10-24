@@ -46,13 +46,6 @@ public class InMemoryStudentRepository implements StudentRepository {
     }
 
     @Override
-    public List<StudentEntity> getAllInSchoolClassWithGrades(String schoolClass) {
-        return students.values().stream()
-                .filter(student -> student.getSchoolClass().getName().equals(schoolClass))
-                .toList();
-    }
-
-    @Override
     public Page<StudentEntity> getAll(Specification<StudentEntity> spec, Pageable pageable) {
         throw new NotImplementedTestMethodException();
     }

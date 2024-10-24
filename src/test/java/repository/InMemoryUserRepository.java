@@ -20,6 +20,14 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
+    public UserEntity getByEmailWithRoles(String email) {
+        return users.values().stream()
+                .filter(user -> user.getEmail().equals(email))
+                .findFirst()
+                .orElseThrow(() -> new NoResultFoundException("Could not find user with e-mail: %s".formatted(email)));
+    }
+
+    @Override
     public UserEntity getByPasswordConfirmationToken(String passwordConfirmationToken) {
         return users.values().stream()
                 .filter(user -> user.getPasswordConfirmationToken().equals(passwordConfirmationToken))

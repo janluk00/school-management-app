@@ -12,6 +12,7 @@ import com.janluk.schoolmanagementapp.common.user.UserValidator;
 import com.janluk.schoolmanagementapp.teacher.criteria.TeacherSearcher;
 import com.janluk.schoolmanagementapp.teacher.mapper.TeacherMapper;
 import com.janluk.schoolmanagementapp.teacher.schema.CreateTeacherRequest;
+import com.janluk.schoolmanagementapp.teacher.schema.CreateTeacherResponse;
 import com.janluk.schoolmanagementapp.teacher.schema.TeacherDTO;
 import com.janluk.schoolmanagementapp.teacher.service.AdminTeacherService;
 import factory.TeacherFactory;
@@ -136,10 +137,10 @@ class AdminTeacherServiceTest {
         CreateTeacherRequest request = TeacherFactory.aCreateTeacherRequestWithEmail(TEACHER_EMAIL);
 
         // when
-        String teacherId = adminTeacherService.createTeacher(request);
+        CreateTeacherResponse response = adminTeacherService.createTeacher(request);
 
         // then
-        TeacherEntity savedTeacher = teacherRepository.getById(UUID.fromString(teacherId));
+        TeacherEntity savedTeacher = teacherRepository.getById(UUID.fromString(response.teacherId()));
         assertThat(savedTeacher)
                 .isNotNull()
                 .hasFieldOrPropertyWithValue("user.email", TEACHER_EMAIL)

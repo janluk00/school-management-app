@@ -13,6 +13,10 @@ import com.janluk.schoolmanagementapp.common.schema.SchoolSubjectRequest;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherAlreadyTeachingSubjectException;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherIsAlreadyTutorException;
 import com.janluk.schoolmanagementapp.teacher.exception.TeacherNotAssignedAsTutorException;
+import com.janluk.schoolmanagementapp.teacher.schema.AssignSubjectToTeacherResponse;
+import com.janluk.schoolmanagementapp.teacher.schema.AssignTutorToTeacherResponse;
+import com.janluk.schoolmanagementapp.teacher.schema.RemoveSubjectFromTeacherResponse;
+import com.janluk.schoolmanagementapp.teacher.schema.RemoveTutorAssignmentResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,7 +35,7 @@ public class AdminTeacherAssignmentService {
     private final SchoolSubjectRepository schoolSubjectRepository;
 
     @Transactional
-    public String assignTutorToTeacher(UUID id, SchoolClassRequest request) {
+    public AssignTutorToTeacherResponse assignTutorToTeacher(UUID id, SchoolClassRequest request) {
         TeacherEntity teacher = teacherRepository.getById(id);
         SchoolClassEntity schoolClass = schoolClassRepository.getById(request.classType());
 
@@ -43,12 +47,13 @@ public class AdminTeacherAssignmentService {
             throw new TeacherIsAlreadyTutorException(teacher.getId().toString(), request.classType().name());
         }
         teacher.assignTutor(schoolClass);
+        String teacherId = teacher.getId().toString();
 
-        return teacher.getId().toString();
+        return new AssignTutorToTeacherResponse(teacherId);
     }
 
     @Transactional
-    public String removeTutorAssignment(UUID id) {
+    public RemoveTutorAssignmentResponse removeTutorAssignment(UUID id) {
         TeacherEntity teacher = teacherRepository.getById(id);
 
         if (!isTeacherAlreadyTutor(teacher)) {
@@ -60,12 +65,13 @@ public class AdminTeacherAssignmentService {
         }
 
         teacher.removeTutoring();
+        String teacherId = teacher.getId().toString();
 
-        return teacher.getId().toString();
+        return new RemoveTutorAssignmentResponse(teacherId);
     }
 
     @Transactional
-    public String assignSubjectToTutor(UUID id, SchoolSubjectRequest request) {
+    public AssignSubjectToTeacherResponse assignSubjectToTeacher(UUID id, SchoolSubjectRequest request) {
         TeacherEntity teacher = teacherRepository.getById(id);
         SchoolSubjectEntity schoolSubject = schoolSubjectRepository.getById(request.subjectType());
 
@@ -78,12 +84,13 @@ public class AdminTeacherAssignmentService {
         }
 
         teacher.getTaughtSubjects().add(schoolSubject);
+        String teacherId = teacher.getId().toString();
 
-        return teacher.getId().toString();
+        return new AssignSubjectToTeacherResponse(teacherId);
     }
 
     @Transactional
-    public String removeSubjectFromTeacher(UUID id, SubjectType subject) {
+    public RemoveSubjectFromTeacherResponse removeSubjectFromTeacher(UUID id, SubjectType subject) {
         TeacherEntity teacher = teacherRepository.getById(id);
         SchoolSubjectEntity schoolSubject = schoolSubjectRepository.getById(subject);
 
@@ -93,8 +100,9 @@ public class AdminTeacherAssignmentService {
         }
 
         teacher.getTaughtSubjects().remove(schoolSubject);
+        String teacherId = teacher.getId().toString();
 
-        return teacher.getId().toString();
+        return new RemoveSubjectFromTeacherResponse(teacherId);
     }
 
     private boolean isTeacherTutorOfSchoolClass(TeacherEntity teacher, SchoolClassEntity schoolClass) {

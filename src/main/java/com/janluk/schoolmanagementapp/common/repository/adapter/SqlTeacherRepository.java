@@ -99,7 +99,7 @@ interface JpaTeacherRepository extends JpaRepository<TeacherEntity, UUID>, JpaSp
                     "FROM TeacherEntity t " +
                     "JOIN t.user u " +
                     "JOIN t.courses c " +
-                    "JOIN tic.schoolClasses sc " +
+                    "JOIN c.schoolClasses sc " +
                     "JOIN sc.students s " +
                     "JOIN s.grades g " +
                     "WHERE u.email = ?1 " +
