@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="001-initial-migration" author="janluk">
+        <sqlFile path="/sql/001-initial-migration.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="002-available-roles" author="janluk">
+        <sqlFile path="/sql/002-available-roles.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="003-modify_role_column_to_varchar_in_roles_table" author="janluk">
+        <sqlFile path="/sql/003-modify_role_column_to_varchar_in_roles_table.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="004-modification-of-password-and-token-in-user-to-make-them-nullable" author="janluk">
+        <sqlFile path="/sql/004-modification-of-password-and-token-in-user-to-make-them-nullable.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="005-add-association-table-teachers_subjects" author="janluk">
+        <sqlFile path="/sql/005-add-association-table-teachers_subjects.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="006-modification-of-user-token-column-name" author="janluk">
+        <sqlFile path="/sql/006-modification-of-user-token-column-name.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="007-modify-foreign-key-constraint-names-of-tables-associated-with-teacher-taught-subject" author="janluk">
+        <sqlFile path="/sql/007-modify-foreign-key-constraint-names-of-tables-associated-with-teacher-taught-subject.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="008-modify-of-class-type-and-subject-type-to-varchar-and-grade-to-numeric" author="janluk">
+        <sqlFile path="/sql/008-modify-of-class-type-and-subject-type-to-varchar-and-grade-to-numeric.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="009-allow-null-tutor_class_id-in-teachers" author="janluk">
+        <sqlFile path="/sql/009-allow-null-tutor_class_id-in-teachers.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="010-modify-subject-name-to-varchar-in-subjects-table" author="janluk">
+        <sqlFile path="/sql/010-modify-subject-name-to-varchar-in-subjects-table.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="011-modify-school-class-name-to-varchar-in-school-class-table" author="janluk">
+        <sqlFile path="/sql/011-modify-school-class-name-to-varchar-in-school-class-table.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="012-rename-teacher-taught-subject-table-and-all-tables-related-to-it" author="janluk">
+        <sqlFile path="/sql/012-rename-teacher-taught-subject-table-and-all-tables-related-to-it.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="013-rename-old-teacher-taught-subject-columns" author="janluk">
+        <sqlFile path="/sql/013-rename-old-teacher-taught-subject-columns.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="014-rename-teachers-in-course-table-to-courses" author="janluk">
+        <sqlFile path="/sql/014-rename-teachers-in-course-table-to-courses.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="015-example-init-db" author="janluk">
+        <sqlFile path="/sql/015-example-init-db.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
+</databaseChangeLog>
